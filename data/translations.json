@@ -1,0 +1,44 @@
+[
+  {
+    "id": "garden-forking-paths",
+    "title": "The Garden of Forking Paths",
+    "originalTitle": "El jardín de senderos que se bifurcan",
+    "author": "Jorge Luis Borges",
+    "authorBio": "Jorge Luis Borges (1899–1986) was an Argentine short-story writer, essayist, poet and translator, and a key figure in Spanish-language and universal literature. His work embraces the character of unreality in all literature.",
+    "translator": "Jane Doe",
+    "translatorClass": "'25",
+    "translatorNote": "Translating Borges requires navigating the labyrinth of his precise, yet ambiguous vocabulary. I aimed to capture the philosophical weight of his original Spanish while keeping the English fluid.",
+    "featured": true,
+    "readTime": "8 min read",
+    "excerpt": "A short story about time, espionage, and the infinite.",
+    "text": "<p>On leaving, I discussed with my host the details of his work. He explained to me that the book he was writing was not a simple sequential narrative, but a labyrinth of forking paths. Every time a character made a decision, the universe split into multiple parallel realities...</p><p><em>(This is a short excerpt translated for the project to demonstrate the complexity of narrative structure.)</em></p>"
+  },
+  {
+    "id": "twenty-love-poems",
+    "title": "Twenty Love Poems and a Song of Despair: Poem I",
+    "originalTitle": "Veinte poemas de amor y una canción desesperada",
+    "author": "Pablo Neruda",
+    "authorBio": "Pablo Neruda (1904–1973) was a Chilean poet-diplomat and politician. He is considered one of the greatest and most influential poets of the 20th century and won the Nobel Prize in Literature in 1971.",
+    "translator": "John Smith",
+    "translatorClass": "'26",
+    "translatorNote": "Neruda's musicality is both his greatest strength and the translator's greatest challenge. I focused on preserving the rhythm and emotional urgency of the original over strict literal accuracy.",
+    "featured": true,
+    "readTime": "3 min read",
+    "excerpt": "One of Neruda's most celebrated love poems, translated anew.",
+    "text": "<p>Tonight I can write the saddest lines.</p><p>Write, for example: 'The night is shattered and the blue stars shiver in the distance.'</p><p>The wind of the night turns in the sky and sings. Tonight I can write the saddest lines. I loved her, and sometimes she loved me too...</p><p><em>(This is a short excerpt translated for the project.)</em></p>"
+  },
+  {
+    "id": "metamorphosis",
+    "title": "The Metamorphosis",
+    "originalTitle": "Die Verwandlung",
+    "author": "Franz Kafka",
+    "authorBio": "Franz Kafka (1883–1924) was a German-speaking Bohemian novelist and short-story writer, widely regarded as one of the major figures of 20th-century literature. His work, such as The Trial and The Castle, explores themes of alienation and absurdity.",
+    "translator": "Emily Chen",
+    "translatorClass": "'25",
+    "translatorNote": "Kafka's German is deceptively plain. The horror of the story emerges not from dramatic language but from the bureaucratic flatness with which the extraordinary is described. I worked hard to maintain that unsettling calm.",
+    "featured": false,
+    "readTime": "45 min read",
+    "excerpt": "A new translation of Kafka's landmark work on alienation.",
+    "text": "<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections...</p><p><em>(This is a short excerpt translated for the project.)</em></p>"
+  }
+]
