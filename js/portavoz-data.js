@@ -17,17 +17,12 @@ function isGoogleDocUrl(str) {
 
 /**
  * Convert a Google Doc URL (any format) to its published plain-text export URL.
- * Handles:
- *   - Published "publish to web" URLs: /pub?...
- *   - Regular doc URLs: /document/d/DOC_ID/edit
  */
 function toDocExportUrl(url) {
-  // Already a published URL — swap output to plain text
   if (url.includes('/pub')) {
     const base = url.split('?')[0];
     return base + '?output=txt';
   }
-  // Regular doc URL — extract the ID and build an export URL
   const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
   if (match) {
     return `https://docs.google.com/document/d/${match[1]}/export?format=txt`;
@@ -37,19 +32,37 @@ function toDocExportUrl(url) {
 
 /**
  * Fetch plain text from a Google Doc and convert it to simple HTML paragraphs.
- * Preserves paragraph breaks. Blank lines between stanzas become spacing.
  */
 async function fetchDocText(url) {
   try {
     const exportUrl = toDocExportUrl(url);
     if (!exportUrl) return '<p>Could not load document.</p>';
-
     const res = await fetch(exportUrl);
     if (!res.ok) throw new Error('Failed to fetch doc');
     const raw = await res.text();
 
-    // Split on double newlines (paragraph/stanza breaks)
-    const paragraphs = raw
+    // Strip Google Docs boilerplate lines
+    const boilerplatePatterns = [
+      /^Published using Google Docs/i,
+      /^Report abuse/i,
+      /^Learn more/i,
+      /^Updated automatically every/i,
+      /^\d+\s+\w+$/,           // e.g. "3 Translation"
+      /^[\s\u00a0]*$/,         // blank / whitespace-only lines at start
+    ];
+
+    const lines = raw.split(/\r?\n/);
+    // Skip leading boilerplate lines, then filter remaining ones
+    let startIdx = 0;
+    while (startIdx < lines.length && boilerplatePatterns.some(p => p.test(lines[startIdx].trim()))) {
+      startIdx++;
+    }
+    const cleaned = lines.slice(startIdx)
+      .filter(line => !boilerplatePatterns.some(p => p.test(line.trim())))
+      .join('\n')
+      .trim();
+
+    const paragraphs = cleaned
       .split(/\r?\n\r?\n/)
       .map(p => p.replace(/\r?\n/g, ' ').trim())
       .filter(p => p.length > 0);
@@ -69,17 +82,20 @@ function parseCSV(text) {
   if (lines.length < 2) return [];
 
   const headers = parseCSVRow(lines[0]);
+  console.log('[Portavoz] CSV headers found:', headers);
 
-  return lines.slice(1).map(line => {
+  const rows = lines.slice(1).map(line => {
     const values = parseCSVRow(line);
     const obj = {};
     headers.forEach((h, i) => {
       obj[h.trim()] = (values[i] || '').trim();
     });
-    // Normalize the "featured" field to a boolean
     obj.featured = obj.featured === 'TRUE' || obj.featured === 'true' || obj.featured === '1' || obj.featured === 'yes';
     return obj;
-  }).filter(t => t.id && t.title); // skip empty rows
+  }).filter(t => t.id && t.title);
+
+  console.log('[Portavoz] Parsed rows:', rows.length, rows);
+  return rows;
 }
 
 /**
@@ -112,36 +128,35 @@ function parseCSVRow(row) {
 
 /**
  * Load all translations from the sheet.
- * For card views (archive, recent, home) — returns metadata only, no text fetching.
- * Text is only fetched when needed on the individual translation page.
  */
 async function loadTranslations() {
   try {
+    console.log('[Portavoz] Fetching sheet from:', SHEET_CSV_URL);
     const res = await fetch(SHEET_CSV_URL);
-    if (!res.ok) throw new Error('Network response was not ok');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
+    console.log('[Portavoz] Raw CSV (first 500 chars):', text.slice(0, 500));
     return parseCSV(text);
   } catch (err) {
-    console.error('Failed to load translations from Google Sheets:', err);
+    console.error('[Portavoz] Failed to load from Google Sheets:', err);
     return [];
   }
 }
 
 /**
- * Load a single translation by ID, and if its text field is a Google Doc URL,
- * fetch and return the doc content as HTML.
- * Use this on the individual translation page.
+ * Load a single translation by ID, fetching doc text if needed.
  */
 async function loadTranslationById(id) {
   const all = await loadTranslations();
   const t = all.find(x => x.id === id);
-  if (!t) return null;
+  if (!t) {
+    console.warn('[Portavoz] No translation found with id:', id);
+    return null;
+  }
 
-  // If the text column contains a Google Doc link, fetch the actual text
   if (isGoogleDocUrl(t.text)) {
     t.text = await fetchDocText(t.text);
   } else if (t.text && !t.text.includes('<p>')) {
-    // Plain text in the sheet — wrap in paragraph tags
     t.text = t.text
       .split(/\n\n+/)
       .map(p => `<p>${p.replace(/\n/g, ' ').trim()}</p>`)

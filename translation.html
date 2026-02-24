@@ -277,7 +277,13 @@
             <aside class="t-sidebar">
               <div class="sidebar-card">
                 <div class="sidebar-card-label">✏️ Translator's Note</div>
-                <p>${t.translatorNote}</p>
+                ${t.translatorNote
+                  ? `<a href="${t.translatorNote}" target="_blank" rel="noopener"
+                       style="font-family:'Inter',sans-serif;font-size:14px;color:var(--orange);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">
+                       Read Translator's Note →
+                     </a>`
+                  : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
+                }
               </div>
               <div class="sidebar-card author-card">
                 <div class="sidebar-card-label">👤 About ${t.author}</div>
