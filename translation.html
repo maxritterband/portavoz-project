@@ -238,8 +238,12 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
 
-      const all = await loadTranslations();
-      const t = all.find(x => x.id === id);
+      // Show a loading state while fetching
+      document.getElementById('app').innerHTML = `
+        <div class="loading">Loading translation…</div>
+      `;
+
+      const t = await loadTranslationById(id);
 
       if (!t) {
         document.getElementById('app').innerHTML = `

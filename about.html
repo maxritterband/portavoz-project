@@ -240,6 +240,14 @@
       font-style: italic;
     }
 
+    .team-loading {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 15px;
+      padding: 20px 0;
+    }
+
     @media (max-width: 900px) {
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
     }
@@ -310,26 +318,9 @@
 
       <div class="team-section">
         <h2>Student Translators</h2>
-        <p>The students behind the translations — each bringing their own voice, background, and interpretation to the work.</p>
-        <div class="team-grid">
-          <div class="team-card">
-            <div class="team-avatar">J</div>
-            <div class="team-name">Jane Doe</div>
-            <div class="team-role">Translator</div>
-            <div class="team-class">Class of '25</div>
-          </div>
-          <div class="team-card">
-            <div class="team-avatar">J</div>
-            <div class="team-name">John Smith</div>
-            <div class="team-role">Translator</div>
-            <div class="team-class">Class of '26</div>
-          </div>
-          <div class="team-card">
-            <div class="team-avatar">E</div>
-            <div class="team-name">Emily Chen</div>
-            <div class="team-role">Translator</div>
-            <div class="team-class">Class of '25</div>
-          </div>
+        <p>The students behind the translations, each bringing their own voice, background, and interpretation to the work.</p>
+        <div class="team-grid" id="translatorsGrid">
+          <div class="team-loading">Loading translators…</div>
         </div>
       </div>
 
@@ -339,6 +330,43 @@
   <footer>
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
+
+  <script src="js/portavoz-data.js"></script>
+  <script>
+    async function loadTranslators() {
+      const grid = document.getElementById('translatorsGrid');
+      const all = await loadTranslations();
+
+      // Deduplicate by translator name
+      const seen = new Set();
+      const translators = all.filter(t => {
+        if (!t.translator || seen.has(t.translator)) return false;
+        seen.add(t.translator);
+        return true;
+      });
+
+      if (translators.length === 0) {
+        grid.innerHTML = '<p class="team-loading">No translators yet.</p>';
+        return;
+      }
+
+      grid.innerHTML = translators.map(t => {
+        const initial = t.translator.trim().charAt(0).toUpperCase();
+        const year = t.translatorClass ? t.translatorClass.trim() : '';
+        const classLabel = year ? `Class of ${year}` : '';
+        return `
+          <div class="team-card">
+            <div class="team-avatar">${initial}</div>
+            <div class="team-name">${t.translator}</div>
+            <div class="team-role">Translator</div>
+            ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    loadTranslators();
+  </script>
 
 </body>
 </html>
