@@ -322,9 +322,23 @@
     reveals.forEach(el => observer.observe(el));
 
     // ── LOAD RECENT CARDS ──
+    function latestSemester(translations) {
+      const semesters = translations.map(t => t.semester).filter(Boolean);
+      if (!semesters.length) return null;
+      return semesters.sort((a, b) => {
+        const [termA, yearA] = a.split(' ');
+        const [termB, yearB] = b.split(' ');
+        if (yearB !== yearA) return parseInt(yearB) - parseInt(yearA);
+        return termA === 'Fall' ? -1 : 1;
+      })[0];
+    }
+
     async function loadFeatured() {
       const translations = await loadTranslations();
-      const featured = translations.filter(t => t.featured);
+      const latest = latestSemester(translations);
+      const featured = latest
+        ? translations.filter(t => t.semester === latest)
+        : translations.filter(t => t.featured);
       const grid = document.getElementById('featuredCards');
 
       if (featured.length === 0) {
