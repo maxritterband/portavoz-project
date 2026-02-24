@@ -343,8 +343,8 @@ body {
 .nav-separator {
   position: fixed;
   top: 68px;
-  left: 0;
-  right: 0;
+  left: 48px;
+  right: 48px;
   height: 1px;
   background: rgba(255,255,255,0.15);
   z-index: 999;

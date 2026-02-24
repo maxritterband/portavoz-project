@@ -87,11 +87,21 @@
       line-height: 1.05;
       margin-bottom: 28px;
       max-width: 780px;
+      white-space: nowrap;
     }
 
     .hero-title em {
       font-style: italic;
       color: var(--orange);
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        white-space: normal;
+      }
+      .title-word {
+        display: block;
+      }
     }
 
     .hero-sub {
@@ -262,7 +272,7 @@
         <span>📖</span> University of Virginia
       </div>
       <h1 class="hero-title">
-        The <em>Portavoz</em> Project
+        <span class="title-word">The</span> <em class="title-word">Portavoz</em> <span class="title-word">Project</span>
       </h1>
       <p class="hero-sub">
         A revolving collective of both current and former students passionate about translation, who meet regularly throughout the academic semester to translate contemporary or never before translated literary works.
@@ -359,6 +369,7 @@
         card.href = `translation.html?id=${t.id}`;
         card.className = 'card reveal reveal-delay-' + (i + 1);
         card.innerHTML = `
+          <div class="card-featured-banner">⭐ Recent Translation</div>
           <div class="card-body">
             <h3 class="card-title">${t.title}</h3>
             <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
