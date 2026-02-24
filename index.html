@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Portavoz Project</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding: 120px 48px 80px;
+    }
+
+    /* subtle pattern overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 70% 30%, rgba(224,120,32,0.06) 0%, transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* floating book silhouettes */
+    .hero-decor {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .hero-decor span {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.06;
+      color: var(--white);
+      animation: float linear infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.04; }
+      50%  { opacity: 0.08; }
+      100% { transform: translateY(-120px) rotate(15deg); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1160px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 7px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 28px;
+    }
+
+    .hero-badge span { font-size: 15px; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 88px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 28px;
+      max-width: 780px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.65);
+      max-width: 540px;
+      line-height: 1.75;
+      margin-bottom: 44px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      z-index: 2;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    .scroll-cue::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── FEATURED SECTION ── */
+    .featured {
+      background: var(--cream);
+      padding: 80px 0 96px;
+    }
+
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 46px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .section-sub {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      margin-bottom: 48px;
+      max-width: 480px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .featured-cta {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      background: var(--navy);
+      padding: 80px 0;
+    }
+
+    .about-strip-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-strip-inner .section-label {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .about-strip-inner .section-title {
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .about-strip-inner p {
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    /* animations on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 768px) {
+      .hero { padding: 100px 20px 70px; }
+      .hero-actions { flex-direction: column; }
+      .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav transparent" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo">📖</div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About the Project</a></li>
+      <li><a href="archive.html">Featured</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-decor" id="heroDecor"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>📖</span> University of Virginia
+      </div>
+      <h1 class="hero-title">
+        Voices across <em>languages.</em>
+      </h1>
+      <p class="hero-sub">
+        The Portavoz Project showcases exceptional literary translations crafted by undergraduate students, bringing global stories to a new audience.
+      </p>
+      <div class="hero-actions">
+        <a href="archive.html" class="btn btn-primary">Read Translations →</a>
+        <a href="about.html" class="btn btn-secondary">About the Project</a>
+      </div>
+    </div>
+    <div class="scroll-cue">Scroll</div>
+  </section>
+
+  <!-- FEATURED WORKS -->
+  <section class="featured">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">Highlights</p>
+        <h2 class="section-title">Featured Works</h2>
+        <p class="section-sub">Selected translations chosen for their exceptional craft and cultural significance.</p>
+      </div>
+      <div class="cards-grid" id="featuredCards"></div>
+      <div class="featured-cta reveal">
+        <a href="archive.html" class="btn btn-outline">View All Translations →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="container">
+      <div class="about-strip-inner reveal">
+        <p class="section-label">Our Mission</p>
+        <h2 class="section-title">Bridging worlds through translation</h2>
+        <p>
+          Portavoz — Spanish for "spokesperson" — is a platform dedicated to the art of literary translation. We believe that student translators, guided by faculty mentors, can bring new voices and perspectives to English-language readers.
+        </p>
+        <a href="about.html" class="btn btn-primary">Learn More About Us</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script>
+    // ── NAV SCROLL BEHAVIOUR ──
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.classList.remove('transparent');
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+        nav.classList.add('transparent');
+      }
+    });
+
+    // ── FLOATING DECOR ──
+    const decor = document.getElementById('heroDecor');
+    const icons = ['📖','✍️','📜','🖋️','📚','✒️'];
+    for (let i = 0; i < 14; i++) {
+      const el = document.createElement('span');
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${20 + Math.random() * 70}%;
+        animation-duration: ${8 + Math.random() * 10}s;
+        animation-delay: ${Math.random() * 8}s;
+        font-size: ${18 + Math.random() * 20}px;
+      `;
+      decor.appendChild(el);
+    }
+
+    // ── REVEAL ON SCROLL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── LOAD FEATURED CARDS ──
+    async function loadFeatured() {
+      const res = await fetch('data/translations.json');
+      const translations = await res.json();
+      const featured = translations.filter(t => t.featured);
+      const grid = document.getElementById('featuredCards');
+
+      featured.forEach((t, i) => {
+        const card = document.createElement('a');
+        card.href = `translation.html?id=${t.id}`;
+        card.className = 'card reveal reveal-delay-' + (i + 1);
+        card.innerHTML = `
+          <div class="card-featured-banner">⭐ Featured Translation</div>
+          <div class="card-body">
+            <h3 class="card-title">${t.title}</h3>
+            <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
+            <div class="card-divider"></div>
+            <div class="card-meta">
+              <div class="card-meta-item">
+                <span class="card-meta-label">👤 Translator</span>
+                <span class="card-meta-value">${t.translator} (Class of ${t.translatorClass})</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="card-meta-label">📄 Length</span>
+                <span class="card-meta-value">${t.readTime}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            Read translation <span class="card-footer-arrow">→</span>
+          </div>
+        `;
+        grid.appendChild(card);
+        // trigger reveal observer
+        observer.observe(card);
+      });
+    }
+
+    loadFeatured();
+  </script>
+</body>
+</html>
