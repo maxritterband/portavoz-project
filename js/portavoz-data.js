@@ -18,13 +18,13 @@ function isGoogleDocUrl(str) {
 /**
  * Fetch content from a Google Doc published URL.
  * Published /pub URLs return HTML — we parse the DOM to extract just the
- * document body content, skipping Google's injected header boilerplate.
+ * document body content, preserving paragraph and line breaks.
  */
 async function fetchDocText(url) {
   try {
-    // For published /pub URLs, fetch the HTML page directly
-    // For regular doc URLs, convert to an export URL
     let fetchUrl = url;
+
+    // For regular (non-published) doc URLs, use the txt export
     if (!url.includes('/pub')) {
       const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
       if (match) {
@@ -32,10 +32,11 @@ async function fetchDocText(url) {
         const res = await fetch(fetchUrl);
         if (!res.ok) throw new Error('Failed to fetch');
         const text = await res.text();
-        const paragraphs = text.trim().split(/\n{2,}/)
-          .map(p => p.replace(/\n/g, ' ').trim())
-          .filter(p => p.length > 0);
-        return paragraphs.map(p => `<p>${p}</p>`).join('\n');
+        return text.trim().split(/\n{2,}/)
+          .map(p => p.replace(/\n/g, '<br>').trim())
+          .filter(p => p.length > 0)
+          .map(p => `<p>${p}</p>`)
+          .join('\n');
       }
     }
 
@@ -44,33 +45,47 @@ async function fetchDocText(url) {
     if (!res.ok) throw new Error('Failed to fetch doc');
     const html = await res.text();
 
-    // Parse into a DOM and extract the content div
-    // Google Docs published pages wrap the actual content in #contents
+    // Parse into a DOM
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // Remove Google's header/footer elements
-    ['#header', '#footer', '#banners', '.doc-banner-container',
-     'script', 'style', 'noscript'].forEach(sel => {
-      doc.querySelectorAll(sel).forEach(el => el.remove());
-    });
-
-    // The actual document content sits inside #contents or .c (Google's content class)
+    // Google Docs published pages put content inside #contents
     const contentEl = doc.querySelector('#contents') || doc.querySelector('.c') || doc.body;
 
-    // Extract text paragraph by paragraph, preserving stanza breaks
-    const paragraphs = [];
-    contentEl.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(el => {
-      const text = el.textContent.trim();
-      if (text) paragraphs.push(`<p>${text}</p>`);
+    // Build output preserving Google Docs paragraph structure.
+    // Each <p> in the doc = one stanza line or paragraph.
+    // Consecutive non-empty <p>s separated by an empty <p> = stanza break.
+    const elements = contentEl.querySelectorAll('p');
+    const result = [];
+    let currentBlock = [];
+
+    elements.forEach(el => {
+      // Google uses &nbsp; or empty spans for blank lines between stanzas
+      const text = el.innerText || el.textContent || '';
+      const trimmed = text.trim().replace(/\u00a0/g, ''); // remove &nbsp;
+
+      if (!trimmed) {
+        // Empty paragraph = stanza/paragraph break
+        if (currentBlock.length > 0) {
+          result.push(`<p>${currentBlock.join('<br>')}</p>`);
+          currentBlock = [];
+        }
+      } else {
+        currentBlock.push(trimmed);
+      }
     });
 
-    if (paragraphs.length > 0) return paragraphs.join('\n');
+    // Push any remaining block
+    if (currentBlock.length > 0) {
+      result.push(`<p>${currentBlock.join('<br>')}</p>`);
+    }
 
-    // Fallback: just get all text content and split on double newlines
+    if (result.length > 0) return result.join('\n');
+
+    // Fallback: plain text extraction
     const plainText = contentEl.textContent.trim();
     return plainText.split(/\n{2,}/)
-      .map(p => p.replace(/\n/g, ' ').trim())
+      .map(p => p.replace(/\n/g, '<br>').trim())
       .filter(p => p.length > 0)
       .map(p => `<p>${p}</p>`)
       .join('\n');

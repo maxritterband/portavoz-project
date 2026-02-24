@@ -33,11 +33,13 @@
 
     .t-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(36px, 5vw, 60px);
+      font-size: clamp(22px, 5vw, 64px);
       font-weight: 900;
       color: var(--navy);
       line-height: 1.1;
       margin-bottom: 16px;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     .t-original {
@@ -170,7 +172,11 @@
     }
 
     .t-text p {
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .t-text p:last-child {
+      margin-bottom: 0;
     }
 
     .t-text p:last-child {
@@ -275,6 +281,10 @@
 
           <div class="t-body">
             <aside class="t-sidebar">
+              <div class="sidebar-card author-card">
+                <div class="sidebar-card-label">👤 About ${t.author}</div>
+                <p>${t.authorBio}</p>
+              </div>
               <div class="sidebar-card">
                 <div class="sidebar-card-label">✏️ Translator's Note</div>
                 ${t.translatorNote
@@ -284,10 +294,6 @@
                      </a>`
                   : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
                 }
-              </div>
-              <div class="sidebar-card author-card">
-                <div class="sidebar-card-label">👤 About ${t.author}</div>
-                <p>${t.authorBio}</p>
               </div>
             </aside>
 
@@ -299,6 +305,17 @@
           </div>
         </div>
       `;
+
+      // Fit title to one line by shrinking font-size until it doesn't overflow
+      const titleEl = document.querySelector('.t-title');
+      if (titleEl) {
+        let size = 64;
+        titleEl.style.fontSize = size + 'px';
+        while (titleEl.scrollWidth > titleEl.clientWidth && size > 22) {
+          size -= 1;
+          titleEl.style.fontSize = size + 'px';
+        }
+      }
     }
 
     loadTranslation();
