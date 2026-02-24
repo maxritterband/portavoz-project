@@ -297,6 +297,7 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script src="js/portavoz-data.js"></script>
   <script>
     // ── NAV SCROLL BEHAVIOUR ──
     const nav = document.getElementById('mainNav');
@@ -320,12 +321,16 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    // ── LOAD FEATURED CARDS ──
+    // ── LOAD RECENT CARDS ──
     async function loadFeatured() {
-      const res = await fetch('data/translations.json');
-      const translations = await res.json();
+      const translations = await loadTranslations();
       const featured = translations.filter(t => t.featured);
       const grid = document.getElementById('featuredCards');
+
+      if (featured.length === 0) {
+        grid.innerHTML = '<p style="font-family:\'Lora\',serif;font-style:italic;color:var(--text-light);grid-column:1/-1;">No recent translations yet.</p>';
+        return;
+      }
 
       featured.forEach((t, i) => {
         const card = document.createElement('a');
@@ -353,7 +358,6 @@
           </div>
         `;
         grid.appendChild(card);
-        // trigger reveal observer
         observer.observe(card);
       });
     }

@@ -232,13 +232,13 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script src="js/portavoz-data.js"></script>
   <script>
     async function loadTranslation() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
 
-      const res = await fetch('data/translations.json');
-      const all = await res.json();
+      const all = await loadTranslations();
       const t = all.find(x => x.id === id);
 
       if (!t) {

@@ -170,12 +170,10 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script src="js/portavoz-data.js"></script>
   <script>
-    // Scrolled nav on this page always (no hero)
     const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', true);
-    });
+    window.addEventListener('scroll', () => { nav.classList.add('scrolled'); });
 
     let allTranslations = [];
 
@@ -183,7 +181,6 @@
       const grid = document.getElementById('cardsGrid');
       const count = document.getElementById('archiveCount');
       grid.innerHTML = '';
-
       count.innerHTML = `Showing <strong>${list.length}</strong> translation${list.length !== 1 ? 's' : ''}`;
 
       if (list.length === 0) {
@@ -195,13 +192,9 @@
         const card = document.createElement('a');
         card.href = `translation.html?id=${t.id}`;
         card.className = 'card';
-
-        const featuredBanner = t.featured
-          ? `<div class="card-featured-banner">⭐ Recent Translation</div>`
-          : '';
-
+        const banner = t.featured ? `<div class="card-featured-banner">⭐ Recent Translation</div>` : '';
         card.innerHTML = `
-          ${featuredBanner}
+          ${banner}
           <div class="card-body">
             <h3 class="card-title">${t.title}</h3>
             <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
@@ -241,8 +234,7 @@
     });
 
     async function init() {
-      const res = await fetch('data/translations.json');
-      allTranslations = await res.json();
+      allTranslations = await loadTranslations();
       renderCards(allTranslations);
     }
 

@@ -116,17 +116,15 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script src="js/portavoz-data.js"></script>
   <script>
     async function loadRecent() {
-      const res = await fetch('data/translations.json');
-      const all = await res.json();
-      // Show translations marked as featured (most recent semester)
-      // In the future, add a "semester" field to the JSON to filter by
+      const all = await loadTranslations();
       const recent = all.filter(t => t.featured);
       const grid = document.getElementById('recentCards');
 
       if (recent.length === 0) {
-        grid.innerHTML = '<p style="font-family:\'Lora\',serif; font-style:italic; color:var(--text-light); font-size:17px;">No recent translations yet.</p>';
+        grid.innerHTML = '<p style="font-family:\'Lora\',serif;font-style:italic;color:var(--text-light);font-size:17px;">No recent translations yet.</p>';
         return;
       }
 
