@@ -82,20 +82,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  transition: background 0.35s ease, color 0.35s ease;
+  transition: box-shadow 0.35s ease, background 0.35s ease;
+  flex-shrink: 0;
+  padding: 7px;
 }
 
+.nav-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* on dark hero: white circle, invert SVG to white */
 .nav.transparent .nav-logo {
   background: rgba(255,255,255,0.15);
-  color: var(--white);
-  border: 1.5px solid rgba(255,255,255,0.3);
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.3);
 }
 
+.nav.transparent .nav-logo img {
+  filter: brightness(0) invert(1);
+}
+
+/* on white nav: cream circle, navy SVG as-is */
 .nav.scrolled .nav-logo {
-  background: var(--navy);
-  color: var(--white);
-  border: none;
+  background: var(--cream);
+  box-shadow: 0 0 0 2px var(--navy);
+}
+
+.nav.scrolled .nav-logo img {
+  filter: none;
 }
 
 .nav-name {
