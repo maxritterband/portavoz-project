@@ -101,7 +101,7 @@
     <div class="container">
       <h1>Recent Translations</h1>
       <p>The latest translations from our collective — works translated this semester by University of Virginia students.</p>
-      <div class="semester-label">Spring 2026</div>
+      <div class="semester-label" id="semesterLabel">Loading…</div>
     </div>
   </header>
 
@@ -118,10 +118,30 @@
 
   <script src="js/portavoz-data.js"></script>
   <script>
+    // Determine which semester is most recent chronologically
+    function latestSemester(translations) {
+      const semesters = translations.map(t => t.semester).filter(Boolean);
+      if (!semesters.length) return null;
+      return semesters.sort((a, b) => {
+        const [termA, yearA] = a.split(' ');
+        const [termB, yearB] = b.split(' ');
+        if (yearB !== yearA) return parseInt(yearB) - parseInt(yearA);
+        return termA === 'Fall' ? -1 : 1;
+      })[0];
+    }
+
     async function loadRecent() {
       const all = await loadTranslations();
-      const recent = all.filter(t => t.featured);
       const grid = document.getElementById('recentCards');
+      const semesterLabel = document.getElementById('semesterLabel');
+
+      // Use semester field to determine "recent"; fall back to featured flag
+      const latest = latestSemester(all);
+      const recent = latest
+        ? all.filter(t => t.semester === latest)
+        : all.filter(t => t.featured);
+
+      if (semesterLabel && latest) semesterLabel.textContent = latest;
 
       if (recent.length === 0) {
         grid.innerHTML = '<p style="font-family:\'Lora\',serif;font-style:italic;color:var(--text-light);font-size:17px;">No recent translations yet.</p>';

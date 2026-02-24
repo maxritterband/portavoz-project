@@ -57,6 +57,56 @@
       width: 100%;
     }
 
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .semester-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .semester-filters-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    .semester-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .semester-tag:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .semester-tag.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+
     .archive-body {
       padding: 36px 0 96px;
     }
@@ -148,19 +198,22 @@
   <main class="archive-body">
     <div class="container">
       <div class="archive-controls">
-        <div class="search-wrap">
-          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Search by title, author, or translator..."
-            id="searchInput"
-            autocomplete="off"
-          />
+        <div class="controls-row">
+          <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search by title, author, or translator..."
+              id="searchInput"
+              autocomplete="off"
+            />
+          </div>
+          <p class="archive-count" id="archiveCount"></p>
         </div>
-        <p class="archive-count" id="archiveCount"></p>
+        <div class="semester-filters" id="semesterFilters"></div>
       </div>
       <div class="cards-grid" id="cardsGrid"></div>
     </div>
@@ -176,6 +229,65 @@
     window.addEventListener('scroll', () => { nav.classList.add('scrolled'); });
 
     let allTranslations = [];
+    let activeSemester = 'All';
+
+    // Sort semesters chronologically: Spring before Fall, newest first
+    function sortSemesters(semesters) {
+      return semesters.sort((a, b) => {
+        if (a === 'All') return -1;
+        if (b === 'All') return 1;
+        const [termA, yearA] = a.split(' ');
+        const [termB, yearB] = b.split(' ');
+        if (yearB !== yearA) return parseInt(yearB) - parseInt(yearA);
+        // Same year: Fall comes after Spring
+        return termA === 'Fall' ? -1 : 1;
+      });
+    }
+
+    function buildSemesterFilters(translations) {
+      const container = document.getElementById('semesterFilters');
+      const semesters = ['All', ...new Set(
+        translations.map(t => t.semester).filter(Boolean)
+      )];
+      sortSemesters(semesters);
+
+      container.innerHTML = '<span class="semester-filters-label">Semester:</span>';
+      semesters.forEach(s => {
+        const tag = document.createElement('button');
+        tag.className = 'semester-tag' + (s === activeSemester ? ' active' : '');
+        tag.textContent = s;
+        tag.addEventListener('click', () => {
+          activeSemester = s;
+          document.querySelectorAll('.semester-tag').forEach(el => el.classList.remove('active'));
+          tag.classList.add('active');
+          applyFilters();
+        });
+        container.appendChild(tag);
+      });
+    }
+
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value;
+      let list = allTranslations;
+
+      // Semester filter
+      if (activeSemester !== 'All') {
+        list = list.filter(t => t.semester === activeSemester);
+      }
+
+      // Text search
+      const q = query.toLowerCase().trim();
+      if (q) {
+        list = list.filter(t =>
+          t.title.toLowerCase().includes(q) ||
+          t.originalTitle.toLowerCase().includes(q) ||
+          t.author.toLowerCase().includes(q) ||
+          t.translator.toLowerCase().includes(q)
+        );
+      }
+
+      renderCards(list);
+    }
 
     function renderCards(list) {
       const grid = document.getElementById('cardsGrid');
@@ -192,7 +304,11 @@
         const card = document.createElement('a');
         card.href = `translation.html?id=${t.id}`;
         card.className = 'card';
-        const banner = t.featured ? `<div class="card-featured-banner">⭐ Recent Translation</div>` : '';
+        const banner = t.featured
+          ? `<div class="card-featured-banner">⭐ Recent Translation</div>`
+          : t.semester
+          ? `<div class="card-featured-banner" style="background:var(--navy);">🗓 ${t.semester}</div>`
+          : '';
         card.innerHTML = `
           ${banner}
           <div class="card-body">
@@ -218,23 +334,11 @@
       });
     }
 
-    function filterTranslations(query) {
-      const q = query.toLowerCase().trim();
-      if (!q) return allTranslations;
-      return allTranslations.filter(t =>
-        t.title.toLowerCase().includes(q) ||
-        t.originalTitle.toLowerCase().includes(q) ||
-        t.author.toLowerCase().includes(q) ||
-        t.translator.toLowerCase().includes(q)
-      );
-    }
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      renderCards(filterTranslations(e.target.value));
-    });
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
 
     async function init() {
       allTranslations = await loadTranslations();
+      buildSemesterFilters(allTranslations);
       renderCards(allTranslations);
     }
 
