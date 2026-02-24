@@ -302,15 +302,27 @@
     // ── NAV SCROLL BEHAVIOUR ──
     const nav = document.getElementById('mainNav');
     const sep = document.getElementById('navSeparator');
+    const hero = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
+      const heroBottom = hero ? hero.offsetHeight : 500;
+      const pastHero = window.scrollY > heroBottom - 68;
+
       if (window.scrollY > 60) {
         nav.classList.remove('transparent');
         nav.classList.add('scrolled');
-        sep.classList.add('hidden');
+        // Show separator in navy once we've left the hero
+        if (pastHero) {
+          sep.classList.remove('hidden');
+          sep.classList.add('navy');
+        } else {
+          sep.classList.add('hidden');
+          sep.classList.remove('navy');
+        }
       } else {
         nav.classList.remove('scrolled');
         nav.classList.add('transparent');
-        sep.classList.remove('hidden');
+        sep.classList.remove('hidden', 'navy');
+        sep.classList.remove('navy');
       }
     });
 
