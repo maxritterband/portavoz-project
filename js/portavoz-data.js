@@ -41,30 +41,43 @@ async function fetchDocText(url) {
     if (!res.ok) throw new Error('Failed to fetch doc');
     const raw = await res.text();
 
-    // Strip Google Docs boilerplate lines
-    const boilerplatePatterns = [
-      /^Published using Google Docs/i,
-      /^Report abuse/i,
-      /^Learn more/i,
-      /^Updated automatically every/i,
-      /^\d+\s+\w+$/,           // e.g. "3 Translation"
-      /^[\s\u00a0]*$/,         // blank / whitespace-only lines at start
+    // Google Docs txt exports prepend several boilerplate lines before the content.
+    // They look like:
+    //   Published using Google Docs
+    //   Report abuseLearn more
+    //   3 Translation          ← document title
+    //   Updated automatically every 5 minutes
+    //
+    // Strategy: find the first line that is NOT boilerplate and isn't blank,
+    // then take everything from there onward.
+
+    const boilerplate = [
+      /published using google docs/i,
+      /report abuse/i,
+      /learn more/i,
+      /updated automatically every/i,
     ];
 
     const lines = raw.split(/\r?\n/);
-    // Skip leading boilerplate lines, then filter remaining ones
-    let startIdx = 0;
-    while (startIdx < lines.length && boilerplatePatterns.some(p => p.test(lines[startIdx].trim()))) {
-      startIdx++;
-    }
-    const cleaned = lines.slice(startIdx)
-      .filter(line => !boilerplatePatterns.some(p => p.test(line.trim())))
-      .join('\n')
-      .trim();
 
-    const paragraphs = cleaned
-      .split(/\r?\n\r?\n/)
-      .map(p => p.replace(/\r?\n/g, ' ').trim())
+    // Walk forward until we hit a line that isn't boilerplate or blank
+    let startIdx = 0;
+    for (let i = 0; i < lines.length; i++) {
+      const trimmed = lines[i].trim();
+      if (!trimmed) { startIdx = i + 1; continue; }           // skip blank lines at top
+      if (boilerplate.some(p => p.test(trimmed))) { startIdx = i + 1; continue; }
+      // If line is very short and looks like a title/number (no spaces or 1-2 words),
+      // it's likely the doc title injected by Google — skip it too
+      if (trimmed.length < 40 && !/[.!?,;]/.test(trimmed) && i < 8) { startIdx = i + 1; continue; }
+      break; // this line is real content
+    }
+
+    const content = lines.slice(startIdx).join('\n').trim();
+
+    // Split into stanzas/paragraphs on double newlines
+    const paragraphs = content
+      .split(/\n{2,}/)
+      .map(p => p.replace(/\n/g, ' ').trim())
       .filter(p => p.length > 0);
 
     return paragraphs.map(p => `<p>${p}</p>`).join('\n');
