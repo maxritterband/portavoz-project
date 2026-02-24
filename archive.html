@@ -38,6 +38,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
+      margin-bottom: 36px;
     }
 
     .archive-count {
@@ -48,6 +49,12 @@
 
     .archive-count strong {
       color: var(--text-dark);
+    }
+
+    /* wider search bar on this page */
+    .search-wrap {
+      max-width: 560px;
+      width: 100%;
     }
 
     .archive-body {
@@ -133,7 +140,7 @@
   <header class="page-header">
     <div class="container">
       <h1>Translation Archive</h1>
-      <p>Explore the complete collection of literary translations produced by University of Virginia students.</p>
+      <p>Explore the Portavoz Project's complete collection of literary translations produced by University of Virginia students.</p>
     </div>
   </header>
 
@@ -190,7 +197,7 @@
         card.className = 'card';
 
         const featuredBanner = t.featured
-          ? `<div class="card-featured-banner">⭐ Featured Translation</div>`
+          ? `<div class="card-featured-banner">⭐ Recent Translation</div>`
           : '';
 
         card.innerHTML = `
