@@ -16,71 +16,65 @@ function isGoogleDocUrl(str) {
 }
 
 /**
- * Convert a Google Doc URL (any format) to its published plain-text export URL.
- */
-function toDocExportUrl(url) {
-  if (url.includes('/pub')) {
-    const base = url.split('?')[0];
-    return base + '?output=txt';
-  }
-  const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
-  if (match) {
-    return `https://docs.google.com/document/d/${match[1]}/export?format=txt`;
-  }
-  return null;
-}
-
-/**
- * Fetch plain text from a Google Doc and convert it to simple HTML paragraphs.
+ * Fetch content from a Google Doc published URL.
+ * Published /pub URLs return HTML — we parse the DOM to extract just the
+ * document body content, skipping Google's injected header boilerplate.
  */
 async function fetchDocText(url) {
   try {
-    const exportUrl = toDocExportUrl(url);
-    if (!exportUrl) return '<p>Could not load document.</p>';
-    const res = await fetch(exportUrl);
-    if (!res.ok) throw new Error('Failed to fetch doc');
-    const raw = await res.text();
-
-    // Google Docs txt exports prepend several boilerplate lines before the content.
-    // They look like:
-    //   Published using Google Docs
-    //   Report abuseLearn more
-    //   3 Translation          ← document title
-    //   Updated automatically every 5 minutes
-    //
-    // Strategy: find the first line that is NOT boilerplate and isn't blank,
-    // then take everything from there onward.
-
-    const boilerplate = [
-      /published using google docs/i,
-      /report abuse/i,
-      /learn more/i,
-      /updated automatically every/i,
-    ];
-
-    const lines = raw.split(/\r?\n/);
-
-    // Walk forward until we hit a line that isn't boilerplate or blank
-    let startIdx = 0;
-    for (let i = 0; i < lines.length; i++) {
-      const trimmed = lines[i].trim();
-      if (!trimmed) { startIdx = i + 1; continue; }           // skip blank lines at top
-      if (boilerplate.some(p => p.test(trimmed))) { startIdx = i + 1; continue; }
-      // If line is very short and looks like a title/number (no spaces or 1-2 words),
-      // it's likely the doc title injected by Google — skip it too
-      if (trimmed.length < 40 && !/[.!?,;]/.test(trimmed) && i < 8) { startIdx = i + 1; continue; }
-      break; // this line is real content
+    // For published /pub URLs, fetch the HTML page directly
+    // For regular doc URLs, convert to an export URL
+    let fetchUrl = url;
+    if (!url.includes('/pub')) {
+      const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+      if (match) {
+        fetchUrl = `https://docs.google.com/document/d/${match[1]}/export?format=txt`;
+        const res = await fetch(fetchUrl);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const text = await res.text();
+        const paragraphs = text.trim().split(/\n{2,}/)
+          .map(p => p.replace(/\n/g, ' ').trim())
+          .filter(p => p.length > 0);
+        return paragraphs.map(p => `<p>${p}</p>`).join('\n');
+      }
     }
 
-    const content = lines.slice(startIdx).join('\n').trim();
+    // Fetch the published HTML page
+    const res = await fetch(fetchUrl);
+    if (!res.ok) throw new Error('Failed to fetch doc');
+    const html = await res.text();
 
-    // Split into stanzas/paragraphs on double newlines
-    const paragraphs = content
-      .split(/\n{2,}/)
+    // Parse into a DOM and extract the content div
+    // Google Docs published pages wrap the actual content in #contents
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Remove Google's header/footer elements
+    ['#header', '#footer', '#banners', '.doc-banner-container',
+     'script', 'style', 'noscript'].forEach(sel => {
+      doc.querySelectorAll(sel).forEach(el => el.remove());
+    });
+
+    // The actual document content sits inside #contents or .c (Google's content class)
+    const contentEl = doc.querySelector('#contents') || doc.querySelector('.c') || doc.body;
+
+    // Extract text paragraph by paragraph, preserving stanza breaks
+    const paragraphs = [];
+    contentEl.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(el => {
+      const text = el.textContent.trim();
+      if (text) paragraphs.push(`<p>${text}</p>`);
+    });
+
+    if (paragraphs.length > 0) return paragraphs.join('\n');
+
+    // Fallback: just get all text content and split on double newlines
+    const plainText = contentEl.textContent.trim();
+    return plainText.split(/\n{2,}/)
       .map(p => p.replace(/\n/g, ' ').trim())
-      .filter(p => p.length > 0);
+      .filter(p => p.length > 0)
+      .map(p => `<p>${p}</p>`)
+      .join('\n');
 
-    return paragraphs.map(p => `<p>${p}</p>`).join('\n');
   } catch (err) {
     console.error('Failed to fetch Google Doc text:', err);
     return '<p>Could not load translation text. Please check the document link.</p>';
