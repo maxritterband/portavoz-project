@@ -65,6 +65,11 @@ body {
   box-shadow: 0 1px 24px rgba(26,35,64,0.10);
 }
 
+.nav.cream {
+  background: var(--cream);
+  box-shadow: 0 1px 24px rgba(26,35,64,0.07);
+}
+
 .nav-brand {
   display: flex;
   align-items: center;
@@ -98,6 +103,11 @@ body {
   filter: none;
 }
 
+/* cream nav: navy icon (same as scrolled) */
+.nav.cream .nav-logo img {
+  filter: none;
+}
+
 /* hover brand: icon turns orange */
 .nav-brand:hover .nav-logo img {
   filter: brightness(0) saturate(100%) invert(55%) sepia(60%) saturate(800%) hue-rotate(5deg) brightness(95%) contrast(98%) !important;
@@ -112,6 +122,7 @@ body {
 
 .nav.transparent .nav-name { color: var(--white); }
 .nav.scrolled .nav-name { color: var(--navy); }
+.nav.cream .nav-name { color: var(--navy); }
 .nav-brand:hover .nav-name { color: var(--orange); }
 
 .nav-links {
@@ -135,6 +146,8 @@ body {
 .nav.transparent .nav-links a:hover { color: var(--orange); }
 .nav.scrolled .nav-links a { color: var(--text-mid); }
 .nav.scrolled .nav-links a:hover { color: var(--orange); }
+.nav.cream .nav-links a { color: var(--text-mid); }
+.nav.cream .nav-links a:hover { color: var(--orange); }
 
 .nav-links a.active {
   color: var(--orange) !important;

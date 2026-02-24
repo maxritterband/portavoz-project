@@ -7,12 +7,12 @@
   <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body { padding-top: 68px; }
+    body { padding-top: 0; }
 
     /* HERO STRIP */
     .about-hero {
       background: var(--navy);
-      padding: 80px 0;
+      padding: 148px 0 80px;
       text-align: center;
     }
 
@@ -256,7 +256,7 @@
 <body>
 
   <!-- NAV -->
-  <nav class="nav scrolled" id="mainNav">
+  <nav class="nav transparent" id="mainNav">
     <a href="index.html" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-project-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
@@ -268,6 +268,7 @@
       <li><a href="archive.html">All Translations</a></li>
     </ul>
   </nav>
+  <div class="nav-separator" id="navSeparator"></div>
 
   <!-- HERO -->
   <header class="about-hero">
@@ -296,7 +297,7 @@
           </p>
         </div>
         <div class="about-aside">
-          <div class="director-heading">Meet Our Director</div>
+
           <div class="director-photo-wrap">
             <img src="images/erica-cobb.png" alt="Erica Cobb" class="director-photo" />
           </div>
@@ -333,6 +334,21 @@
 
   <script src="js/portavoz-data.js"></script>
   <script>
+    // Nav scroll: transparent on navy hero → white on scroll
+    const nav = document.getElementById('mainNav');
+    const sep = document.getElementById('navSeparator');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.classList.remove('transparent');
+        nav.classList.add('scrolled');
+        sep.classList.add('hidden');
+      } else {
+        nav.classList.remove('scrolled');
+        nav.classList.add('transparent');
+        sep.classList.remove('hidden');
+      }
+    });
+
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
       const all = await loadTranslations();
