@@ -232,7 +232,7 @@
   <!-- NAV -->
   <nav class="nav transparent" id="mainNav">
     <a href="index.html" class="nav-brand">
-      <div class="nav-logo"><img src="images/portavoz-project-logo.svg" alt="The Portavoz Project" /></div>
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
     </a>
     <ul class="nav-links">
@@ -302,27 +302,15 @@
     // ── NAV SCROLL BEHAVIOUR ──
     const nav = document.getElementById('mainNav');
     const sep = document.getElementById('navSeparator');
-    const hero = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
-      const heroBottom = hero ? hero.offsetHeight : 500;
-      const pastHero = window.scrollY > heroBottom - 68;
-
       if (window.scrollY > 60) {
         nav.classList.remove('transparent');
         nav.classList.add('scrolled');
-        // Show separator in navy once we've left the hero
-        if (pastHero) {
-          sep.classList.remove('hidden');
-          sep.classList.add('navy');
-        } else {
-          sep.classList.add('hidden');
-          sep.classList.remove('navy');
-        }
+        sep.classList.add('hidden');
       } else {
         nav.classList.remove('scrolled');
         nav.classList.add('transparent');
-        sep.classList.remove('hidden', 'navy');
-        sep.classList.remove('navy');
+        sep.classList.remove('hidden');
       }
     });
 
