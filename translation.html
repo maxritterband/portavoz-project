@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translation · The Portavoz Project</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; background: var(--cream); }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text-mid);
+      text-decoration: none;
+      padding: 28px 0 0;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--navy); }
+
+    /* TRANSLATION HEADER */
+    .t-header {
+      text-align: center;
+      padding: 36px 0 48px;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .t-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .t-original {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      margin-bottom: 4px;
+    }
+
+    .t-original em { font-style: italic; }
+    .t-original strong { font-weight: 600; color: var(--text-dark); }
+
+    .t-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+      margin: 28px auto;
+    }
+
+    .t-by-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+
+    .t-translator {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .t-divider-2 {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0 auto 56px;
+      max-width: 780px;
+    }
+
+    /* TWO-COLUMN BODY */
+    .t-body {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      align-items: start;
+      padding-bottom: 96px;
+    }
+
+    /* SIDEBAR */
+    .t-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 96px;
+    }
+
+    .sidebar-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border-left: 3px solid var(--orange);
+    }
+
+    .sidebar-card-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .sidebar-card p {
+      font-family: 'Lora', serif;
+      font-size: 14.5px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .sidebar-card.author-card {
+      border-left-color: var(--border);
+    }
+
+    .sidebar-card.author-card .sidebar-card-label {
+      color: var(--text-light);
+    }
+
+    /* TEXT PANEL */
+    .t-text-panel {
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      padding: 48px 52px;
+      position: relative;
+    }
+
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 96px;
+      color: var(--border);
+      line-height: 0.7;
+      display: block;
+      margin-bottom: 24px;
+      user-select: none;
+    }
+
+    .quote-mark-close {
+      display: block;
+      text-align: right;
+      margin-top: 24px;
+      line-height: 0.7;
+    }
+
+    .t-text {
+      font-family: 'Lora', serif;
+      font-size: 17.5px;
+      line-height: 2;
+      color: var(--text-dark);
+    }
+
+    .t-text p {
+      margin-bottom: 24px;
+    }
+
+    .t-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .t-text em {
+      color: var(--text-mid);
+      font-size: 15px;
+    }
+
+    /* LOADING STATE */
+    .loading {
+      text-align: center;
+      padding: 80px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .t-body {
+        grid-template-columns: 1fr;
+      }
+      .t-sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .t-text-panel {
+        padding: 28px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo">📖</div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About the Project</a></li>
+      <li><a href="archive.html">Featured</a></li>
+      <li><a href="archive.html" class="active">All Translations</a></li>
+    </ul>
+  </nav>
+
+  <main id="app">
+    <div class="loading">Loading translation…</div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script>
+    async function loadTranslation() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+
+      const res = await fetch('data/translations.json');
+      const all = await res.json();
+      const t = all.find(x => x.id === id);
+
+      if (!t) {
+        document.getElementById('app').innerHTML = `
+          <div class="container" style="padding-top:60px; padding-bottom:60px; text-align:center;">
+            <p style="font-family:'Lora',serif; font-style:italic; color:var(--text-light); font-size:17px;">
+              Translation not found. <a href="archive.html" style="color:var(--orange);">Return to Archive →</a>
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      document.title = `${t.title} · The Portavoz Project`;
+
+      document.getElementById('app').innerHTML = `
+        <div class="container">
+          <a href="archive.html" class="back-link">← Back to Archive</a>
+
+          <div class="t-header">
+            <h1 class="t-title">${t.title}</h1>
+            <p class="t-original">Originally <em>"${t.originalTitle}"</em></p>
+            <p class="t-original">by <strong>${t.author}</strong></p>
+            <div class="t-divider"></div>
+            <p class="t-by-label">Translated By</p>
+            <p class="t-translator">${t.translator} (Class of ${t.translatorClass})</p>
+          </div>
+
+          <div class="t-divider-2"></div>
+
+          <div class="t-body">
+            <aside class="t-sidebar">
+              <div class="sidebar-card">
+                <div class="sidebar-card-label">✏️ Translator's Note</div>
+                <p>${t.translatorNote}</p>
+              </div>
+              <div class="sidebar-card author-card">
+                <div class="sidebar-card-label">👤 About ${t.author}</div>
+                <p>${t.authorBio}</p>
+              </div>
+            </aside>
+
+            <article class="t-text-panel">
+              <span class="quote-mark">"</span>
+              <div class="t-text">${t.text}</div>
+              <span class="quote-mark quote-mark-close">"</span>
+            </article>
+          </div>
+        </div>
+      `;
+    }
+
+    loadTranslation();
+  </script>
+</body>
+</html>
