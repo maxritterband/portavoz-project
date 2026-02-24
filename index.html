@@ -252,6 +252,7 @@
       <li><a href="archive.html">All Translations</a></li>
     </ul>
   </nav>
+  <div class="nav-separator" id="navSeparator"></div>
 
   <!-- HERO -->
   <section class="hero">
@@ -261,10 +262,10 @@
         <span>📖</span> University of Virginia
       </div>
       <h1 class="hero-title">
-        Voices across <em>languages.</em>
+        The <em>Portavoz</em> Project
       </h1>
       <p class="hero-sub">
-        The Portavoz Project showcases exceptional literary translations crafted by undergraduate students, bringing global stories to a new audience.
+        A revolving collective of both current and former students passionate about translation, who meet regularly throughout the academic semester to translate contemporary or never before translated literary works.
       </p>
       <div class="hero-actions">
         <a href="archive.html" class="btn btn-primary">Read Translations →</a>
@@ -279,12 +280,12 @@
     <div class="container">
       <div class="reveal">
         <p class="section-label">Highlights</p>
-        <h2 class="section-title">Featured Works</h2>
+        <h2 class="section-title">Recent Translations</h2>
         <p class="section-sub">Selected translations chosen for their exceptional craft and cultural significance.</p>
       </div>
       <div class="cards-grid" id="featuredCards"></div>
       <div class="featured-cta reveal">
-        <a href="archive.html" class="btn btn-outline">View All Translations →</a>
+        <a href="archive.html" class="btn btn-navy">View All Translations →</a>
       </div>
     </div>
   </section>
@@ -310,13 +311,16 @@
   <script>
     // ── NAV SCROLL BEHAVIOUR ──
     const nav = document.getElementById('mainNav');
+    const sep = document.getElementById('navSeparator');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 60) {
         nav.classList.remove('transparent');
         nav.classList.add('scrolled');
+        sep.classList.add('hidden');
       } else {
         nav.classList.remove('scrolled');
         nav.classList.add('transparent');
+        sep.classList.remove('hidden');
       }
     });
 
@@ -355,7 +359,6 @@
         card.href = `translation.html?id=${t.id}`;
         card.className = 'card reveal reveal-delay-' + (i + 1);
         card.innerHTML = `
-          <div class="card-featured-banner">⭐ Featured Translation</div>
           <div class="card-body">
             <h3 class="card-title">${t.title}</h3>
             <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>

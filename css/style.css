@@ -159,7 +159,7 @@ body {
   align-items: center;
   gap: 8px;
   padding: 14px 28px;
-  border-radius: 4px;
+  border-radius: 100px;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -202,6 +202,17 @@ body {
 .btn-outline:hover {
   border-color: var(--navy);
   transform: translateY(-1px);
+}
+
+.btn-navy {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.btn-navy:hover {
+  background: var(--navy-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(26,35,64,0.25);
 }
 
 /* ============================================
@@ -312,11 +323,12 @@ body {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-dark);
-  transition: color 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .card:hover .card-footer {
-  color: var(--orange);
+  background: var(--navy);
+  color: var(--white);
 }
 
 .card-footer-arrow {
@@ -325,6 +337,22 @@ body {
 
 .card:hover .card-footer-arrow {
   transform: translateX(4px);
+}
+
+/* ── NAV SEPARATOR LINE ── */
+.nav-separator {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  z-index: 999;
+  transition: opacity 0.35s ease;
+}
+
+.nav-separator.hidden {
+  opacity: 0;
 }
 
 /* ============================================
