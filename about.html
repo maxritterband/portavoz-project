@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About · The Portavoz Project</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; }
+
+    /* HERO STRIP */
+    .about-hero {
+      background: var(--navy);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .about-hero .label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 16px;
+    }
+
+    .about-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+
+    .about-hero h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .about-hero p {
+      font-family: 'Lora', serif;
+      font-size: 17px;
+      color: rgba(255,255,255,0.6);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* CONTENT */
+    .about-content {
+      padding: 80px 0 100px;
+      background: var(--cream);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      margin-bottom: 80px;
+    }
+
+    .about-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    .about-text p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-aside {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 36px;
+      box-shadow: var(--card-shadow);
+      border-top: 4px solid var(--orange);
+    }
+
+    .about-aside h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .about-aside ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .about-aside li {
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      color: var(--text-mid);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+
+    .about-aside li::before {
+      content: '→';
+      color: var(--orange);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* TEAM */
+    .team-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .team-section > p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      margin-bottom: 40px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .team-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 28px 24px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .team-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--orange);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .team-class {
+      font-family: 'Lora', serif;
+      font-size: 13px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo">📖</div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About the Project</a></li>
+      <li><a href="archive.html">Featured</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="about-hero">
+    <div class="container">
+      <p class="label">Our Story</p>
+      <h1>About <em>Portavoz</em></h1>
+      <p>A student-led initiative bringing the world's literary voices to English-language readers, one translation at a time.</p>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <section class="about-content">
+    <div class="container">
+
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>What is The Portavoz Project?</h2>
+          <p>
+            <em>Portavoz</em> — Spanish for "spokesperson" — is a literary translation archive born at the University of Virginia. We publish original translations by undergraduate students, working under faculty supervision to bring exceptional works of world literature into English for the first time, or to offer fresh new readings of beloved classics.
+          </p>
+          <p>
+            We believe that literary translation is not merely a technical exercise but a creative act of cultural bridge-building. Every translation in our archive reflects months of careful reading, research, and revision.
+          </p>
+          <p>
+            The project is open to students translating from any language, and we welcome translations of poetry, short fiction, essays, and excerpts from longer works.
+          </p>
+        </div>
+        <div class="about-aside">
+          <h3>What we look for</h3>
+          <ul>
+            <li>Rigorous fidelity to the meaning and spirit of the source text</li>
+            <li>Fluid, literary English that reads as an original work</li>
+            <li>A thoughtful translator's note situating the work and the translation choices</li>
+            <li>Faculty endorsement and mentorship throughout the process</li>
+            <li>A short biography of the original author</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="team-section">
+        <h2>Editorial Team</h2>
+        <p>The Portavoz Project is student-run, with faculty advisorship from UVA's Department of Spanish, Italian & Portuguese.</p>
+        <div class="team-grid" id="teamGrid">
+          <!-- populated by JS or static below -->
+          <div class="team-card">
+            <div class="team-avatar">E</div>
+            <div class="team-name">Editor-in-Chief</div>
+            <div class="team-role">Editor-in-Chief</div>
+            <div class="team-class">Class of '26</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">F</div>
+            <div class="team-name">Faculty Advisor</div>
+            <div class="team-role">Faculty Advisor</div>
+            <div class="team-class">Department of SIP</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">M</div>
+            <div class="team-name">Managing Editor</div>
+            <div class="team-role">Managing Editor</div>
+            <div class="team-class">Class of '27</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+</body>
+</html>
