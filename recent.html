@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recent Translations · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; }
+
+    .page-header {
+      padding: 60px 0 48px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .semester-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-top: 20px;
+    }
+
+    .archive-body {
+      padding: 48px 0 96px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--orange);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleY(1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-project-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About the Project</a></li>
+      <li><a href="recent.html" class="active">Recent Translations</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <h1>Recent Translations</h1>
+      <p>The latest translations from our collective — works translated this semester by University of Virginia students.</p>
+      <div class="semester-label">Spring 2026</div>
+    </div>
+  </header>
+
+  <!-- CARDS -->
+  <main class="archive-body">
+    <div class="container">
+      <div class="cards-grid" id="recentCards"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script>
+    async function loadRecent() {
+      const res = await fetch('data/translations.json');
+      const all = await res.json();
+      // Show translations marked as featured (most recent semester)
+      // In the future, add a "semester" field to the JSON to filter by
+      const recent = all.filter(t => t.featured);
+      const grid = document.getElementById('recentCards');
+
+      if (recent.length === 0) {
+        grid.innerHTML = '<p style="font-family:\'Lora\',serif; font-style:italic; color:var(--text-light); font-size:17px;">No recent translations yet.</p>';
+        return;
+      }
+
+      recent.forEach(t => {
+        const card = document.createElement('a');
+        card.href = `translation.html?id=${t.id}`;
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-featured-banner">⭐ Recent Translation</div>
+          <div class="card-body">
+            <h3 class="card-title">${t.title}</h3>
+            <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
+            <div class="card-divider"></div>
+            <div class="card-meta">
+              <div class="card-meta-item">
+                <span class="card-meta-label">👤 Translator</span>
+                <span class="card-meta-value">${t.translator} (Class of ${t.translatorClass})</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="card-meta-label">📄 Length</span>
+                <span class="card-meta-value">${t.readTime}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            Read translation <span class="card-footer-arrow">→</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    loadRecent();
+  </script>
+</body>
+</html>

@@ -11,7 +11,7 @@
     .hero {
       min-height: 100vh;
       background:
-        linear-gradient(rgba(26,35,64,0.70), rgba(26,35,64,0.70)),
+        linear-gradient(rgba(26,35,64,0.85), rgba(26,35,64,0.85)),
         url('images/hero-bg.jpg') center center / cover no-repeat;
       position: relative;
       display: flex;
@@ -27,31 +27,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        radial-gradient(circle at 70% 30%, rgba(224,120,32,0.06) 0%, transparent 55%),
-        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 40%);
+        radial-gradient(circle at 70% 30%, rgba(224,120,32,0.04) 0%, transparent 55%);
       pointer-events: none;
-    }
-
-    /* floating book silhouettes */
-    .hero-decor {
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .hero-decor span {
-      position: absolute;
-      font-size: 28px;
-      opacity: 0.06;
-      color: var(--white);
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 0.04; }
-      50%  { opacity: 0.08; }
-      100% { transform: translateY(-120px) rotate(15deg); opacity: 0; }
     }
 
     .hero-content {
@@ -260,7 +237,7 @@
     <ul class="nav-links">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="about.html">About the Project</a></li>
-      <li><a href="archive.html">Featured</a></li>
+      <li><a href="recent.html">Recent Translations</a></li>
       <li><a href="archive.html">All Translations</a></li>
     </ul>
   </nav>
@@ -268,7 +245,6 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-decor" id="heroDecor"></div>
     <div class="hero-content">
       <div class="hero-badge">
         <span>📖</span> University of Virginia
@@ -335,22 +311,6 @@
         sep.classList.remove('hidden');
       }
     });
-
-    // ── FLOATING DECOR ──
-    const decor = document.getElementById('heroDecor');
-    const icons = ['📖','✍️','📜','🖋️','📚','✒️'];
-    for (let i = 0; i < 14; i++) {
-      const el = document.createElement('span');
-      el.textContent = icons[Math.floor(Math.random() * icons.length)];
-      el.style.cssText = `
-        left: ${Math.random() * 100}%;
-        top: ${20 + Math.random() * 70}%;
-        animation-duration: ${8 + Math.random() * 10}s;
-        animation-delay: ${Math.random() * 8}s;
-        font-size: ${18 + Math.random() * 20}px;
-      `;
-      decor.appendChild(el);
-    }
 
     // ── REVEAL ON SCROLL ──
     const reveals = document.querySelectorAll('.reveal');

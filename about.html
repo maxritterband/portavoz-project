@@ -91,38 +91,60 @@
       border-top: 4px solid var(--orange);
     }
 
+    .director-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
     .about-aside h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 26px;
       font-weight: 700;
       color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .director-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.6;
       margin-bottom: 20px;
     }
 
-    .about-aside ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .director-divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 20px;
     }
 
-    .about-aside li {
+    .about-aside p {
       font-family: 'Lora', serif;
       font-size: 15px;
       color: var(--text-mid);
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      line-height: 1.6;
+      line-height: 1.8;
+      margin-bottom: 14px;
     }
 
-    .about-aside li::before {
-      content: '→';
-      color: var(--orange);
+    .about-aside p:last-of-type { margin-bottom: 20px; }
+
+    .director-credentials {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .director-credentials span {
       font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      flex-shrink: 0;
-      margin-top: 1px;
+      font-size: 12px;
+      color: var(--text-light);
     }
 
     /* TEAM */
@@ -211,7 +233,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html" class="active">About the Project</a></li>
-      <li><a href="archive.html">Featured</a></li>
+      <li><a href="recent.html">Recent Translations</a></li>
       <li><a href="archive.html">All Translations</a></li>
     </ul>
   </nav>
@@ -243,39 +265,44 @@
           </p>
         </div>
         <div class="about-aside">
-          <h3>What we look for</h3>
-          <ul>
-            <li>Rigorous fidelity to the meaning and spirit of the source text</li>
-            <li>Fluid, literary English that reads as an original work</li>
-            <li>A thoughtful translator's note situating the work and the translation choices</li>
-            <li>Faculty endorsement and mentorship throughout the process</li>
-            <li>A short biography of the original author</li>
-          </ul>
+          <div class="director-label">Meet Our Director</div>
+          <h3>Erica Cobb</h3>
+          <div class="director-title">Director, The Portavoz Project<br>Department of Spanish, Italian & Portuguese · UVA</div>
+          <div class="director-divider"></div>
+          <p>
+            Dr. Cobb has lived, worked, and studied across Europe, Latin America, Australia, and the United States. Her scholarly background is in the Spanish Golden Age, and she currently specializes in the translation of poetry and theatre across all time periods. She is deeply interested in themes of identity, performance, and responsibility — both to one another and to the world we inhabit.
+          </p>
+          <p>
+            She directs the Portavoz Project and also freelance translates, with three upcoming publications through Valparaiso Editions — two collections by Mexican poet Miguel Ángel Galván and one by award-winning Spanish poet Ramón Andrés.
+          </p>
+          <div class="director-credentials">
+            <span>Ph.D., Spanish · UNC Chapel Hill</span>
+            <span>M.A. & B.A. · Ohio University</span>
+          </div>
         </div>
       </div>
 
       <div class="team-section">
-        <h2>Editorial Team</h2>
-        <p>The Portavoz Project is student-run, with faculty advisorship from UVA's Department of Spanish, Italian & Portuguese.</p>
-        <div class="team-grid" id="teamGrid">
-          <!-- populated by JS or static below -->
+        <h2>Student Translators</h2>
+        <p>The students behind the translations — each bringing their own voice, background, and interpretation to the work.</p>
+        <div class="team-grid">
           <div class="team-card">
-            <div class="team-avatar">E</div>
-            <div class="team-name">Editor-in-Chief</div>
-            <div class="team-role">Editor-in-Chief</div>
+            <div class="team-avatar">J</div>
+            <div class="team-name">Jane Doe</div>
+            <div class="team-role">Translator</div>
+            <div class="team-class">Class of '25</div>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">J</div>
+            <div class="team-name">John Smith</div>
+            <div class="team-role">Translator</div>
             <div class="team-class">Class of '26</div>
           </div>
           <div class="team-card">
-            <div class="team-avatar">F</div>
-            <div class="team-name">Faculty Advisor</div>
-            <div class="team-role">Faculty Advisor</div>
-            <div class="team-class">Department of SIP</div>
-          </div>
-          <div class="team-card">
-            <div class="team-avatar">M</div>
-            <div class="team-name">Managing Editor</div>
-            <div class="team-role">Managing Editor</div>
-            <div class="team-class">Class of '27</div>
+            <div class="team-avatar">E</div>
+            <div class="team-name">Emily Chen</div>
+            <div class="team-role">Translator</div>
+            <div class="team-class">Class of '25</div>
           </div>
         </div>
       </div>
