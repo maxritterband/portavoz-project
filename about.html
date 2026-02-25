@@ -353,18 +353,6 @@
 
   <script src="js/portavoz-data.js"></script>
   <script>
-    // Nav scroll: transparent on navy hero → white on scroll
-    const nav = document.getElementById('mainNav');
-    const sep = document.getElementById('navSeparator');
-    
-        nav.classList.add('scrolled');
-        sep.classList.add('hidden');
-      } else {
-        nav.classList.remove('scrolled');
-        nav.classList.add('transparent');
-        sep.classList.remove('hidden');
-      }
-    });
 
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');

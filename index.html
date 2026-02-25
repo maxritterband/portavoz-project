@@ -311,19 +311,6 @@
 
   <script src="js/portavoz-data.js"></script>
   <script>
-    // ── NAV SCROLL BEHAVIOUR ──
-    const nav = document.getElementById('mainNav');
-    const sep = document.getElementById('navSeparator');
-    
-        nav.classList.add('scrolled');
-        sep.classList.add('hidden');
-      } else {
-        nav.classList.remove('scrolled');
-        nav.classList.add('transparent');
-        sep.classList.remove('hidden');
-      }
-    });
-
     // ── REVEAL ON SCROLL ──
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
