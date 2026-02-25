@@ -32,9 +32,9 @@
     }
 
     .t-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(22px, 5vw, 64px);
-      font-weight: 900;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 5.5vw, 72px);
+      font-weight: 700;
       color: var(--navy);
       line-height: 1.1;
       margin-bottom: 16px;
@@ -43,7 +43,7 @@
     }
 
     .t-original {
-      font-family: 'Lora', serif;
+      font-family: 'Libre Baskerville', serif;
       font-size: 16px;
       color: var(--text-mid);
       margin-bottom: 4px;
@@ -70,7 +70,7 @@
     }
 
     .t-translator {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
       font-weight: 700;
       color: var(--navy);
@@ -124,7 +124,7 @@
     }
 
     .sidebar-card p {
-      font-family: 'Lora', serif;
+      font-family: 'Libre Baskerville', serif;
       font-size: 14.5px;
       color: var(--text-mid);
       line-height: 1.75;
@@ -148,7 +148,7 @@
     }
 
     .quote-mark {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 64px;
       color: var(--border);
       line-height: 0.7;
@@ -165,7 +165,7 @@
     }
 
     .t-text {
-      font-family: 'Lora', serif;
+      font-family: 'Libre Baskerville', serif;
       font-size: 17.5px;
       line-height: 2;
       color: var(--text-dark);
@@ -192,7 +192,7 @@
     .loading {
       text-align: center;
       padding: 80px;
-      font-family: 'Lora', serif;
+      font-family: 'Libre Baskerville', serif;
       font-style: italic;
       color: var(--text-light);
       font-size: 16px;
@@ -265,7 +265,7 @@
       if (!t) {
         document.getElementById('app').innerHTML = `
           <div class="container" style="padding-top:60px; padding-bottom:60px; text-align:center;">
-            <p style="font-family:'Lora',serif; font-style:italic; color:var(--text-light); font-size:17px;">
+            <p style="font-family:'Libre Baskerville',serif; font-style:italic; color:var(--text-light); font-size:17px;">
               Translation not found. <a href="translations.html" style="color:var(--orange);">Return to Archive →</a>
             </p>
           </div>
@@ -303,7 +303,7 @@
                        style="font-family:'Inter',sans-serif;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">
                        Read Translator's Note →
                      </a>`
-                  : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
+                  : `<p style="font-family:'Libre Baskerville',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
                 }
               </div>
               ${(t.datePublished || t.publisher) ? `
@@ -330,7 +330,7 @@
               <span class="quote-mark quote-mark-close">"</span>
               ${t.buyLink ? `
               <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border);text-align:center;">
-                <p style="font-family:'Lora',serif;font-style:italic;font-size:15px;color:var(--text-mid);margin-bottom:16px;">
+                <p style="font-family:'Libre Baskerville',serif;font-style:italic;font-size:15px;color:var(--text-mid);margin-bottom:16px;">
                   Purchase the full translation to continue reading.
                 </p>
                 <a href="${t.buyLink}" target="_blank" rel="noopener"
