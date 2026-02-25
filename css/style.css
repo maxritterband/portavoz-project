@@ -314,9 +314,9 @@ body {
   font-size: 13.5px;
   color: var(--text-dark);
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .card-footer {

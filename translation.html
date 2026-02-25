@@ -225,9 +225,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="in-progress.html">In Progress</a></li>
-      <li><a href="published.html">Published</a></li>
-      <li><a href="archive.html" class="active">All Translations</a></li>
+      <li><a href="translations.html" class="active">Translations</a></li>
       <li><a href="events.html">Events</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
@@ -235,13 +233,10 @@
       <span></span><span></span><span></span>
     </button>
   </nav>
-  <!-- MOBILE DROPDOWN -->
-  <div class="nav-dropdown" id="navDropdown">
+    <div class="nav-dropdown" id="navDropdown">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="in-progress.html">In Progress</a>
-    <a href="published.html">Published</a>
-    <a href="archive.html">All Translations</a>
+    <a href="translations.html">Translations</a>
     <a href="events.html">Events</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -271,7 +266,7 @@
         document.getElementById('app').innerHTML = `
           <div class="container" style="padding-top:60px; padding-bottom:60px; text-align:center;">
             <p style="font-family:'Lora',serif; font-style:italic; color:var(--text-light); font-size:17px;">
-              Translation not found. <a href="archive.html" style="color:var(--orange);">Return to Archive →</a>
+              Translation not found. <a href="translations.html" style="color:var(--orange);">Return to Archive →</a>
             </p>
           </div>
         `;
@@ -282,7 +277,7 @@
 
       document.getElementById('app').innerHTML = `
         <div class="container">
-          <a href="archive.html" class="back-link">← Back to Archive</a>
+          <a href="translations.html" class="back-link">← Back to Archive</a>
 
           <div class="t-header">
             <h1 class="t-title">${t.title}</h1>

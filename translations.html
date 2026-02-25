@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Translations in Progress · The Portavoz Project</title>
+  <title>Translations · The Portavoz Project</title>
   <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
@@ -17,7 +17,7 @@
 
     .page-header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 5vw, 52px);
+      font-size: clamp(36px, 5vw, 56px);
       font-weight: 900;
       color: var(--navy);
       margin-bottom: 12px;
@@ -27,43 +27,18 @@
       font-family: 'Lora', serif;
       font-size: 16px;
       color: var(--text-mid);
-      max-width: 560px;
+      max-width: 520px;
       line-height: 1.7;
     }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--blue);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      border-radius: 100px;
-      margin-top: 20px;
-    }
-
-    .archive-body { padding: 48px 0 96px; }
+    .archive-body { padding: 36px 0 96px; }
 
     .archive-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-
-    .controls-row {
+      padding: 0 0 36px;
       display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      width: 100%;
     }
 
     .search-wrap { max-width: 560px; width: 100%; }
@@ -72,13 +47,14 @@
       font-family: 'Inter', sans-serif;
       font-size: 13px;
       color: var(--text-light);
+      white-space: nowrap;
     }
 
     .archive-count strong { color: var(--text-dark); }
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 24px;
     }
 
@@ -92,20 +68,63 @@
       font-size: 17px;
     }
 
-    .card { position: relative; overflow: hidden; }
+    /* ── Card overrides: ensure text wraps inside cards ── */
+    .card {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
 
+    .card-title {
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card-original {
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .card-meta-value {
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      overflow: visible;
+      text-overflow: unset;
+    }
+
+    /* left accent bar on hover — color set per status in JS */
     .card::before {
       content: '';
       position: absolute;
       top: 0; left: 0;
       width: 3px; height: 100%;
-      background: var(--blue);
       transform: scaleY(0);
       transform-origin: bottom;
       transition: transform 0.3s ease;
     }
 
+    .card.status-published::before { background: var(--green); }
+    .card.status-in-progress::before { background: var(--blue); }
+    .card.status-other::before { background: var(--navy); }
+
     .card:hover::before { transform: scaleY(1); }
+
+    /* Status banner — no emoji */
+    .card-status-banner {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      color: var(--white);
+    }
+
+    .card-status-banner.published  { background: var(--green); }
+    .card-status-banner.in-progress { background: var(--blue); }
   </style>
 </head>
 <body>
@@ -119,9 +138,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="in-progress.html" class="active">In Progress</a></li>
-      <li><a href="published.html">Published</a></li>
-      <li><a href="archive.html">All Translations</a></li>
+      <li><a href="translations.html" class="active">Translations</a></li>
       <li><a href="events.html">Events</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
@@ -133,9 +150,7 @@
   <div class="nav-dropdown" id="navDropdown">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
-    <a href="in-progress.html">In Progress</a>
-    <a href="published.html">Published</a>
-    <a href="archive.html">All Translations</a>
+    <a href="translations.html" class="active">Translations</a>
     <a href="events.html">Events</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -143,26 +158,24 @@
   <!-- PAGE HEADER -->
   <header class="page-header">
     <div class="container">
-      <h1>Translations in Progress</h1>
-      <p>Works currently being translated by our collective — theatre, poetry, and prose making their way from Spanish into English.</p>
-      <div class="status-badge">🔵 Currently Active</div>
+      <h1>Translations</h1>
+      <p>Published works and translations in progress from the Portavoz collective at the University of Virginia.</p>
     </div>
   </header>
 
-  <!-- CARDS -->
+  <!-- BODY -->
   <main class="archive-body">
     <div class="container">
       <div class="archive-controls">
-        <div class="controls-row">
-          <div class="search-wrap">
-            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-            <input type="text" class="search-input" placeholder="Search by title, author, or translator..."
-              id="searchInput" autocomplete="off" />
-          </div>
-          <p class="archive-count" id="archiveCount"></p>
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" class="search-input"
+            placeholder="Search by title, author, or translator..."
+            id="searchInput" autocomplete="off" />
         </div>
+        <p class="archive-count" id="archiveCount"></p>
       </div>
       <div class="cards-grid" id="cardsGrid"></div>
     </div>
@@ -176,8 +189,15 @@
   <script>
     let allTranslations = [];
 
+    function statusInfo(status) {
+      const s = (status || '').toLowerCase().replace(/\s/g, '-');
+      if (s === 'published')   return { label: 'Published',      cls: 'published',   cardCls: 'status-published' };
+      if (s === 'in-progress') return { label: 'In Progress',    cls: 'in-progress', cardCls: 'status-in-progress' };
+      return null;
+    }
+
     function renderCards(list) {
-      const grid = document.getElementById('cardsGrid');
+      const grid  = document.getElementById('cardsGrid');
       const count = document.getElementById('archiveCount');
       grid.innerHTML = '';
       count.innerHTML = `Showing <strong>${list.length}</strong> translation${list.length !== 1 ? 's' : ''}`;
@@ -190,22 +210,36 @@
       list.forEach(t => {
         const card = document.createElement('a');
         card.href = `translation.html?id=${t.id}`;
-        card.className = 'card';
+        const si = statusInfo(t.status);
+        card.className = 'card' + (si ? ' ' + si.cardCls : ' status-other');
+
+        const banner = si
+          ? `<div class="card-status-banner ${si.cls}">${si.label}</div>`
+          : '';
+
+        const publisherRow = t.publisher
+          ? `<div class="card-meta-item">
+               <span class="card-meta-label">Publisher</span>
+               <span class="card-meta-value">${t.publisher}</span>
+             </div>`
+          : '';
+
         card.innerHTML = `
-          <div class="card-featured-banner" style="background:var(--blue);">🔵 In Progress</div>
+          ${banner}
           <div class="card-body">
             <h3 class="card-title">${t.title}</h3>
-            <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
+            ${t.originalTitle ? `<p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>` : `<p class="card-original">by ${t.author}</p>`}
             <div class="card-divider"></div>
             <div class="card-meta">
               <div class="card-meta-item">
-                <span class="card-meta-label">👤 Translator</span>
+                <span class="card-meta-label">Translator</span>
                 <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
               </div>
+              ${publisherRow}
             </div>
           </div>
           <div class="card-footer">
-            View details <span class="card-footer-arrow">→</span>
+            ${si && si.cls === 'published' ? 'Read excerpt' : 'View details'} <span class="card-footer-arrow">→</span>
           </div>
         `;
         grid.appendChild(card);
@@ -224,11 +258,7 @@
     });
 
     async function init() {
-      const all = await loadTranslations();
-      // Filter to in-progress: status column = "in-progress" or "In Progress"
-      allTranslations = all.filter(t =>
-        (t.status || '').toLowerCase().replace(/\s/g, '-') === 'in-progress'
-      );
+      allTranslations = await loadTranslations();
       renderCards(allTranslations);
     }
 
