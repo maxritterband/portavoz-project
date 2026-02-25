@@ -195,3 +195,49 @@ async function loadTranslationById(id) {
   return t;
 }
 
+/**
+ * loadEvents()
+ * Fetches event data from the "events" tab of the same Google Sheet.
+ * The gid parameter must match the sheet tab ID — update EVENTS_SHEET_GID
+ * once the events tab is created and its gid is known.
+ *
+ * Expected columns (in order):
+ *   title, subtitle, label, description, startDate, endDate,
+ *   posterURL, ticketLink, qrURL, schedule, sponsors
+ *
+ * startDate / endDate format: YYYY-MM-DD (e.g. 2026-04-08)
+ * schedule: pipe-separated items, e.g. "Apr 8 · 4 PM | Reception at Casa Bolívar"
+ *   Each item is "date · time | detail"
+ * sponsors: pipe-separated list of sponsor names
+ * posterURL: Google Drive direct image link
+ *   (From Drive share link, replace /file/d/ID/view with /uc?export=view&id=ID)
+ */
+
+const EVENTS_BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmH0u2BRjNVlpi43gV9GuN2TZ_kPjEfL2Li2cq8b5UbN47XYhWrLcv0P-eb4667BgYCePxgw0w10Vu/pub?single=true&output=csv';
+const EVENTS_SHEET_GID = 'REPLACE_WITH_EVENTS_TAB_GID';
+
+async function loadEvents() {
+  try {
+    const url = `${EVENTS_BASE_URL}&gid=${EVENTS_SHEET_GID}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Failed to fetch events sheet');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    return rows.map(r => ({
+      title:       r.title       || '',
+      subtitle:    r.subtitle    || '',
+      label:       r.label       || '',
+      description: r.description || '',
+      startDate:   r.startDate   || '',
+      endDate:     r.endDate     || '',
+      posterURL:   r.posterURL   || '',
+      ticketLink:  r.ticketLink  || '',
+      qrURL:       r.qrURL       || '',
+      schedule:    r.schedule    || '',
+      sponsors:    r.sponsors    || '',
+    }));
+  } catch (e) {
+    console.error('[Portavoz] loadEvents error:', e);
+    return [];
+  }
+}

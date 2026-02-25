@@ -14,216 +14,109 @@
       background: var(--navy);
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-
     .page-header .label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px;
     }
-
     .page-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 900;
-      color: var(--white);
-      margin-bottom: 12px;
+      font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900; color: var(--white); margin-bottom: 12px;
     }
-
     .page-header p {
-      font-family: 'Lora', serif;
-      font-size: 16px;
-      color: rgba(255,255,255,0.7);
-      max-width: 520px;
-      line-height: 1.7;
+      font-family: 'Lora', serif; font-size: 16px; color: rgba(255,255,255,0.7);
+      max-width: 520px; line-height: 1.7;
     }
 
     .events-body { padding: 60px 0 96px; }
 
-    /* ── SINGLE EVENT CARD ── */
+    .events-section { margin-bottom: 64px; }
+
+    .events-section-heading {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-light);
+      margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+
     .event-card {
-      background: var(--white);
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      margin-bottom: 56px;
-      max-width: 860px;
+      background: var(--white); border-radius: 12px; box-shadow: var(--card-shadow);
+      overflow: hidden; margin-bottom: 40px; max-width: 860px;
     }
+    .event-card.past { opacity: 0.72; }
 
-    .event-poster-inline {
-      margin: 4px 0 28px;
-      text-align: center;
-    }
-
-    .event-poster-inline img {
-      display: inline-block;
-      max-width: 420px;
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 24px rgba(8,52,91,0.15);
-    }
-
-    .event-info {
-      padding: 40px 44px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+    .event-info { padding: 40px 44px; }
 
     .event-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px;
     }
+    .event-card.past .event-label { color: var(--text-light); }
 
     .event-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 3vw, 36px);
-      font-weight: 900;
-      color: var(--navy);
-      line-height: 1.2;
-      margin-bottom: 8px;
+      font-family: 'Playfair Display', serif; font-size: clamp(24px, 3vw, 36px);
+      font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 8px;
     }
-
     .event-subtitle {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 15px;
-      color: var(--text-mid);
-      margin-bottom: 24px;
+      font-family: 'Lora', serif; font-style: italic; font-size: 15px;
+      color: var(--text-mid); margin-bottom: 24px;
     }
-
     .event-description {
-      font-family: 'Lora', serif;
-      font-size: 15.5px;
-      color: var(--text-mid);
-      line-height: 1.8;
-      margin-bottom: 28px;
+      font-family: 'Lora', serif; font-size: 15.5px; color: var(--text-mid);
+      line-height: 1.8; margin-bottom: 28px;
     }
 
-    .event-schedule {
-      margin-bottom: 28px;
+    .event-poster-inline { margin: 4px 0 28px; text-align: center; }
+    .event-poster-inline img {
+      display: inline-block; max-width: 420px; width: 100%; height: auto;
+      border-radius: 8px; box-shadow: 0 4px 24px rgba(8,52,91,0.15);
     }
 
+    .event-schedule { margin-bottom: 28px; }
     .event-schedule-title {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 12px;
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-bottom: 12px;
     }
-
     .event-schedule-item {
-      display: flex;
-      gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
+      display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border);
     }
-
     .event-schedule-item:last-child { border-bottom: none; }
-
     .schedule-date {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--navy);
-      min-width: 110px;
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      color: var(--navy); min-width: 120px; flex-shrink: 0;
     }
+    .schedule-detail { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-mid); }
 
-    .schedule-detail {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      color: var(--text-mid);
-    }
+    .event-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
 
-    .event-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .event-qr {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .event-qr img {
-      width: 80px;
-      height: 80px;
-      border-radius: 6px;
-      border: 2px solid var(--border);
-    }
-
+    .event-qr { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .event-qr img { width: 80px; height: 80px; border-radius: 6px; border: 2px solid var(--border); }
     .event-qr-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-light);
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light);
     }
 
-    .event-sponsors {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
+    .event-sponsors { padding-top: 20px; border-top: 1px solid var(--border); }
     .event-sponsors-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 8px;
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px;
     }
+    .event-sponsors-list { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-mid); line-height: 1.8; }
 
-    .event-sponsors-list {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      color: var(--text-mid);
-      line-height: 1.8;
+    .no-events {
+      text-align: center; padding: 60px 20px; background: var(--cream-dark);
+      border-radius: 12px; border: 2px dashed var(--border); max-width: 860px;
     }
+    .no-events p { font-family: 'Lora', serif; font-style: italic; font-size: 16px; color: var(--text-light); }
 
-    /* ── UPCOMING EMPTY STATE ── */
-    .more-events {
-      text-align: center;
-      padding: 60px 20px;
-      background: var(--cream-dark);
-      border-radius: 12px;
-      border: 2px dashed var(--border);
-    }
+    .events-loading { font-family: 'Lora', serif; font-style: italic; color: var(--text-light); font-size: 16px; padding: 40px 0; }
 
-    .more-events p {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 16px;
-      color: var(--text-light);
-    }
-
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .event-info { padding: 24px 20px; }
+      .schedule-date { min-width: 90px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="nav navy" id="mainNav">
     <a href="index.html" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
@@ -241,15 +134,14 @@
     </button>
   </nav>
   <div class="nav-separator" id="navSeparator"></div>
-    <div class="nav-dropdown" id="navDropdown">
+  <div class="nav-dropdown" id="navDropdown">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="translations.html">Translations</a>
-    <a href="events.html">Events</a>
+    <a href="events.html" class="active">Events</a>
     <a href="contact.html">Contact</a>
   </div>
 
-  <!-- PAGE HEADER -->
   <header class="page-header">
     <div class="container">
       <p class="label">What's On</p>
@@ -258,71 +150,11 @@
     </div>
   </header>
 
-  <!-- EVENTS BODY -->
   <main class="events-body">
     <div class="container">
-
-      <!-- EVENT 1: ENTRE VOCES Y ESCENAS -->
-      <article class="event-card">
-        <div class="event-info">
-          <div>
-            <p class="event-label">World Premiere · UVA · April 8–11</p>
-            <h2 class="event-title">Entre voces y escenas</h2>
-            <p class="event-subtitle">Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia</p>
-
-            <p class="event-description">
-              A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.
-            </p>
-
-            <div class="event-poster-inline">
-              <img src="images/entre-voces-poster.jpg" alt="Entre voces y escenas — Event Poster" />
-            </div>
-
-            <div class="event-schedule">
-              <p class="event-schedule-title">Schedule of Events</p>
-              <div class="event-schedule-item">
-                <span class="schedule-date">Apr 8 · 4 PM</span>
-                <span class="schedule-detail">Reception at Casa Bolívar</span>
-              </div>
-              <div class="event-schedule-item">
-                <span class="schedule-date">Apr 9 · 5 PM</span>
-                <span class="schedule-detail">Lecture: <em>El Teatro como crítica social en Argentina</em> — Clark 108</span>
-              </div>
-              <div class="event-schedule-item">
-                <span class="schedule-date">Apr 10 · 7–9 PM</span>
-                <span class="schedule-detail">Live Performance + Q&A — Caplin Theater</span>
-              </div>
-              <div class="event-schedule-item">
-                <span class="schedule-date">Apr 11 · 2–4 PM</span>
-                <span class="schedule-detail">Live Performance + Q&A — Caplin Theater</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="event-actions">
-              <a href="https://eljunco.mavllata.org" target="_blank" rel="noopener" class="btn btn-primary">
-                Reserve Tickets →
-              </a>
-              <div class="event-qr">
-                <img src="images/entre-voces-qr.png" alt="QR code to reserve tickets" />
-                <span class="event-qr-label">Scan for tickets</span>
-              </div>
-            </div>
-
-            <div class="event-sponsors">
-              <p class="event-sponsors-label">Presented with support from</p>
-              <p class="event-sponsors-list">Sigma Delta Pi · GEO Fellowship · The Jefferson Trust · Office of the Vice Provost for Global Affairs, UVA · El Junco Cooperativa Teatral</p>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PLACEHOLDER FOR FUTURE EVENTS -->
-      <div class="more-events">
-        <p>More events coming soon. Check back or <a href="contact.html" style="color:var(--blue);">get in touch</a> to stay updated.</p>
+      <div id="eventsContainer">
+        <p class="events-loading">Loading events…</p>
       </div>
-
     </div>
   </main>
 
@@ -330,6 +162,136 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script src="js/portavoz-data.js"></script>
+  <script>
+    // Seed event — shown until the Google Sheet events tab is connected.
+    // Once the sheet is live, add events there and this can be left as backup.
+    const SEED_EVENTS = [
+      {
+        title:       'Entre voces y escenas',
+        subtitle:    'Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia',
+        label:       'World Premiere · UVA · April 8–11',
+        description: 'A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.',
+        startDate:   '2026-04-08',
+        endDate:     '2026-04-11',
+        posterURL:   'images/entre-voces-poster.jpg',
+        ticketLink:  'https://eljunco.mavllata.org',
+        qrURL:       'images/entre-voces-qr.png',
+        schedule:    'Apr 8 · 4 PM|Reception at Casa Bolívar||Apr 9 · 5 PM|Lecture: El Teatro como crítica social en Argentina — Clark 108||Apr 10 · 7–9 PM|Live Performance + Q&A — Caplin Theater||Apr 11 · 2–4 PM|Live Performance + Q&A — Caplin Theater',
+        sponsors:    'Sigma Delta Pi|GEO Fellowship|The Jefferson Trust|Office of the Vice Provost for Global Affairs, UVA|El Junco Cooperativa Teatral',
+      }
+    ];
+
+    function isPast(event) {
+      const dateStr = event.endDate || event.startDate;
+      if (!dateStr) return false;
+      const end = new Date(dateStr);
+      end.setHours(23, 59, 59);
+      return end < new Date();
+    }
+
+    function sortAsc(events) {
+      return [...events].sort((a, b) => new Date(a.startDate || '9999') - new Date(b.startDate || '9999'));
+    }
+
+    function buildScheduleHTML(str) {
+      if (!str) return '';
+      const items = str.split('||').map(s => s.trim()).filter(Boolean);
+      if (!items.length) return '';
+      const rows = items.map(item => {
+        const [date, detail] = item.split('|').map(s => s.trim());
+        return `<div class="event-schedule-item">
+          <span class="schedule-date">${date || ''}</span>
+          <span class="schedule-detail">${detail || ''}</span>
+        </div>`;
+      }).join('');
+      return `<div class="event-schedule">
+        <p class="event-schedule-title">Schedule of Events</p>
+        ${rows}
+      </div>`;
+    }
+
+    function buildSponsorsHTML(str) {
+      if (!str) return '';
+      const names = str.split('|').map(s => s.trim()).filter(Boolean);
+      if (!names.length) return '';
+      return `<div class="event-sponsors">
+        <p class="event-sponsors-label">Presented with support from</p>
+        <p class="event-sponsors-list">${names.join(' · ')}</p>
+      </div>`;
+    }
+
+    function buildActionsHTML(event) {
+      if (!event.ticketLink) return '';
+      const qr = event.qrURL ? `<div class="event-qr">
+        <img src="${event.qrURL}" alt="QR code for tickets" />
+        <span class="event-qr-label">Scan for tickets</span>
+      </div>` : '';
+      return `<div class="event-actions">
+        <a href="${event.ticketLink}" target="_blank" rel="noopener" class="btn btn-primary">Reserve Tickets →</a>
+        ${qr}
+      </div>`;
+    }
+
+    function renderCard(event, past) {
+      const card = document.createElement('article');
+      card.className = 'event-card' + (past ? ' past' : '');
+      const poster = event.posterURL
+        ? `<div class="event-poster-inline"><img src="${event.posterURL}" alt="${event.title} poster" /></div>`
+        : '';
+      card.innerHTML = `
+        <div class="event-info">
+          <div>
+            ${event.label ? `<p class="event-label">${event.label}</p>` : ''}
+            <h2 class="event-title">${event.title}</h2>
+            ${event.subtitle ? `<p class="event-subtitle">${event.subtitle}</p>` : ''}
+            ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
+            ${poster}
+            ${buildScheduleHTML(event.schedule)}
+          </div>
+          <div>
+            ${past ? '' : buildActionsHTML(event)}
+            ${buildSponsorsHTML(event.sponsors)}
+          </div>
+        </div>`;
+      return card;
+    }
+
+    function renderSection(heading, events, past) {
+      if (!events.length) return null;
+      const sec = document.createElement('div');
+      sec.className = 'events-section';
+      sec.innerHTML = `<p class="events-section-heading">${heading}</p>`;
+      events.forEach(e => sec.appendChild(renderCard(e, past)));
+      return sec;
+    }
+
+    async function init() {
+      const container = document.getElementById('eventsContainer');
+      container.innerHTML = '';
+
+      const sheetReady = typeof EVENTS_SHEET_GID !== 'undefined'
+        && EVENTS_SHEET_GID !== 'REPLACE_WITH_EVENTS_TAB_GID';
+
+      let events = sheetReady ? await loadEvents() : [];
+      if (!events.length) events = SEED_EVENTS;
+
+      const upcoming = sortAsc(events.filter(e => !isPast(e)));
+      const past     = sortAsc(events.filter(e =>  isPast(e))).reverse();
+
+      if (!upcoming.length && !past.length) {
+        container.innerHTML = `<div class="no-events"><p>No events at the moment. Check back soon or <a href="contact.html" style="color:var(--blue);">get in touch</a> to stay updated.</p></div>`;
+        return;
+      }
+
+      const upSec  = renderSection('Upcoming Events', upcoming, false);
+      const pastSec = renderSection('Past Events', past, true);
+      if (upSec)   container.appendChild(upSec);
+      if (pastSec) container.appendChild(pastSec);
+    }
+
+    init();
+  </script>
   <script>
     (function() {
       var btn = document.getElementById('navHamburger');
