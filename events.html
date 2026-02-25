@@ -286,8 +286,8 @@
               <span class="event-card-meta-value">${dateStr}, 2026</span>
             </div>` : ''}
             ${event.sponsors ? `<div class="event-card-meta-item">
-              <span class="event-card-meta-label">Presented by</span>
-              <span class="event-card-meta-value">${event.sponsors.split('|')[0].trim()}</span>
+              <span class="event-card-meta-label">Sponsored by</span>
+              <span class="event-card-meta-value">${event.sponsors.split('|').map(s => s.trim()).join(' · ')}</span>
             </div>` : ''}
           </div>
         </div>
