@@ -311,6 +311,11 @@
                   : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
                 }
               </div>
+              ${t.publisher ? `
+              <div class="sidebar-card">
+                <div class="sidebar-card-label">📚 Publisher</div>
+                <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--text-dark);font-weight:500;">${t.publisher}</p>
+              </div>` : ''}
               ${t.buyLink ? `
               <div class="sidebar-card" style="border-left-color:var(--green);background:var(--cream);">
                 <div class="sidebar-card-label" style="color:var(--green);">📖 Full Text Available</div>

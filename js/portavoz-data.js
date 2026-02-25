@@ -179,7 +179,7 @@ async function loadTranslationById(id) {
   }
 
   // Determine which field to show: excerpt takes priority if present
-  const textSource = (t.excerpt && t.excerpt.trim()) ? t.excerpt : t.text;
+  const textSource = t.excerpt && t.excerpt.trim() ? t.excerpt : '';
 
   if (isGoogleDocUrl(textSource)) {
     t.text = await fetchDocText(textSource);

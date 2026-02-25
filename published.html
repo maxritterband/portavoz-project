@@ -208,10 +208,10 @@
                 <span class="card-meta-label">👤 Translator</span>
                 <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
               </div>
-              <div class="card-meta-item">
-                <span class="card-meta-label">📄 Length</span>
-                <span class="card-meta-value">${t.readTime || '—'}</span>
-              </div>
+              ${t.publisher ? `<div class="card-meta-item">
+                <span class="card-meta-label">📚 Publisher</span>
+                <span class="card-meta-value">${t.publisher}</span>
+              </div>` : ''}
             </div>
             ${buyLink}
           </div>
