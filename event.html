@@ -146,7 +146,36 @@
 
     .sidebar-poster img {
       width: 100%; height: auto; display: block;
+      cursor: zoom-in; transition: opacity 0.2s;
     }
+    .sidebar-poster img:hover { opacity: 0.88; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(8,52,91,0.92);
+      align-items: center; justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      width: auto; height: auto;
+      border-radius: 8px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.5);
+      cursor: default;
+    }
+
+    .lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      font-family: 'Inter', sans-serif; font-size: 28px; font-weight: 300;
+      color: rgba(255,255,255,0.8); cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: white; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 820px) {
@@ -195,6 +224,11 @@
     <a href="translations.html">Translations</a>
     <a href="events.html" class="active">Events</a>
     <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="lightbox" id="posterLightbox">
+    <span class="lightbox-close" id="lightboxClose">×</span>
+    <img id="lightboxImg" src="" alt="Event poster" />
   </div>
 
   <main>
@@ -303,8 +337,7 @@
         return;
       }
 
-      document.title = `${event.title} · The Portavoz Project`;
-      const past = isPast(event);
+      document.title = `${event.title} · The Portavoz Project`;      const past = isPast(event);
       const dateStr = formatDateRange(event.startDate, event.endDate);
       const tickets = buildTickets(event, past);
 
@@ -330,7 +363,7 @@
             ${event.posterURL ? `
               <div class="sidebar-card sidebar-poster-card">
                 <div class="sidebar-poster">
-                  <img src="${event.posterURL}" alt="${event.title} poster" />
+                  <img src="${event.posterURL}" alt="${event.title} poster" id="posterThumb" />
                 </div>
               </div>` : ''}
 
@@ -356,13 +389,30 @@
           </aside>
 
         </div>`;
+
+      initLightbox();
     }
 
     init();
   </script>
   <script>
-    (function() {
-      var btn = document.getElementById('navHamburger');
+    // Lightbox
+    function initLightbox() {
+      const thumb = document.getElementById('posterThumb');
+      const lb    = document.getElementById('posterLightbox');
+      const lbImg = document.getElementById('lightboxImg');
+      const close = document.getElementById('lightboxClose');
+      if (!thumb || !lb) return;
+
+      lbImg.src = thumb.src;
+      thumb.addEventListener('click', () => lb.classList.add('open'));
+      close.addEventListener('click', (e) => { e.stopPropagation(); lb.classList.remove('open'); });
+      lb.addEventListener('click', () => lb.classList.remove('open'));
+      lbImg.addEventListener('click', (e) => e.stopPropagation());
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('open'); });
+    }
+  </script>
+</body>
       var dd  = document.getElementById('navDropdown');
       if (!btn || !dd) return;
       btn.addEventListener('click', function(e) {
