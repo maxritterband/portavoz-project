@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; background: var(--cream); }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Inter', sans-serif; font-size: 14px;
+      color: var(--text-mid); text-decoration: none;
+      padding: 28px 0 0; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--navy); }
+
+    /* ── LAYOUT ── */
+    .event-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 40px;
+      padding: 36px 0 96px;
+      align-items: start;
+    }
+
+    /* ── MAIN COLUMN ── */
+    .event-main {}
+
+    .event-label {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 12px;
+    }
+
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 900; color: var(--navy);
+      line-height: 1.1; margin-bottom: 10px;
+    }
+
+    .event-subtitle {
+      font-family: 'Lora', serif; font-style: italic;
+      font-size: 16px; color: var(--text-mid);
+      line-height: 1.6; margin-bottom: 28px;
+    }
+
+    /* ticket buttons area */
+    .event-tickets {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .event-divider {
+      height: 1px; background: var(--border);
+      margin: 32px 0;
+    }
+
+    .event-description {
+      font-family: 'Lora', serif; font-size: 16px;
+      color: var(--text-mid); line-height: 1.85;
+      margin-bottom: 32px;
+    }
+
+    /* poster */
+    .event-poster {
+      margin-bottom: 32px; text-align: center;
+    }
+    .event-poster img {
+      max-width: 440px; width: 100%; height: auto;
+      border-radius: 10px; box-shadow: 0 4px 28px rgba(8,52,91,0.15);
+    }
+
+    /* schedule */
+    .event-schedule-title {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-light); margin-bottom: 12px;
+    }
+
+    .event-schedule-item {
+      display: flex; gap: 20px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .event-schedule-item:last-child { border-bottom: none; }
+
+    .schedule-date {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      color: var(--navy); min-width: 130px; flex-shrink: 0;
+    }
+    .schedule-detail {
+      font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-mid);
+    }
+
+    /* sponsors */
+    .event-sponsors {
+      margin-top: 32px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .event-sponsors-label {
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-light); margin-bottom: 8px;
+    }
+    .event-sponsors-list {
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      color: var(--text-mid); line-height: 1.9;
+    }
+
+    /* ── SIDEBAR ── */
+    .event-sidebar { position: sticky; top: 88px; }
+
+    .sidebar-card {
+      background: var(--white); border-radius: 12px;
+      box-shadow: var(--card-shadow); overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-card-header {
+      background: var(--navy); padding: 16px 20px;
+    }
+    .sidebar-card-header-title {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .sidebar-card-body { padding: 18px 20px; }
+
+    .sidebar-field { margin-bottom: 16px; }
+    .sidebar-field:last-child { margin-bottom: 0; }
+
+    .sidebar-field-label {
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-light); margin-bottom: 3px;
+    }
+    .sidebar-field-value {
+      font-family: 'Inter', sans-serif; font-size: 14px;
+      font-weight: 500; color: var(--text-dark);
+      word-wrap: break-word;
+    }
+
+    .sidebar-poster img {
+      width: 100%; height: auto; display: block;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 820px) {
+      .event-layout {
+        grid-template-columns: 1fr;
+      }
+      .event-sidebar {
+        position: static;
+        order: -1; /* sidebar poster appears above content on mobile */
+      }
+      .sidebar-card:not(.sidebar-poster-card) {
+        display: none; /* hide detail card on mobile, info is in main column */
+      }
+    }
+
+    /* loading / error */
+    .event-loading {
+      font-family: 'Lora', serif; font-style: italic;
+      color: var(--text-light); font-size: 16px; padding: 60px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav navy" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="translations.html">Translations</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-separator" id="navSeparator"></div>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="translations.html">Translations</a>
+    <a href="events.html" class="active">Events</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <main>
+    <div class="container">
+      <a href="events.html" class="back-link">← Back to Events</a>
+      <div id="eventContent">
+        <p class="event-loading">Loading event…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script src="js/portavoz-data.js"></script>
+  <script>
+    const SEED_EVENTS = [
+      {
+        id:          'entre-voces-y-escenas',
+        title:       'Entre voces y escenas',
+        subtitle:    'Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia',
+        label:       'World Premiere · UVA · April 8–11',
+        description: 'A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.',
+        startDate:   '2026-04-08',
+        endDate:     '2026-04-11',
+        posterURL:   'images/entre-voces-poster.jpg',
+        ticketLinks: [
+          { label: 'Reserve Tickets — Apr 10 · 7:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11025' },
+          { label: 'Reserve Tickets — Apr 11 · 2:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11026' },
+        ],
+        schedule:    'Apr 8 · 4 PM|Reception at Casa Bolívar||Apr 9 · 5 PM|Lecture: El Teatro como crítica social en Argentina — Clark 108||Apr 10 · 7–9 PM|Live Performance + Q&A — Caplin Theater||Apr 11 · 2–4 PM|Live Performance + Q&A — Caplin Theater',
+        sponsors:    'Sigma Delta Pi|GEO Fellowship|The Jefferson Trust|Office of the Vice Provost for Global Affairs, UVA|El Junco Cooperativa Teatral',
+      }
+    ];
+
+    function isPast(event) {
+      const dateStr = event.endDate || event.startDate;
+      if (!dateStr) return false;
+      const end = new Date(dateStr);
+      end.setHours(23, 59, 59);
+      return end < new Date();
+    }
+
+    function formatDateRange(start, end) {
+      if (!start) return '';
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const s = new Date(start);
+      const sm = months[s.getUTCMonth()]; const sd = s.getUTCDate(); const sy = s.getUTCFullYear();
+      if (!end || end === start) return `${sm} ${sd}, ${sy}`;
+      const e = new Date(end);
+      const em = months[e.getUTCMonth()]; const ed = e.getUTCDate(); const ey = e.getUTCFullYear();
+      if (sm === em && sy === ey) return `${sm} ${sd}–${ed}, ${sy}`;
+      return `${sm} ${sd} – ${em} ${ed}, ${ey}`;
+    }
+
+    function buildSchedule(str) {
+      if (!str) return '';
+      const items = str.split('||').map(s => s.trim()).filter(Boolean);
+      if (!items.length) return '';
+      const rows = items.map(item => {
+        const [date, detail] = item.split('|').map(s => s.trim());
+        return `<div class="event-schedule-item">
+          <span class="schedule-date">${date || ''}</span>
+          <span class="schedule-detail">${detail || ''}</span>
+        </div>`;
+      }).join('');
+      return `<p class="event-schedule-title">Schedule of Events</p>${rows}`;
+    }
+
+    function buildSponsors(str) {
+      if (!str) return '';
+      const names = str.split('|').map(s => s.trim()).filter(Boolean);
+      if (!names.length) return '';
+      return `<div class="event-sponsors">
+        <p class="event-sponsors-label">Presented with support from</p>
+        <p class="event-sponsors-list">${names.join(' · ')}</p>
+      </div>`;
+    }
+
+    function buildTickets(event, past) {
+      if (past) return '';
+      const links = event.ticketLinks && event.ticketLinks.length
+        ? event.ticketLinks
+        : event.ticketLink ? [{ label: 'Reserve Tickets →', url: event.ticketLink }] : [];
+      if (!links.length) return '';
+      return links.map(l =>
+        `<a href="${l.url}" target="_blank" rel="noopener" class="btn btn-primary" style="white-space:nowrap;">${l.label}</a>`
+      ).join('');
+    }
+
+    async function init() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const content = document.getElementById('eventContent');
+
+      const sheetReady = typeof EVENTS_SHEET_GID !== 'undefined'
+        && EVENTS_SHEET_GID !== 'REPLACE_WITH_EVENTS_TAB_GID';
+      let events = sheetReady ? await loadEvents() : [];
+      if (!events.length) events = SEED_EVENTS;
+
+      const event = events.find(e => e.id === id) || events[0];
+
+      if (!event) {
+        content.innerHTML = `<p class="event-loading">Event not found. <a href="events.html">Back to Events</a></p>`;
+        return;
+      }
+
+      document.title = `${event.title} · The Portavoz Project`;
+      const past = isPast(event);
+      const dateStr = formatDateRange(event.startDate, event.endDate);
+      const tickets = buildTickets(event, past);
+
+      content.innerHTML = `
+        <div class="event-layout">
+
+          <div class="event-main">
+            ${event.label ? `<p class="event-label">${event.label}</p>` : ''}
+            <h1 class="event-title">${event.title}</h1>
+            ${event.subtitle ? `<p class="event-subtitle">${event.subtitle}</p>` : ''}
+
+            ${tickets ? `<div class="event-tickets">${tickets}</div>` : ''}
+
+            <div class="event-divider"></div>
+
+            ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
+
+            ${buildSchedule(event.schedule)}
+            ${buildSponsors(event.sponsors)}
+          </div>
+
+          <aside class="event-sidebar">
+            ${event.posterURL ? `
+              <div class="sidebar-card sidebar-poster-card">
+                <div class="sidebar-poster">
+                  <img src="${event.posterURL}" alt="${event.title} poster" />
+                </div>
+              </div>` : ''}
+
+            <div class="sidebar-card">
+              <div class="sidebar-card-header">
+                <p class="sidebar-card-header-title">Event Details</p>
+              </div>
+              <div class="sidebar-card-body">
+                ${dateStr ? `<div class="sidebar-field">
+                  <p class="sidebar-field-label">Date</p>
+                  <p class="sidebar-field-value">${dateStr}</p>
+                </div>` : ''}
+                ${event.label ? `<div class="sidebar-field">
+                  <p class="sidebar-field-label">Type</p>
+                  <p class="sidebar-field-value">${event.label}</p>
+                </div>` : ''}
+                ${past ? `<div class="sidebar-field">
+                  <p class="sidebar-field-label">Status</p>
+                  <p class="sidebar-field-value" style="color:var(--text-light);">Past event</p>
+                </div>` : ''}
+              </div>
+            </div>
+          </aside>
+
+        </div>`;
+    }
+
+    init();
+  </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('navHamburger');
+      var dd  = document.getElementById('navDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dd.classList.toggle('open');
+        btn.classList.toggle('open', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !dd.contains(e.target)) {
+          dd.classList.remove('open');
+          btn.classList.remove('open');
+        }
+      });
+      var page = window.location.pathname.split('/').pop() || 'index.html';
+      dd.querySelectorAll('a').forEach(function(a) {
+        if (a.getAttribute('href') === page) a.classList.add('active');
+      });
+    })();
+  </script>
+</body>
+</html>

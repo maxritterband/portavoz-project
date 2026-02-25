@@ -11,25 +11,22 @@
 
     .page-header {
       padding: 60px 0 48px;
-      background: var(--navy);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .page-header .label {
-      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
     }
     .page-header h1 {
-      font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px);
-      font-weight: 900; color: var(--white); margin-bottom: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900; color: var(--navy); margin-bottom: 12px;
     }
     .page-header p {
-      font-family: 'Lora', serif; font-size: 16px; color: rgba(255,255,255,0.7);
+      font-family: 'Lora', serif; font-size: 16px; color: var(--text-mid);
       max-width: 520px; line-height: 1.7;
     }
 
-    .events-body { padding: 60px 0 96px; }
+    .events-body { padding: 36px 0 96px; }
 
-    .events-section { margin-bottom: 64px; }
+    .events-section { margin-bottom: 56px; }
 
     .events-section-heading {
       font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
@@ -37,82 +34,119 @@
       margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
     }
 
-    .event-card {
-      background: var(--white); border-radius: 12px; box-shadow: var(--card-shadow);
-      overflow: hidden; margin-bottom: 40px; max-width: 860px;
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
     }
-    .event-card.past { opacity: 0.72; }
 
-    .event-info { padding: 40px 44px; }
+    /* ── EVENT CARD ── */
+    .event-card-link {
+      display: block;
+      text-decoration: none;
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .event-card-link:hover {
+      box-shadow: 0 8px 32px rgba(8,52,91,0.14);
+      transform: translateY(-2px);
+    }
 
-    .event-label {
+    /* left accent bar */
+    .event-card-link::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--blue);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+    .event-card-link.past::before { background: var(--text-light); }
+    .event-card-link:hover::before { transform: scaleY(1); }
+
+    /* status banner */
+    .event-card-banner {
       font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 16px; color: var(--white);
     }
-    .event-card.past .event-label { color: var(--text-light); }
+    .event-card-banner.upcoming { background: var(--blue); }
+    .event-card-banner.past     { background: var(--text-light); }
 
-    .event-title {
-      font-family: 'Playfair Display', serif; font-size: clamp(24px, 3vw, 36px);
-      font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 8px;
-    }
-    .event-subtitle {
-      font-family: 'Lora', serif; font-style: italic; font-size: 15px;
-      color: var(--text-mid); margin-bottom: 24px;
-    }
-    .event-description {
-      font-family: 'Lora', serif; font-size: 15.5px; color: var(--text-mid);
-      line-height: 1.8; margin-bottom: 28px;
-    }
+    .event-card-body { padding: 20px 22px 16px; }
 
-    .event-poster-inline { margin: 4px 0 28px; text-align: center; }
-    .event-poster-inline img {
-      display: inline-block; max-width: 420px; width: 100%; height: auto;
-      border-radius: 8px; box-shadow: 0 4px 24px rgba(8,52,91,0.15);
-    }
-
-    .event-schedule { margin-bottom: 28px; }
-    .event-schedule-title {
+    .event-card-label {
       font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-bottom: 12px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 8px;
     }
-    .event-schedule-item {
-      display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border);
+    .event-card-link.past .event-card-label { color: var(--text-light); }
+
+    .event-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 22px);
+      font-weight: 900; color: var(--navy);
+      line-height: 1.2; margin-bottom: 6px;
+      word-wrap: break-word;
     }
-    .event-schedule-item:last-child { border-bottom: none; }
-    .schedule-date {
+
+    .event-card-subtitle {
+      font-family: 'Lora', serif; font-style: italic; font-size: 13px;
+      color: var(--text-mid); line-height: 1.5; margin-bottom: 14px;
+      word-wrap: break-word;
+    }
+
+    .event-card-divider {
+      height: 1px; background: var(--border); margin-bottom: 14px;
+    }
+
+    .event-card-meta {
+      display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px;
+    }
+
+    .event-card-meta-item { display: flex; flex-direction: column; gap: 2px; }
+
+    .event-card-meta-label {
+      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light);
+    }
+
+    .event-card-meta-value {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+      color: var(--text-dark); word-wrap: break-word;
+    }
+
+    /* poster thumbnail */
+    .event-card-thumb {
+      width: 100%; height: 160px; object-fit: cover;
+      display: block; border-bottom: 1px solid var(--border);
+    }
+
+    .event-card-footer {
       font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
-      color: var(--navy); min-width: 120px; flex-shrink: 0;
+      color: var(--navy); padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .schedule-detail { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-mid); }
+    .event-card-link.past .event-card-footer { color: var(--text-light); }
 
-    .event-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    .event-card-arrow { font-size: 16px; transition: transform 0.2s; }
+    .event-card-link:hover .event-card-arrow { transform: translateX(4px); }
 
-    .event-qr { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .event-qr img { width: 80px; height: 80px; border-radius: 6px; border: 2px solid var(--border); }
-    .event-qr-label {
-      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-light);
-    }
-
-    .event-sponsors { padding-top: 20px; border-top: 1px solid var(--border); }
-    .event-sponsors-label {
-      font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px;
-    }
-    .event-sponsors-list { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-mid); line-height: 1.8; }
-
+    /* empty / loading */
     .no-events {
       text-align: center; padding: 60px 20px; background: var(--cream-dark);
-      border-radius: 12px; border: 2px dashed var(--border); max-width: 860px;
+      border-radius: 12px; border: 2px dashed var(--border);
     }
     .no-events p { font-family: 'Lora', serif; font-style: italic; font-size: 16px; color: var(--text-light); }
-
     .events-loading { font-family: 'Lora', serif; font-style: italic; color: var(--text-light); font-size: 16px; padding: 40px 0; }
-
-    @media (max-width: 600px) {
-      .event-info { padding: 24px 20px; }
-      .schedule-date { min-width: 90px; }
-    }
   </style>
 </head>
 <body>
@@ -144,7 +178,6 @@
 
   <header class="page-header">
     <div class="container">
-      <p class="label">What's On</p>
       <h1>Events</h1>
       <p>Live performances, readings, lectures and receptions bringing Spanish-language theatre and literature to UVA and beyond.</p>
     </div>
@@ -164,10 +197,9 @@
 
   <script src="js/portavoz-data.js"></script>
   <script>
-    // Seed event — shown until the Google Sheet events tab is connected.
-    // Once the sheet is live, add events there and this can be left as backup.
     const SEED_EVENTS = [
       {
+        id:          'entre-voces-y-escenas',
         title:       'Entre voces y escenas',
         subtitle:    'Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia',
         label:       'World Premiere · UVA · April 8–11',
@@ -193,74 +225,64 @@
       return end < new Date();
     }
 
+    function formatDateRange(start, end) {
+      if (!start) return '';
+      const s = new Date(start);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const sm = months[s.getUTCMonth()];
+      const sd = s.getUTCDate();
+      if (!end || end === start) return `${sm} ${sd}`;
+      const e = new Date(end);
+      const em = months[e.getUTCMonth()];
+      const ed = e.getUTCDate();
+      if (sm === em) return `${sm} ${sd}–${ed}`;
+      return `${sm} ${sd} – ${em} ${ed}`;
+    }
+
     function sortAsc(events) {
       return [...events].sort((a, b) => new Date(a.startDate || '9999') - new Date(b.startDate || '9999'));
     }
 
-    function buildScheduleHTML(str) {
-      if (!str) return '';
-      const items = str.split('||').map(s => s.trim()).filter(Boolean);
-      if (!items.length) return '';
-      const rows = items.map(item => {
-        const [date, detail] = item.split('|').map(s => s.trim());
-        return `<div class="event-schedule-item">
-          <span class="schedule-date">${date || ''}</span>
-          <span class="schedule-detail">${detail || ''}</span>
-        </div>`;
-      }).join('');
-      return `<div class="event-schedule">
-        <p class="event-schedule-title">Schedule of Events</p>
-        ${rows}
-      </div>`;
-    }
-
-    function buildSponsorsHTML(str) {
-      if (!str) return '';
-      const names = str.split('|').map(s => s.trim()).filter(Boolean);
-      if (!names.length) return '';
-      return `<div class="event-sponsors">
-        <p class="event-sponsors-label">Presented with support from</p>
-        <p class="event-sponsors-list">${names.join(' · ')}</p>
-      </div>`;
-    }
-
-    function buildActionsHTML(event) {
-      const links = event.ticketLinks && event.ticketLinks.length
-        ? event.ticketLinks
-        : event.ticketLink
-          ? [{ label: 'Reserve Tickets →', url: event.ticketLink }]
-          : [];
-      if (!links.length) return '';
-      const buttons = links.map(l =>
-        `<a href="${l.url}" target="_blank" rel="noopener" class="btn btn-primary" style="white-space:nowrap;">${l.label}</a>`
-      ).join('');
-      return `<div class="event-actions" style="flex-wrap:wrap;gap:12px;margin-bottom:20px;justify-content:center;">
-        ${buttons}
-      </div>`;
-    }
-
     function renderCard(event, past) {
-      const card = document.createElement('article');
-      card.className = 'event-card' + (past ? ' past' : '');
-      const poster = event.posterURL
-        ? `<div class="event-poster-inline"><img src="${event.posterURL}" alt="${event.title} poster" /></div>`
+      const link = document.createElement('a');
+      link.href = `event.html?id=${event.id}`;
+      link.className = 'event-card-link' + (past ? ' past' : '');
+
+      const thumb = event.posterURL
+        ? `<img class="event-card-thumb" src="${event.posterURL}" alt="${event.title} poster" />`
         : '';
-      card.innerHTML = `
-        <div class="event-info">
-          <div>
-            ${event.label ? `<p class="event-label">${event.label}</p>` : ''}
-            <h2 class="event-title">${event.title}</h2>
-            ${event.subtitle ? `<p class="event-subtitle">${event.subtitle}</p>` : ''}
-            ${past ? '' : buildActionsHTML(event)}
-            ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
-            ${poster}
-            ${buildScheduleHTML(event.schedule)}
+
+      const banner = past
+        ? `<div class="event-card-banner past">Past Event</div>`
+        : `<div class="event-card-banner upcoming">Upcoming</div>`;
+
+      const dateStr = formatDateRange(event.startDate, event.endDate);
+
+      link.innerHTML = `
+        ${banner}
+        ${thumb}
+        <div class="event-card-body">
+          ${event.label ? `<p class="event-card-label">${event.label}</p>` : ''}
+          <h3 class="event-card-title">${event.title}</h3>
+          ${event.subtitle ? `<p class="event-card-subtitle">${event.subtitle}</p>` : ''}
+          <div class="event-card-divider"></div>
+          <div class="event-card-meta">
+            ${dateStr ? `<div class="event-card-meta-item">
+              <span class="event-card-meta-label">Date</span>
+              <span class="event-card-meta-value">${dateStr}, 2026</span>
+            </div>` : ''}
+            ${event.sponsors ? `<div class="event-card-meta-item">
+              <span class="event-card-meta-label">Presented by</span>
+              <span class="event-card-meta-value">${event.sponsors.split('|')[0].trim()}</span>
+            </div>` : ''}
           </div>
-          <div>
-            ${buildSponsorsHTML(event.sponsors)}
-          </div>
+        </div>
+        <div class="event-card-footer">
+          ${past ? 'View event' : 'View details & tickets'}
+          <span class="event-card-arrow">→</span>
         </div>`;
-      return card;
+
+      return link;
     }
 
     function renderSection(heading, events, past) {
@@ -268,7 +290,10 @@
       const sec = document.createElement('div');
       sec.className = 'events-section';
       sec.innerHTML = `<p class="events-section-heading">${heading}</p>`;
-      events.forEach(e => sec.appendChild(renderCard(e, past)));
+      const grid = document.createElement('div');
+      grid.className = 'cards-grid';
+      events.forEach(e => grid.appendChild(renderCard(e, past)));
+      sec.appendChild(grid);
       return sec;
     }
 
@@ -290,8 +315,8 @@
         return;
       }
 
-      const upSec  = renderSection('Upcoming Events', upcoming, false);
-      const pastSec = renderSection('Past Events', past, true);
+      const upSec   = renderSection('Upcoming Events', upcoming, false);
+      const pastSec = renderSection('Past Events',     past,     true);
       if (upSec)   container.appendChild(upSec);
       if (pastSec) container.appendChild(pastSec);
     }
