@@ -249,19 +249,19 @@
     const SEED_EVENTS = [
       {
         id:          'entre-voces-y-escenas',
-        title:       'Entre voces y escenas',
-        subtitle:    'Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia',
-        label:       'World Premiere · UVA · April 8–11',
-        description: 'A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.',
-        startDate:   '2026-04-08',
-        endDate:     '2026-04-11',
+        title:       'Theatre, Translation, and Global Exchange: A Multi-Day Learning Laboratory at UVA',
+        subtitle:    'A residency with Argentine playwright Rubén Mosquera · with Sol Leone and Milagros Mongia',
+        label:       'UVA Residency · April 6–12, 2026',
+        description: 'Join us for a multi-day residency with acclaimed Argentine playwright and theatre director Rubén Mosquera, hosted by the Department of Spanish, Italian & Portuguese at the University of Virginia. A leading figure in Argentina\'s independent theatre scene, Mosquera is known for socially engaged works that explore historical memory, civic responsibility, and the role of performance in times of political and cultural change. His theatre blends sharp social critique with innovative dramaturgy, positioning the stage as a space for dialogue, reflection, and collective meaning-making.\n\nStudents are invited to a series of events including an informal conversation with Mosquera and visiting actresses Sol Leone and Milagros Mongia at Casa Bolívar on Wednesday April 8th and a Spanish-language lecture on Theatre as Social Critique in Argentina on Thursday, April 9th.\n\nThe residency will culminate in free public performances of Entre Voces y Escenas, a new play written specifically for this residency, with UVA students working on its English translation. Performances will take place in the Caplin Theater, followed by a bilingual, student-moderated dialogue with the artists.',
+        startDate:   '2026-04-06',
+        endDate:     '2026-04-12',
         posterURL:   'images/entre-voces-poster.jpg',
         ticketLinks: [
           { label: 'Reserve Tickets — Apr 10 · 7:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11025' },
           { label: 'Reserve Tickets — Apr 11 · 2:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11026' },
         ],
-        schedule:    'Apr 8 · 4 PM|Reception at Casa Bolívar||Apr 9 · 5 PM|Lecture: El Teatro como crítica social en Argentina — Clark 108||Apr 10 · 7–9 PM|Live Performance + Q&A — Caplin Theater||Apr 11 · 2–4 PM|Live Performance + Q&A — Caplin Theater',
-        sponsors:    'Sigma Delta Pi|GEO Fellowship|The Jefferson Trust|Office of the Vice Provost for Global Affairs, UVA|El Junco Cooperativa Teatral',
+        schedule:    'Mon Apr 6 · 1–2 PM|Conversaciones y Cafecito with Sol Leone & Milagros Mongia, hosted by Francis Whitfill — NCH 448||Wed Apr 8 · 4 PM|Cultural Conversation with Rubén Mosquera, Sol Leone & Milagros Mongia — Casa Bolívar||Thu Apr 9 · 5–6:30 PM|Lecture: "El Teatro como crítica social en Argentina" with Q&A — Clark Hall 108||Fri Apr 10 · 7–9 PM|World Premiere: "Entre voces y escenas" + Bilingual Q&A — Caplin Theater, Culbreth Hall||Sat Apr 11 · 2–4 PM|Performance: "Entre voces y escenas" + Bilingual Q&A — Caplin Theater, Culbreth Hall',
+        sponsors:    'GEO Fellowship|The Jefferson Trust|Dept. of Spanish, Italian & Portuguese|Sigma Delta Pi|Casa Bolívar|The Portavoz Project',
       }
     ];
 
@@ -354,7 +354,7 @@
 
             <div class="event-divider"></div>
 
-            ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
+            ${event.description ? event.description.split('\n\n').map(p => `<p class="event-description">${p.trim()}</p>`).join('') : ''}
 
             ${buildSchedule(event.schedule)}
             ${buildSponsors(event.sponsors)}
