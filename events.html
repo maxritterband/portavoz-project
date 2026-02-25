@@ -50,22 +50,21 @@
       box-shadow: var(--card-shadow);
       overflow: hidden;
       margin-bottom: 56px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      align-items: start;
+      max-width: 860px;
     }
 
-    .event-poster {
-      width: 320px;
-      flex-shrink: 0;
-      background: var(--navy);
+    .event-poster-inline {
+      margin: 4px 0 28px;
+      text-align: center;
     }
 
-    .event-poster img {
-      display: block;
+    .event-poster-inline img {
+      display: inline-block;
+      max-width: 420px;
       width: 100%;
       height: auto;
-      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(8,52,91,0.15);
     }
 
     .event-info {
@@ -217,10 +216,8 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 860px) {
-      .event-card { grid-template-columns: 1fr; }
-      .event-poster { width: 100%; }
-      .event-info { padding: 28px 24px; }
+    @media (max-width: 600px) {
+      .event-info { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -271,19 +268,19 @@
 
       <!-- EVENT 1: ENTRE VOCES Y ESCENAS -->
       <article class="event-card">
-        <div class="event-poster">
-          <img src="images/entre-voces-poster.jpg" alt="Entre Voces y Escenas — Event Poster" style="width:100%;height:100%;object-fit:cover;display:block;" />
-        </div>
-
         <div class="event-info">
           <div>
-            <p class="event-label">World Premiere · UVA</p>
-            <h2 class="event-title">Entre Voces y Escenas</h2>
+            <p class="event-label">World Premiere · UVA · April 8–11</p>
+            <h2 class="event-title">Entre voces y escenas</h2>
             <p class="event-subtitle">Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia</p>
 
             <p class="event-description">
               A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.
             </p>
+
+            <div class="event-poster-inline">
+              <img src="images/entre-voces-poster.jpg" alt="Entre voces y escenas — Event Poster" />
+            </div>
 
             <div class="event-schedule">
               <p class="event-schedule-title">Schedule of Events</p>
@@ -337,5 +334,27 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <script>
+    (function() {
+      var btn = document.getElementById('navHamburger');
+      var dd  = document.getElementById('navDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dd.classList.toggle('open');
+        btn.classList.toggle('open', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !dd.contains(e.target)) {
+          dd.classList.remove('open');
+          btn.classList.remove('open');
+        }
+      });
+      var page = window.location.pathname.split('/').pop() || 'index.html';
+      dd.querySelectorAll('a').forEach(function(a) {
+        if (a.getAttribute('href') === page) a.classList.add('active');
+      });
+    })();
+  </script>
 </body>
 </html>

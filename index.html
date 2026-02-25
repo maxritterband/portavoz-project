@@ -375,5 +375,27 @@
 
     loadFeatured();
   </script>
+  <script>
+    (function() {
+      var btn = document.getElementById('navHamburger');
+      var dd  = document.getElementById('navDropdown');
+      if (!btn || !dd) return;
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var open = dd.classList.toggle('open');
+        btn.classList.toggle('open', open);
+      });
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !dd.contains(e.target)) {
+          dd.classList.remove('open');
+          btn.classList.remove('open');
+        }
+      });
+      var page = window.location.pathname.split('/').pop() || 'index.html';
+      dd.querySelectorAll('a').forEach(function(a) {
+        if (a.getAttribute('href') === page) a.classList.add('active');
+      });
+    })();
+  </script>
 </body>
 </html>
