@@ -33,14 +33,14 @@
       z-index: 1;
     }
 
-    /* feathered edges — softens left/right and bottom crop of the wide photo */
+    /* feathered edges — gently dissolves photo edges into navy */
     .hero::after {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(to right,  rgba(8,52,91,0.5) 0%, transparent 20%, transparent 80%, rgba(8,52,91,0.5) 100%),
-        linear-gradient(to bottom, transparent 60%, rgba(8,52,91,0.6) 100%);
+        linear-gradient(to right,  rgba(8,52,91,0.65) 0%, rgba(8,52,91,0.0) 25%, rgba(8,52,91,0.0) 75%, rgba(8,52,91,0.65) 100%),
+        linear-gradient(to bottom, rgba(8,52,91,0.3)  0%, rgba(8,52,91,0.0) 20%, rgba(8,52,91,0.0) 70%, rgba(8,52,91,0.7) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -264,18 +264,24 @@
 
     @media (max-width: 768px) {
       .hero {
-        /* fixed attachment causes iOS horizontal overflow — switch to scroll on mobile */
+        /* Use cover so no hard edges — focal point at center 55% keeps faces visible */
         background:
-          linear-gradient(rgba(8,52,91,0.78), rgba(8,52,91,0.78)),
-          url('images/hero-bg.jpg') center 40% / 160% auto no-repeat;
+          linear-gradient(rgba(8,52,91,0.72), rgba(8,52,91,0.72)),
+          url('images/hero-bg.jpg') center 55% / cover no-repeat;
         background-attachment: scroll;
         padding: 100px 20px 120px;
         min-height: 100svh;
       }
-      /* simpler feather on mobile: just fade top and bottom */
+      /* Gentle dissolve on mobile: fade top strongly (nav area), fade bottom into page */
       .hero::after {
         background:
-          linear-gradient(to bottom, rgba(8,52,91,0.2) 0%, transparent 15%, transparent 75%, rgba(8,52,91,0.65) 100%);
+          linear-gradient(to bottom,
+            rgba(8,52,91,0.6)  0%,
+            rgba(8,52,91,0.1) 20%,
+            rgba(8,52,91,0.0) 50%,
+            rgba(8,52,91,0.2) 80%,
+            rgba(8,52,91,0.8) 100%
+          );
       }
       .hero-actions { flex-direction: column; }
       .btn { justify-content: center; }
