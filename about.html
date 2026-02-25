@@ -353,15 +353,18 @@
       const grid = document.getElementById('translatorsGrid');
       const all = await loadTranslations();
 
-      // Collect unique student translators from the studentTranslator column
+      // Collect unique student translators — support comma-separated names per row
       const seen = new Set();
       const students = [];
       all.forEach(t => {
-        const name = (t.studentTranslator || '').trim();
-        if (name && !seen.has(name)) {
-          seen.add(name);
-          students.push({ name, classYear: (t.studentClass || '').trim() });
-        }
+        const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
+        const classes = (t.studentClass      || '').split(',').map(s => s.trim());
+        names.forEach((name, i) => {
+          if (name && !seen.has(name)) {
+            seen.add(name);
+            students.push({ name, classYear: classes[i] || '' });
+          }
+        });
       });
 
       if (students.length === 0) {
