@@ -256,7 +256,7 @@
 <body>
 
   <!-- NAV -->
-  <nav class="nav transparent" id="mainNav">
+  <nav class="nav navy" id="mainNav">
     <a href="index.html" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
@@ -270,7 +270,20 @@
       <li><a href="events.html">Events</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <!-- MOBILE DROPDOWN -->
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="in-progress.html">In Progress</a>
+    <a href="published.html">Published</a>
+    <a href="archive.html">All Translations</a>
+    <a href="events.html">Events</a>
+    <a href="contact.html">Contact</a>
+  </div>
   <div class="nav-separator" id="navSeparator"></div>
 
   <!-- HERO -->
@@ -343,9 +356,7 @@
     // Nav scroll: transparent on navy hero → white on scroll
     const nav = document.getElementById('mainNav');
     const sep = document.getElementById('navSeparator');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.classList.remove('transparent');
+    
         nav.classList.add('scrolled');
         sep.classList.add('hidden');
       } else {

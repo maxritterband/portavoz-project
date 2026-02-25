@@ -62,14 +62,19 @@ body {
   background: transparent;
 }
 
+.nav.navy {
+  background: var(--navy);
+  box-shadow: 0 1px 24px rgba(8,52,91,0.25);
+}
+
 .nav.scrolled {
-  background: var(--white);
-  box-shadow: 0 1px 24px rgba(8,52,91,0.10);
+  background: var(--navy);
+  box-shadow: 0 1px 24px rgba(8,52,91,0.25);
 }
 
 .nav.cream {
-  background: var(--white);
-  box-shadow: 0 1px 24px rgba(8,52,91,0.10);
+  background: var(--navy);
+  box-shadow: 0 1px 24px rgba(8,52,91,0.25);
 }
 
 .nav-brand {
@@ -95,23 +100,14 @@ body {
   transition: filter 0.2s ease;
 }
 
-/* default: white icon on dark hero */
-.nav.transparent .nav-logo img {
+/* all nav states use navy background — always white icon */
+.nav-logo img {
   filter: brightness(0) invert(1);
 }
 
-/* white nav: navy icon (no filter) */
-.nav.scrolled .nav-logo img {
-  filter: none;
-}
-
-.nav.cream .nav-logo img {
-  filter: none;
-}
-
-/* hover brand: icon turns orange */
+/* hover brand: icon turns green */
 .nav-brand:hover .nav-logo img {
-  filter: brightness(0) saturate(100%) invert(55%) sepia(60%) saturate(800%) hue-rotate(5deg) brightness(95%) contrast(98%) !important;
+  filter: brightness(0) saturate(100%) invert(58%) sepia(50%) saturate(500%) hue-rotate(85deg) brightness(95%) contrast(95%) !important;
 }
 
 .nav-name {
@@ -121,16 +117,16 @@ body {
   transition: color 0.2s ease;
 }
 
-.nav.transparent .nav-name { color: var(--white); }
-.nav.scrolled .nav-name { color: var(--navy); }
-.nav.cream .nav-name { color: var(--navy); }
+.nav-name { color: var(--white); }
 .nav-brand:hover .nav-name { color: var(--green); }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 24px;
   list-style: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-links a {
@@ -143,12 +139,8 @@ body {
   position: relative;
 }
 
-.nav.transparent .nav-links a { color: rgba(255,255,255,0.85); }
-.nav.transparent .nav-links a:hover { color: var(--green); }
-.nav.scrolled .nav-links a { color: var(--text-mid); }
-.nav.scrolled .nav-links a:hover { color: var(--green); }
-.nav.cream .nav-links a { color: var(--text-mid); }
-.nav.cream .nav-links a:hover { color: var(--green); }
+.nav-links a { color: rgba(255,255,255,0.82); }
+.nav-links a:hover { color: var(--green); }
 
 .nav-links a.active {
   color: var(--green) !important;
@@ -447,6 +439,78 @@ footer a {
 
 footer a:hover { color: var(--white); }
 
+
+/* ============================================
+   HAMBURGER / MOBILE NAV
+   ============================================ */
+
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.nav-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: 68px;
+  left: 0;
+  right: 0;
+  background: var(--navy);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 32px rgba(8,52,91,0.3);
+  z-index: 999;
+  flex-direction: column;
+}
+
+.nav-dropdown.open {
+  display: flex;
+}
+
+.nav-dropdown a {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-dropdown a:hover,
+.nav-dropdown a.active {
+  background: rgba(255,255,255,0.07);
+  color: var(--green);
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
@@ -454,10 +518,12 @@ footer a:hover { color: var(--white); }
 @media (max-width: 768px) {
   .nav { padding: 0 20px; }
   .container { padding: 0 20px; }
-  .nav-links { gap: 18px; }
+  .nav-links { gap: 16px; }
   .nav-links a { font-size: 13px; }
 }
 
-@media (max-width: 580px) {
-  .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+/* When links would overflow: hide them and show hamburger */
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
 }
