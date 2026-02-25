@@ -337,7 +337,8 @@
         return;
       }
 
-      document.title = `${event.title} · The Portavoz Project`;      const past = isPast(event);
+      document.title = `${event.title} · The Portavoz Project`;
+      const past = isPast(event);
       const dateStr = formatDateRange(event.startDate, event.endDate);
       const tickets = buildTickets(event, past);
 
@@ -393,10 +394,6 @@
       initLightbox();
     }
 
-    init();
-  </script>
-  <script>
-    // Lightbox
     function initLightbox() {
       const thumb = document.getElementById('posterThumb');
       const lb    = document.getElementById('posterLightbox');
@@ -411,8 +408,12 @@
       lbImg.addEventListener('click', (e) => e.stopPropagation());
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lb.classList.remove('open'); });
     }
+
+    init();
   </script>
-</body>
+  <script>
+    (function() {
+      var btn = document.getElementById('navHamburger');
       var dd  = document.getElementById('navDropdown');
       if (!btn || !dd) return;
       btn.addEventListener('click', function(e) {
@@ -433,4 +434,5 @@
     })();
   </script>
 </body>
+</html>
 </html>
