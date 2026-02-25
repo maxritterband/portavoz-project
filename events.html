@@ -34,16 +34,18 @@
       margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
     }
 
-    /* ── CARDS GRID ── */
+    /* ── CARDS GRID — single column, full width ── */
     .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 24px;
     }
 
     /* ── EVENT CARD ── */
     .event-card-link {
-      display: block;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: auto 1fr auto;
       text-decoration: none;
       background: var(--white);
       border-radius: 12px;
@@ -67,12 +69,14 @@
       transform: scaleY(0);
       transform-origin: bottom;
       transition: transform 0.3s ease;
+      z-index: 1;
     }
     .event-card-link.past::before { background: var(--text-light); }
     .event-card-link:hover::before { transform: scaleY(1); }
 
-    /* status banner */
+    /* status banner — spans full width above the two-column layout */
     .event-card-banner {
+      grid-column: 1 / -1;
       font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
       padding: 8px 16px; color: var(--white);
@@ -80,7 +84,16 @@
     .event-card-banner.upcoming { background: var(--blue); }
     .event-card-banner.past     { background: var(--text-light); }
 
-    .event-card-body { padding: 20px 22px 16px; }
+    /* poster — left column, full height */
+    .event-card-thumb {
+      grid-row: 2 / 4;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      border-right: 1px solid var(--border);
+    }
+
+    .event-card-body { padding: 22px 26px 16px; }
 
     .event-card-label {
       font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
@@ -91,15 +104,15 @@
 
     .event-card-title {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(18px, 2.5vw, 22px);
+      font-size: clamp(20px, 2.5vw, 28px);
       font-weight: 900; color: var(--navy);
-      line-height: 1.2; margin-bottom: 6px;
+      line-height: 1.2; margin-bottom: 8px;
       word-wrap: break-word;
     }
 
     .event-card-subtitle {
-      font-family: 'Lora', serif; font-style: italic; font-size: 13px;
-      color: var(--text-mid); line-height: 1.5; margin-bottom: 14px;
+      font-family: 'Lora', serif; font-style: italic; font-size: 14px;
+      color: var(--text-mid); line-height: 1.55; margin-bottom: 16px;
       word-wrap: break-word;
     }
 
@@ -108,7 +121,7 @@
     }
 
     .event-card-meta {
-      display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px;
+      display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px;
     }
 
     .event-card-meta-item { display: flex; flex-direction: column; gap: 2px; }
@@ -123,22 +136,36 @@
       color: var(--text-dark); word-wrap: break-word;
     }
 
-    /* poster thumbnail */
-    .event-card-thumb {
-      width: 100%; height: auto; object-fit: contain;
-      display: block; border-bottom: 1px solid var(--border);
-    }
-
+    /* footer — right column only */
     .event-card-footer {
       font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
-      color: var(--navy); padding: 12px 22px;
+      color: var(--navy); padding: 12px 26px;
       border-top: 1px solid var(--border);
       display: flex; justify-content: space-between; align-items: center;
+      align-self: end;
     }
     .event-card-link.past .event-card-footer { color: var(--text-light); }
 
     .event-card-arrow { font-size: 16px; transition: transform 0.2s; }
     .event-card-link:hover .event-card-arrow { transform: translateX(4px); }
+
+    /* no poster fallback — info spans full width */
+    .event-card-link.no-poster {
+      grid-template-columns: 1fr;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .event-card-link {
+        grid-template-columns: 1fr;
+      }
+      .event-card-thumb {
+        grid-row: auto;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
 
     /* empty / loading */
     .no-events {
@@ -246,7 +273,7 @@
     function renderCard(event, past) {
       const link = document.createElement('a');
       link.href = `event.html?id=${event.id}`;
-      link.className = 'event-card-link' + (past ? ' past' : '');
+      link.className = 'event-card-link' + (past ? ' past' : '') + (!event.posterURL ? ' no-poster' : '');
 
       const thumb = event.posterURL
         ? `<img class="event-card-thumb" src="${event.posterURL}" alt="${event.title} poster" />`
@@ -259,7 +286,7 @@
       const dateStr = formatDateRange(event.startDate, event.endDate);
 
       link.innerHTML = `
-        ${banner}
+        <div class="event-card-banner ${past ? 'past' : 'upcoming'}">${past ? 'Past Event' : 'Upcoming'}</div>
         ${thumb}
         <div class="event-card-body">
           ${event.label ? `<p class="event-card-label">${event.label}</p>` : ''}
