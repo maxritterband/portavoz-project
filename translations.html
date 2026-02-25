@@ -225,10 +225,9 @@
           : '';
 
         const publisherBlock = t.publisher
-          ? `<div class="card-divider" style="margin-top:16px;"></div>
-             <div style="padding-top:14px;">
+          ? `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
                <span class="card-meta-label">Publisher</span>
-               <div class="card-meta-value" style="margin-top:4px;">${t.publisher}</div>
+               <div class="card-meta-value" style="margin-top:3px;">${t.publisher}</div>
              </div>`
           : '';
 
@@ -238,12 +237,15 @@
             <h3 class="card-title">${t.title}</h3>
             ${t.originalTitle ? `<p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>` : `<p class="card-original">by ${t.author}</p>`}
             <div class="card-divider"></div>
-            <div class="card-meta">
-              <div class="card-meta-item">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div>
                 <span class="card-meta-label">Translator</span>
-                <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
+                <div class="card-meta-value" style="margin-top:3px;white-space:normal;overflow-wrap:break-word;">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</div>
               </div>
-              ${datePublishedRow}
+              ${t.datePublished ? `<div>
+                <span class="card-meta-label">Date Published</span>
+                <div class="card-meta-value" style="margin-top:3px;">${t.datePublished}</div>
+              </div>` : ''}
             </div>
             ${publisherBlock}
           </div>
