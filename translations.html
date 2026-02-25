@@ -151,16 +151,16 @@
 
   <!-- NAV -->
   <nav class="nav navy" id="mainNav">
-    <a href="index.html" class="nav-brand">
+    <a href="/" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="translations.html" class="active">Translations</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/translations" class="active">Translations</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -168,11 +168,11 @@
   </nav>
   <!-- MOBILE DROPDOWN -->
   <div class="nav-dropdown" id="navDropdown">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="translations.html" class="active">Translations</a>
-    <a href="events.html">Events</a>
-    <a href="contact.html">Contact</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/translations" class="active">Translations</a>
+    <a href="/events">Events</a>
+    <a href="/contact">Contact</a>
   </div>
 
   <!-- PAGE HEADER -->
@@ -236,7 +236,7 @@
 
       list.forEach(t => {
         const card = document.createElement('a');
-        card.href = `translation.html?id=${t.id}`;
+        card.href = `/translation?id=${t.id}`;
         const si = statusInfo(t.status);
         card.className = 'card' + (si ? ' ' + si.cardCls : ' status-other');
 
@@ -377,9 +377,9 @@
           btn.classList.remove('open');
         }
       });
-      var page = window.location.pathname.split('/').pop() || 'index.html';
+      var page = window.location.pathname.replace(/\/+$/, '').split('/').pop() || 'index';
       dd.querySelectorAll('a').forEach(function(a) {
-        if (a.getAttribute('href') === page) a.classList.add('active');
+        if (a.getAttribute('href').replace(/^\//,'').replace(/\/$/,'') === page) a.classList.add('active');
       });
     })();
   </script>

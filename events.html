@@ -167,16 +167,16 @@
 <body>
 
   <nav class="nav navy" id="mainNav">
-    <a href="index.html" class="nav-brand">
+    <a href="/" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="translations.html">Translations</a></li>
-      <li><a href="events.html" class="active">Events</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/translations">Translations</a></li>
+      <li><a href="/events" class="active">Events</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -184,11 +184,11 @@
   </nav>
   <div class="nav-separator" id="navSeparator"></div>
   <div class="nav-dropdown" id="navDropdown">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="translations.html">Translations</a>
-    <a href="events.html" class="active">Events</a>
-    <a href="contact.html">Contact</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/translations">Translations</a>
+    <a href="/events" class="active">Events</a>
+    <a href="/contact">Contact</a>
   </div>
 
   <header class="page-header">
@@ -259,7 +259,7 @@
 
     function renderCard(event, past) {
       const link = document.createElement('a');
-      link.href = `event.html?id=${event.id}`;
+      link.href = `/event?id=${event.id}`;
       link.className = 'event-card-link' + (past ? ' past' : '') + (!event.posterURL ? ' no-poster' : '');
 
       const thumb = event.posterURL
@@ -325,7 +325,7 @@
       const past     = sortAsc(events.filter(e =>  isPast(e))).reverse();
 
       if (!upcoming.length && !past.length) {
-        container.innerHTML = `<div class="no-events"><p>No events at the moment. Check back soon or <a href="contact.html" style="color:var(--blue);">get in touch</a> to stay updated.</p></div>`;
+        container.innerHTML = `<div class="no-events"><p>No events at the moment. Check back soon or <a href="/contact" style="color:var(--blue);">get in touch</a> to stay updated.</p></div>`;
         return;
       }
 
@@ -353,9 +353,9 @@
           btn.classList.remove('open');
         }
       });
-      var page = window.location.pathname.split('/').pop() || 'index.html';
+      var page = window.location.pathname.replace(/\/+$/, '').split('/').pop() || 'index';
       dd.querySelectorAll('a').forEach(function(a) {
-        if (a.getAttribute('href') === page) a.classList.add('active');
+        if (a.getAttribute('href').replace(/^\//,'').replace(/\/$/,'') === page) a.classList.add('active');
       });
     })();
   </script>

@@ -257,27 +257,27 @@
 
   <!-- NAV -->
   <nav class="nav navy" id="mainNav">
-    <a href="index.html" class="nav-brand">
+    <a href="/" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html" class="active">About</a></li>
-      <li><a href="translations.html">Translations</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about" class="active">About</a></li>
+      <li><a href="/translations">Translations</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
     <div class="nav-dropdown" id="navDropdown">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="translations.html">Translations</a>
-    <a href="events.html">Events</a>
-    <a href="contact.html">Contact</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/translations">Translations</a>
+    <a href="/events">Events</a>
+    <a href="/contact">Contact</a>
   </div>
   <div class="nav-separator" id="navSeparator"></div>
 
@@ -409,9 +409,9 @@
           btn.classList.remove('open');
         }
       });
-      var page = window.location.pathname.split('/').pop() || 'index.html';
+      var page = window.location.pathname.replace(/\/+$/, '').split('/').pop() || 'index';
       dd.querySelectorAll('a').forEach(function(a) {
-        if (a.getAttribute('href') === page) a.classList.add('active');
+        if (a.getAttribute('href').replace(/^\//,'').replace(/\/$/,'') === page) a.classList.add('active');
       });
     })();
   </script>

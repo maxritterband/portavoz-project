@@ -293,27 +293,27 @@
 
   <!-- NAV -->
   <nav class="nav navy" id="mainNav">
-    <a href="index.html" class="nav-brand">
+    <a href="/" class="nav-brand">
       <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
       <span class="nav-name">The Portavoz Project</span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="translations.html">Translations</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/translations">Translations</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/contact">Contact</a></li>
     </ul>
     <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
     <div class="nav-dropdown" id="navDropdown">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="translations.html">Translations</a>
-    <a href="events.html">Events</a>
-    <a href="contact.html">Contact</a>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/translations">Translations</a>
+    <a href="/events">Events</a>
+    <a href="/contact">Contact</a>
   </div>
 
   <!-- HERO -->
@@ -329,8 +329,8 @@
         A revolving collective of both current and former students passionate about translation, who meet regularly throughout the academic semester to translate contemporary or never before translated literary works.
       </p>
       <div class="hero-actions">
-        <a href="translations.html" class="btn btn-primary">Read Translations →</a>
-        <a href="about.html" class="btn btn-secondary">About the Project</a>
+        <a href="/translations" class="btn btn-primary">Read Translations →</a>
+        <a href="/about" class="btn btn-secondary">About the Project</a>
       </div>
     </div>
     <div class="scroll-cue">Scroll</div>
@@ -346,7 +346,7 @@
       </div>
       <div class="cards-grid" id="featuredCards"></div>
       <div class="featured-cta reveal">
-        <a href="translations.html" class="btn btn-navy">View All Translations →</a>
+        <a href="/translations" class="btn btn-navy">View All Translations →</a>
       </div>
     </div>
   </section>
@@ -356,7 +356,7 @@
     <div class="container">
       <div class="about-strip-inner reveal">
         <h2 class="section-title" style="font-size:clamp(28px,4vw,44px);margin-bottom:32px;white-space:nowrap;">Translating Stories. Bridging Cultures.</h2>
-        <a href="about.html" class="btn btn-primary">Learn More About Us</a>
+        <a href="/about" class="btn btn-primary">Learn More About Us</a>
       </div>
     </div>
   </section>
@@ -391,7 +391,7 @@
 
       published.forEach((t, i) => {
         const card = document.createElement('a');
-        card.href = `translation.html?id=${t.id}`;
+        card.href = `/translation?id=${t.id}`;
         card.className = 'card status-published reveal reveal-delay-' + (i + 1);
 
         const publisherBlock = t.publisher
@@ -446,9 +446,9 @@
           btn.classList.remove('open');
         }
       });
-      var page = window.location.pathname.split('/').pop() || 'index.html';
+      var page = window.location.pathname.replace(/\/+$/, '').split('/').pop() || 'index';
       dd.querySelectorAll('a').forEach(function(a) {
-        if (a.getAttribute('href') === page) a.classList.add('active');
+        if (a.getAttribute('href').replace(/^\//,'').replace(/\/$/,'') === page) a.classList.add('active');
       });
     })();
   </script>
