@@ -36,6 +36,12 @@
     .archive-controls {
       padding: 0 0 36px;
       display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .controls-top {
+      display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
@@ -51,6 +57,33 @@
     }
 
     .archive-count strong { color: var(--text-dark); }
+
+    .status-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status-tag {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 100px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .status-tag:hover { border-color: var(--navy); color: var(--navy); }
+
+    .status-tag.active-all   { background: var(--navy);  border-color: var(--navy);  color: var(--white); }
+    .status-tag.active-pub   { background: var(--green); border-color: var(--green); color: var(--white); }
+    .status-tag.active-ip    { background: var(--blue);  border-color: var(--blue);  color: var(--white); }
 
     .cards-grid {
       display: grid;
@@ -167,15 +200,22 @@
   <main class="archive-body">
     <div class="container">
       <div class="archive-controls">
-        <div class="search-wrap">
-          <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
-          <input type="text" class="search-input"
-            placeholder="Search by title, author, or translator..."
-            id="searchInput" autocomplete="off" />
+        <div class="controls-top">
+          <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" class="search-input"
+              placeholder="Search by title, author, or translator..."
+              id="searchInput" autocomplete="off" />
+          </div>
+          <p class="archive-count" id="archiveCount"></p>
         </div>
-        <p class="archive-count" id="archiveCount"></p>
+        <div class="status-filters">
+          <button class="status-tag active-all" id="filterAll">All</button>
+          <button class="status-tag" id="filterPublished">Published</button>
+          <button class="status-tag" id="filterInProgress">In Progress</button>
+        </div>
       </div>
       <div class="cards-grid" id="cardsGrid"></div>
     </div>
@@ -263,16 +303,51 @@
       });
     }
 
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      if (!q) { renderCards(allTranslations); return; }
-      renderCards(allTranslations.filter(t =>
-        t.title.toLowerCase().includes(q) ||
-        (t.originalTitle || '').toLowerCase().includes(q) ||
-        t.author.toLowerCase().includes(q) ||
-        t.translator.toLowerCase().includes(q) ||
-        (t.publisher || '').toLowerCase().includes(q)
-      ));
+    let activeStatus = 'all';
+
+    function applyFilters() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      let list = allTranslations;
+
+      // Status filter
+      if (activeStatus === 'published') {
+        list = list.filter(t => (t.status || '').toLowerCase() === 'published');
+      } else if (activeStatus === 'in-progress') {
+        list = list.filter(t => (t.status || '').toLowerCase().replace(/\s/g, '-') === 'in-progress');
+      }
+
+      // Text search
+      if (q) {
+        list = list.filter(t =>
+          t.title.toLowerCase().includes(q) ||
+          (t.originalTitle || '').toLowerCase().includes(q) ||
+          t.author.toLowerCase().includes(q) ||
+          t.translator.toLowerCase().includes(q) ||
+          (t.publisher || '').toLowerCase().includes(q)
+        );
+      }
+
+      renderCards(list);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+    // Filter buttons
+    [
+      { id: 'filterAll',        status: 'all',         cls: 'active-all' },
+      { id: 'filterPublished',  status: 'published',   cls: 'active-pub' },
+      { id: 'filterInProgress', status: 'in-progress', cls: 'active-ip'  },
+    ].forEach(({ id, status, cls }) => {
+      document.getElementById(id).addEventListener('click', () => {
+        activeStatus = status;
+        // Reset all button states
+        document.getElementById('filterAll').className        = 'status-tag';
+        document.getElementById('filterPublished').className  = 'status-tag';
+        document.getElementById('filterInProgress').className = 'status-tag';
+        // Activate clicked button
+        document.getElementById(id).classList.add(cls);
+        applyFilters();
+      });
     });
 
     function sortTranslations(list) {
@@ -283,10 +358,8 @@
           if (v === 'in-progress') return 1;
           return 2;
         };
-        // First sort by status group
         const sg = statusOrder(a.status) - statusOrder(b.status);
         if (sg !== 0) return sg;
-        // Within published: sort by datePublished descending
         const da = parseInt(a.datePublished) || 0;
         const db = parseInt(b.datePublished) || 0;
         return db - da;
