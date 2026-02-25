@@ -185,18 +185,6 @@
 
     .card { position: relative; overflow: hidden; min-width: 0; }
 
-    .card.status-published::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--green);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s ease;
-    }
-    .card.status-published:hover::before { transform: scaleY(1); }
-
     .card-status-banner {
       font-family: 'Inter', sans-serif;
       font-size: 11px;

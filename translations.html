@@ -128,22 +128,9 @@
       text-overflow: unset;
     }
 
-    /* left accent bar on hover — color set per status in JS */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s ease;
-    }
+    .card::before { display: none; }
 
-    .card.status-published::before { background: var(--green); }
-    .card.status-in-progress::before { background: var(--blue); }
-    .card.status-other::before { background: var(--navy); }
-
-    .card:hover::before { transform: scaleY(1); }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(8,52,91,0.14); }
 
     /* Status banner — no emoji */
     .card-status-banner {

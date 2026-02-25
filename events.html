@@ -59,20 +59,8 @@
       transform: translateY(-2px);
     }
 
-    /* left accent bar */
-    .event-card-link::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--blue);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.3s ease;
-      z-index: 1;
-    }
-    .event-card-link.past::before { background: var(--text-light); }
-    .event-card-link:hover::before { transform: scaleY(1); }
+    /* left accent bar — removed */
+    .event-card-link::before { display: none; }
 
     /* status banner — spans full width above the two-column layout */
     .event-card-banner {
