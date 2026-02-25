@@ -223,10 +223,12 @@
                <span class="card-meta-value">${t.datePublished}</span>
              </div>`
           : '';
-        const publisherRow = t.publisher
-          ? `<div class="card-meta-item">
+
+        const publisherBlock = t.publisher
+          ? `<div class="card-divider" style="margin-top:16px;"></div>
+             <div style="padding-top:14px;">
                <span class="card-meta-label">Publisher</span>
-               <span class="card-meta-value">${t.publisher}</span>
+               <div class="card-meta-value" style="margin-top:4px;">${t.publisher}</div>
              </div>`
           : '';
 
@@ -242,8 +244,8 @@
                 <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
               </div>
               ${datePublishedRow}
-              ${publisherRow}
             </div>
+            ${publisherBlock}
           </div>
           <div class="card-footer">
             ${si && si.cls === 'published' ? 'Read excerpt' : 'View details'} <span class="card-footer-arrow">→</span>
@@ -260,12 +262,32 @@
         t.title.toLowerCase().includes(q) ||
         (t.originalTitle || '').toLowerCase().includes(q) ||
         t.author.toLowerCase().includes(q) ||
-        t.translator.toLowerCase().includes(q)
+        t.translator.toLowerCase().includes(q) ||
+        (t.publisher || '').toLowerCase().includes(q)
       ));
     });
 
+    function sortTranslations(list) {
+      return [...list].sort((a, b) => {
+        const statusOrder = s => {
+          const v = (s || '').toLowerCase().replace(/\s/g, '-');
+          if (v === 'published')   return 0;
+          if (v === 'in-progress') return 1;
+          return 2;
+        };
+        // First sort by status group
+        const sg = statusOrder(a.status) - statusOrder(b.status);
+        if (sg !== 0) return sg;
+        // Within published: sort by datePublished descending
+        const da = parseInt(a.datePublished) || 0;
+        const db = parseInt(b.datePublished) || 0;
+        return db - da;
+      });
+    }
+
     async function init() {
-      allTranslations = await loadTranslations();
+      const raw = await loadTranslations();
+      allTranslations = sortTranslations(raw);
       renderCards(allTranslations);
     }
 
