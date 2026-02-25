@@ -275,6 +275,16 @@
 
       document.title = `${t.title} · The Portavoz Project`;
 
+      // Parse multiple translators — pipe-separated e.g. "Jane Smith|John Doe"
+      const translatorNames  = (t.translator      || '').split(',').map(s => s.trim()).filter(Boolean);
+      const translatorClasses = (t.translatorClass || '').split(',').map(s => s.trim());
+
+      const translatorHeading = translatorNames.length > 1 ? 'Translated By' : 'Translated By';
+      const translatorDisplay = translatorNames.map((name, i) => {
+        const cls = translatorClasses[i] || '';
+        return `<p class="t-translator">${name}${cls ? ` <span style="font-size:0.75em;font-weight:400;opacity:0.7;">(Class of ${cls})</span>` : ''}</p>`;
+      }).join('');
+
       document.getElementById('app').innerHTML = `
         <div class="container">
           <a href="/translations" class="back-link">← Back to Archive</a>
@@ -284,8 +294,8 @@
             <p class="t-original">Originally <em>"${t.originalTitle}"</em></p>
             <p class="t-original">by <strong>${t.author}</strong></p>
             <div class="t-divider"></div>
-            <p class="t-by-label">Translated By</p>
-            <p class="t-translator">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</p>
+            <p class="t-by-label">${translatorHeading}</p>
+            ${translatorDisplay}
           </div>
 
           <div class="t-divider-2"></div>
@@ -297,7 +307,7 @@
                 <p>${t.authorBio}</p>
               </div>
               <div class="sidebar-card">
-                <div class="sidebar-card-label">✏️ Translator's Note</div>
+                <div class="sidebar-card-label">✏️ Translator's Note${translatorNames.length > 1 ? 's' : ''}</div>
                 ${t.translatorNote
                   ? `<a href="${t.translatorNote}" target="_blank" rel="noopener"
                        style="font-family:'Inter',sans-serif;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">

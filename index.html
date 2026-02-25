@@ -410,7 +410,7 @@
             <div class="card-meta">
               <div class="card-meta-item">
                 <span class="card-meta-label">Translator</span>
-                <div class="card-meta-value" style="margin-top:3px;white-space:normal;overflow-wrap:break-word;">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</div>
+                <div class="card-meta-value" style="margin-top:3px;white-space:normal;overflow-wrap:break-word;">${t.translator.split(',').map((n,i) => { const c = (t.translatorClass||'').split(',')[i]; return n.trim() + (c ? ` (Class of ${c.trim()})` : ''); }).join(', ')}</div>
               </div>
               ${t.datePublished ? `<div class="card-meta-item">
                 <span class="card-meta-label">Date Published</span>
