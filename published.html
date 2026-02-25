@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Published Translations · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; }
+
+    .page-header {
+      padding: 60px 0 48px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: var(--text-mid);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-top: 20px;
+    }
+
+    .archive-body { padding: 48px 0 96px; }
+
+    .archive-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .search-wrap { max-width: 560px; width: 100%; }
+
+    .archive-count {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .archive-count strong { color: var(--text-dark); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 80px 20px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 17px;
+    }
+
+    .card { position: relative; overflow: hidden; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--green);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before { transform: scaleY(1); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav cream" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="in-progress.html">In Progress</a></li>
+      <li><a href="published.html" class="active">Published</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <h1>Published Translations</h1>
+      <p>Completed works brought to publication — theatre and poetry translated from Spanish by members of the Portavoz collective.</p>
+      <div class="status-badge">✅ Published</div>
+    </div>
+  </header>
+
+  <!-- CARDS -->
+  <main class="archive-body">
+    <div class="container">
+      <div class="archive-controls">
+        <div class="controls-row">
+          <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" class="search-input" placeholder="Search by title, author, or translator..."
+              id="searchInput" autocomplete="off" />
+          </div>
+          <p class="archive-count" id="archiveCount"></p>
+        </div>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script src="js/portavoz-data.js"></script>
+  <script>
+    let allTranslations = [];
+
+    function renderCards(list) {
+      const grid = document.getElementById('cardsGrid');
+      const count = document.getElementById('archiveCount');
+      grid.innerHTML = '';
+      count.innerHTML = `Showing <strong>${list.length}</strong> translation${list.length !== 1 ? 's' : ''}`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '<p class="no-results">No translations match your search.</p>';
+        return;
+      }
+
+      list.forEach(t => {
+        const card = document.createElement('a');
+        card.href = `translation.html?id=${t.id}`;
+        card.className = 'card';
+        const buyLink = t.buyLink
+          ? `<a href="${t.buyLink}" target="_blank" rel="noopener"
+               onclick="event.stopPropagation()"
+               style="display:inline-block;margin-top:10px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--white);background:var(--green);padding:6px 14px;border-radius:100px;text-decoration:none;">
+               Buy →
+             </a>` : '';
+        card.innerHTML = `
+          <div class="card-featured-banner" style="background:var(--green);">✅ Published</div>
+          <div class="card-body">
+            <h3 class="card-title">${t.title}</h3>
+            <p class="card-original">Orig. "${t.originalTitle}" by ${t.author}</p>
+            <div class="card-divider"></div>
+            <div class="card-meta">
+              <div class="card-meta-item">
+                <span class="card-meta-label">👤 Translator</span>
+                <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="card-meta-label">📄 Length</span>
+                <span class="card-meta-value">${t.readTime || '—'}</span>
+              </div>
+            </div>
+            ${buyLink}
+          </div>
+          <div class="card-footer">
+            Read excerpt <span class="card-footer-arrow">→</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) { renderCards(allTranslations); return; }
+      renderCards(allTranslations.filter(t =>
+        t.title.toLowerCase().includes(q) ||
+        (t.originalTitle || '').toLowerCase().includes(q) ||
+        t.author.toLowerCase().includes(q) ||
+        t.translator.toLowerCase().includes(q)
+      ));
+    });
+
+    async function init() {
+      const all = await loadTranslations();
+      allTranslations = all.filter(t =>
+        (t.status || '').toLowerCase() === 'published'
+      );
+      renderCards(allTranslations);
+    }
+
+    init();
+  </script>
+</body>
+</html>

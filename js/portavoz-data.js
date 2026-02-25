@@ -167,6 +167,8 @@ async function loadTranslations() {
 
 /**
  * Load a single translation by ID, fetching doc text if needed.
+ * If the sheet has an 'excerpt' column with a Google Doc URL or text,
+ * that is used as the displayed text instead of the full 'text' column.
  */
 async function loadTranslationById(id) {
   const all = await loadTranslations();
@@ -176,13 +178,18 @@ async function loadTranslationById(id) {
     return null;
   }
 
-  if (isGoogleDocUrl(t.text)) {
-    t.text = await fetchDocText(t.text);
-  } else if (t.text && !t.text.includes('<p>')) {
-    t.text = t.text
+  // Determine which field to show: excerpt takes priority if present
+  const textSource = (t.excerpt && t.excerpt.trim()) ? t.excerpt : t.text;
+
+  if (isGoogleDocUrl(textSource)) {
+    t.text = await fetchDocText(textSource);
+  } else if (textSource && !textSource.includes('<p>')) {
+    t.text = textSource
       .split(/\n\n+/)
       .map(p => `<p>${p.replace(/\n/g, ' ').trim()}</p>`)
       .join('\n');
+  } else {
+    t.text = textSource || '';
   }
 
   return t;

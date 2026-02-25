@@ -224,9 +224,12 @@
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About the Project</a></li>
-      <li><a href="recent.html">Recent Translations</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="in-progress.html">In Progress</a></li>
+      <li><a href="published.html">Published</a></li>
       <li><a href="archive.html" class="active">All Translations</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
 
@@ -274,7 +277,7 @@
             <p class="t-original">by <strong>${t.author}</strong></p>
             <div class="t-divider"></div>
             <p class="t-by-label">Translated By</p>
-            <p class="t-translator">${t.translator} (Class of ${t.translatorClass})</p>
+            <p class="t-translator">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</p>
           </div>
 
           <div class="t-divider-2"></div>
@@ -289,18 +292,41 @@
                 <div class="sidebar-card-label">✏️ Translator's Note</div>
                 ${t.translatorNote
                   ? `<a href="${t.translatorNote}" target="_blank" rel="noopener"
-                       style="font-family:'Inter',sans-serif;font-size:14px;color:var(--orange);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">
+                       style="font-family:'Inter',sans-serif;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">
                        Read Translator's Note →
                      </a>`
                   : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
                 }
               </div>
+              ${t.buyLink ? `
+              <div class="sidebar-card" style="border-left-color:var(--green);background:var(--cream);">
+                <div class="sidebar-card-label" style="color:var(--green);">📖 Full Text Available</div>
+                <p style="font-family:'Lora',serif;font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">
+                  ${t.status && t.status.toLowerCase() === 'published'
+                    ? 'This translation has been published. Purchase the full text:'
+                    : 'The full translation is available:'}
+                </p>
+                <a href="${t.buyLink}" target="_blank" rel="noopener"
+                   style="display:inline-block;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--white);background:var(--green);padding:8px 18px;border-radius:100px;text-decoration:none;">
+                  Buy / Get Full Text →
+                </a>
+              </div>` : ''}
             </aside>
 
             <article class="t-text-panel">
               <span class="quote-mark">"</span>
               <div class="t-text">${t.text}</div>
               <span class="quote-mark quote-mark-close">"</span>
+              ${t.buyLink ? `
+              <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border);text-align:center;">
+                <p style="font-family:'Lora',serif;font-style:italic;font-size:15px;color:var(--text-mid);margin-bottom:16px;">
+                  ${t.excerpt ? 'You\'ve reached the end of the excerpt.' : ''} ${t.status && t.status.toLowerCase() === 'published' ? 'The full translation is available for purchase.' : 'The full translation is available.'}
+                </p>
+                <a href="${t.buyLink}" target="_blank" rel="noopener"
+                   style="display:inline-block;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--white);background:var(--green);padding:12px 28px;border-radius:100px;text-decoration:none;">
+                  Buy / Get Full Text →
+                </a>
+              </div>` : ''}
             </article>
           </div>
         </div>

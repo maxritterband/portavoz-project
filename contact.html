@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; }
+
+    .page-header {
+      padding: 60px 0 48px;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .page-header .label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    .contact-body { padding: 60px 0 96px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── INFO PANEL ── */
+    .contact-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      font-family: 'Lora', serif;
+      font-size: 15.5px;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 32px;
+    }
+
+    .contact-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-item:last-child { border-bottom: none; }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--cream);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .contact-item-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .contact-item-value {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    .contact-item-value a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .contact-item-value a:hover { text-decoration: underline; }
+
+    /* ── FORM ── */
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 40px;
+    }
+
+    .contact-form-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: var(--white);
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--text-light); }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(8,52,91,0.08);
+    }
+
+    .form-textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-submit {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .form-submit:hover {
+      background: var(--navy-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(8,52,91,0.25);
+    }
+
+    .form-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav transparent" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="in-progress.html">In Progress</a></li>
+      <li><a href="published.html">Published</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <p class="label">Get In Touch</p>
+      <h1>Contact</h1>
+      <p>Interested in our translations, upcoming events, or joining the collective? We'd love to hear from you.</p>
+    </div>
+  </header>
+
+  <!-- CONTACT BODY -->
+  <main class="contact-body">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- INFO -->
+        <div class="contact-info">
+          <h2>Let's Connect</h2>
+          <p>The Portavoz Project is a volunteer translation initiative at the University of Virginia. Whether you're a student interested in joining, a publisher or theatre company looking to collaborate, or simply a reader curious about our work — reach out.</p>
+
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <p class="contact-item-label">Location</p>
+              <p class="contact-item-value">Department of Spanish, Italian &amp; Portuguese<br>University of Virginia, Charlottesville, VA</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <p class="contact-item-label">Email</p>
+              <p class="contact-item-value"><a href="mailto:ecc2u@virginia.edu">ecc2u@virginia.edu</a></p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">🌐</div>
+            <div>
+              <p class="contact-item-label">Partner Initiative</p>
+              <p class="contact-item-value"><a href="https://www.outofthewings.org" target="_blank" rel="noopener">Out of the Wings</a> — London-based theatre-in-translation</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="contact-form-wrap">
+          <h2>Send a Message</h2>
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="form-group">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-input" type="text" id="name" name="name" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="subject">Subject</label>
+              <select class="form-select" id="subject" name="subject">
+                <option value="">Select a topic…</option>
+                <option>Joining the collective</option>
+                <option>Publishing / collaboration</option>
+                <option>Events &amp; performances</option>
+                <option>Translation requests</option>
+                <option>General enquiry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Message</label>
+              <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about yourself or what you're looking for…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit">Send Message →</button>
+            <p class="form-note">We aim to respond within 3–5 business days.</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.classList.remove('transparent');
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+        nav.classList.add('transparent');
+      }
+    });
+  </script>
+</body>
+</html>

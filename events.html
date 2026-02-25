@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { padding-top: 68px; }
+
+    .page-header {
+      padding: 60px 0 48px;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .page-header .label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .page-header p {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .events-body { padding: 60px 0 96px; }
+
+    /* ── SINGLE EVENT CARD ── */
+    .event-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      margin-bottom: 56px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+    }
+
+    .event-poster {
+      position: relative;
+      background: var(--navy);
+      min-height: 460px;
+      overflow: hidden;
+    }
+
+    .event-poster img,
+    .event-poster embed {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .event-poster-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event-poster-fallback a {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--blue);
+      padding: 10px 20px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .event-poster-fallback a:hover { background: var(--blue-hover); }
+
+    .event-info {
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .event-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .event-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+    }
+
+    .event-description {
+      font-family: 'Lora', serif;
+      font-size: 15.5px;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .event-schedule {
+      margin-bottom: 28px;
+    }
+
+    .event-schedule-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .event-schedule-item {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .event-schedule-item:last-child { border-bottom: none; }
+
+    .schedule-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      min-width: 110px;
+    }
+
+    .schedule-detail {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .event-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .event-qr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .event-qr img {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+    }
+
+    .event-qr-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+
+    .event-sponsors {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .event-sponsors-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .event-sponsors-list {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+
+    /* ── UPCOMING EMPTY STATE ── */
+    .more-events {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--cream-dark);
+      border-radius: 12px;
+      border: 2px dashed var(--border);
+    }
+
+    .more-events p {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text-light);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .event-card { grid-template-columns: 1fr; }
+      .event-poster { min-height: 300px; }
+      .event-info { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav transparent" id="mainNav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="in-progress.html">In Progress</a></li>
+      <li><a href="published.html">Published</a></li>
+      <li><a href="archive.html">All Translations</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <div class="container">
+      <p class="label">What's On</p>
+      <h1>Events</h1>
+      <p>Live performances, readings, lectures and receptions bringing Spanish-language theatre and literature to UVA and beyond.</p>
+    </div>
+  </header>
+
+  <!-- EVENTS BODY -->
+  <main class="events-body">
+    <div class="container">
+
+      <!-- EVENT 1: ENTRE VOCES Y ESCENAS -->
+      <article class="event-card">
+        <div class="event-poster">
+          <img src="images/entre-voces-poster.jpg" alt="Entre Voces y Escenas — Event Poster" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        </div>
+
+        <div class="event-info">
+          <div>
+            <p class="event-label">World Premiere · UVA</p>
+            <h2 class="event-title">Entre Voces y Escenas</h2>
+            <p class="event-subtitle">Written, Directed and Performed by Rubén Mosquera · with Sol Leone Martens and Griselda Milagros Mongia</p>
+
+            <p class="event-description">
+              A world premiere play at the University of Virginia, written and directed by Argentine playwright Rubén Mosquera. Presented by Sigma Delta Pi in partnership with The Portavoz Project, the GEO Fellowship, The Jefferson Trust, and the Office of the Vice Provost for Global Affairs. The production explores voice, identity, and social critique through the lens of contemporary Argentine theatre.
+            </p>
+
+            <div class="event-schedule">
+              <p class="event-schedule-title">Schedule of Events</p>
+              <div class="event-schedule-item">
+                <span class="schedule-date">Apr 8 · 4 PM</span>
+                <span class="schedule-detail">Reception at Casa Bolívar</span>
+              </div>
+              <div class="event-schedule-item">
+                <span class="schedule-date">Apr 9 · 5 PM</span>
+                <span class="schedule-detail">Lecture: <em>El Teatro como crítica social en Argentina</em> — Clark 108</span>
+              </div>
+              <div class="event-schedule-item">
+                <span class="schedule-date">Apr 10 · 7–9 PM</span>
+                <span class="schedule-detail">Live Performance + Q&A — Caplin Theater</span>
+              </div>
+              <div class="event-schedule-item">
+                <span class="schedule-date">Apr 11 · 2–4 PM</span>
+                <span class="schedule-detail">Live Performance + Q&A — Caplin Theater</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="event-actions">
+              <a href="https://eljunco.mavllata.org" target="_blank" rel="noopener" class="btn btn-primary">
+                Reserve Tickets →
+              </a>
+              <div class="event-qr">
+                <img src="images/entre-voces-qr.png" alt="QR code to reserve tickets" />
+                <span class="event-qr-label">Scan for tickets</span>
+              </div>
+            </div>
+
+            <div class="event-sponsors">
+              <p class="event-sponsors-label">Presented with support from</p>
+              <p class="event-sponsors-list">Sigma Delta Pi · GEO Fellowship · The Jefferson Trust · Office of the Vice Provost for Global Affairs, UVA · El Junco Cooperativa Teatral</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PLACEHOLDER FOR FUTURE EVENTS -->
+      <div class="more-events">
+        <p>More events coming soon. Check back or <a href="contact.html" style="color:var(--blue);">get in touch</a> to stay updated.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.classList.remove('transparent');
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+        nav.classList.add('transparent');
+      }
+    });
+  </script>
+</body>
+</html>
