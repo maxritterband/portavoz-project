@@ -175,7 +175,10 @@
         startDate:   '2026-04-08',
         endDate:     '2026-04-11',
         posterURL:   'images/entre-voces-poster.jpg',
-        ticketLink:  'https://eljunco.mavllata.org',
+        ticketLinks: [
+          { label: 'Reserve Tickets — Apr 10 · 7:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11025' },
+          { label: 'Reserve Tickets — Apr 11 · 2:00 PM', url: 'https://tickets.artsboxoffice.virginia.edu/11024/11026' },
+        ],
         qrURL:       'images/entre-voces-qr.png',
         schedule:    'Apr 8 · 4 PM|Reception at Casa Bolívar||Apr 9 · 5 PM|Lecture: El Teatro como crítica social en Argentina — Clark 108||Apr 10 · 7–9 PM|Live Performance + Q&A — Caplin Theater||Apr 11 · 2–4 PM|Live Performance + Q&A — Caplin Theater',
         sponsors:    'Sigma Delta Pi|GEO Fellowship|The Jefferson Trust|Office of the Vice Provost for Global Affairs, UVA|El Junco Cooperativa Teatral',
@@ -222,13 +225,22 @@
     }
 
     function buildActionsHTML(event) {
-      if (!event.ticketLink) return '';
+      // Support both ticketLinks (array) and ticketLink (single string)
+      const links = event.ticketLinks && event.ticketLinks.length
+        ? event.ticketLinks
+        : event.ticketLink
+          ? [{ label: 'Reserve Tickets →', url: event.ticketLink }]
+          : [];
+      if (!links.length) return '';
+      const buttons = links.map(l =>
+        `<a href="${l.url}" target="_blank" rel="noopener" class="btn btn-primary" style="white-space:nowrap;">${l.label}</a>`
+      ).join('');
       const qr = event.qrURL ? `<div class="event-qr">
         <img src="${event.qrURL}" alt="QR code for tickets" />
         <span class="event-qr-label">Scan for tickets</span>
       </div>` : '';
-      return `<div class="event-actions">
-        <a href="${event.ticketLink}" target="_blank" rel="noopener" class="btn btn-primary">Reserve Tickets →</a>
+      return `<div class="event-actions" style="flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;flex-direction:column;gap:10px;">${buttons}</div>
         ${qr}
       </div>`;
     }
