@@ -250,9 +250,13 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
 
     @media (max-width: 768px) {
-      .hero { padding: 100px 20px 70px; }
+      .hero {
+        padding: 100px 20px 120px;
+        min-height: 100svh; /* uses small viewport height on mobile, avoids browser chrome overlap */
+      }
       .hero-actions { flex-direction: column; }
       .btn { justify-content: center; }
+      .scroll-cue { bottom: 28px; }
     }
   </style>
 </head>
