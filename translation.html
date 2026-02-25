@@ -306,22 +306,20 @@
                   : `<p style="font-family:'Lora',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
                 }
               </div>
-              ${t.publisher ? `
+              ${(t.datePublished || t.publisher) ? `
               <div class="sidebar-card">
-                <div class="sidebar-card-label">📚 Publisher</div>
-                <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--text-dark);font-weight:500;">${t.publisher}</p>
+                ${t.datePublished ? `<div class="sidebar-card-label">Date Published</div>
+                <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--text-dark);font-weight:500;margin-bottom:${t.publisher ? '12px' : '0'};">${t.datePublished}</p>` : ''}
+                ${t.publisher ? `<div class="sidebar-card-label" style="margin-top:${t.datePublished ? '4px' : '0'};">Publisher</div>
+                <p style="font-family:'Inter',sans-serif;font-size:14px;color:var(--text-dark);font-weight:500;">${t.publisher}</p>` : ''}
               </div>` : ''}
               ${t.buyLink ? `
-              <div class="sidebar-card" style="border-left-color:var(--green);background:var(--cream);">
-                <div class="sidebar-card-label" style="color:var(--green);">📖 Full Text Available</div>
-                <p style="font-family:'Lora',serif;font-size:13.5px;color:var(--text-mid);line-height:1.6;margin-bottom:12px;">
-                  ${t.status && t.status.toLowerCase() === 'published'
-                    ? 'This translation has been published. Purchase the full text:'
-                    : 'The full translation is available:'}
-                </p>
+              <div class="sidebar-card" style="background:var(--navy);border:none;padding:20px 20px;">
                 <a href="${t.buyLink}" target="_blank" rel="noopener"
-                   style="display:inline-block;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--white);background:var(--green);padding:8px 18px;border-radius:100px;text-decoration:none;">
-                  Buy / Get Full Text →
+                   style="display:block;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--white);background:var(--green);padding:12px 20px;border-radius:100px;text-decoration:none;transition:background 0.2s;"
+                   onmouseover="this.style.background='var(--green-hover)'"
+                   onmouseout="this.style.background='var(--green)'">
+                  Buy This Translation →
                 </a>
               </div>` : ''}
             </aside>
@@ -333,11 +331,11 @@
               ${t.buyLink ? `
               <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border);text-align:center;">
                 <p style="font-family:'Lora',serif;font-style:italic;font-size:15px;color:var(--text-mid);margin-bottom:16px;">
-                  ${t.excerpt ? 'You\'ve reached the end of the excerpt.' : ''} ${t.status && t.status.toLowerCase() === 'published' ? 'The full translation is available for purchase.' : 'The full translation is available.'}
+                  Purchase the full translation to continue reading.
                 </p>
                 <a href="${t.buyLink}" target="_blank" rel="noopener"
-                   style="display:inline-block;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--white);background:var(--green);padding:12px 28px;border-radius:100px;text-decoration:none;">
-                  Buy / Get Full Text →
+                   style="display:inline-block;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--white);background:var(--green);padding:13px 32px;border-radius:100px;text-decoration:none;box-shadow:0 4px 16px rgba(75,162,76,0.35);">
+                  Buy This Translation →
                 </a>
               </div>` : ''}
             </article>

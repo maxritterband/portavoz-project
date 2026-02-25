@@ -217,6 +217,12 @@
           ? `<div class="card-status-banner ${si.cls}">${si.label}</div>`
           : '';
 
+        const datePublishedRow = t.datePublished
+          ? `<div class="card-meta-item">
+               <span class="card-meta-label">Date Published</span>
+               <span class="card-meta-value">${t.datePublished}</span>
+             </div>`
+          : '';
         const publisherRow = t.publisher
           ? `<div class="card-meta-item">
                <span class="card-meta-label">Publisher</span>
@@ -235,6 +241,7 @@
                 <span class="card-meta-label">Translator</span>
                 <span class="card-meta-value">${t.translator}${t.translatorClass ? ` (Class of ${t.translatorClass})` : ''}</span>
               </div>
+              ${datePublishedRow}
               ${publisherRow}
             </div>
           </div>
