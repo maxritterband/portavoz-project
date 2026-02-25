@@ -83,6 +83,7 @@
 
     .status-tag.active-all   { background: var(--navy);  border-color: var(--navy);  color: var(--white); }
     .status-tag.active-pub   { background: var(--green); border-color: var(--green); color: var(--white); }
+    .status-tag.active-comp  { background: #7b5ea7;      border-color: #7b5ea7;      color: var(--white); }
     .status-tag.active-ip    { background: var(--blue);  border-color: var(--blue);  color: var(--white); }
 
     .cards-grid {
@@ -143,7 +144,8 @@
       color: var(--white);
     }
 
-    .card-status-banner.published  { background: var(--green); }
+    .card-status-banner.published   { background: var(--green); }
+    .card-status-banner.completed   { background: #7b5ea7; }
     .card-status-banner.in-progress { background: var(--blue); }
   </style>
 </head>
@@ -201,6 +203,7 @@
         <div class="status-filters">
           <button class="status-tag active-all" id="filterAll">All</button>
           <button class="status-tag" id="filterPublished">Published</button>
+          <button class="status-tag" id="filterCompleted">Completed</button>
           <button class="status-tag" id="filterInProgress">In Progress</button>
         </div>
       </div>
@@ -218,8 +221,9 @@
 
     function statusInfo(status) {
       const s = (status || '').toLowerCase().replace(/\s/g, '-');
-      if (s === 'published')   return { label: 'Published',      cls: 'published',   cardCls: 'status-published' };
-      if (s === 'in-progress') return { label: 'In Progress',    cls: 'in-progress', cardCls: 'status-in-progress' };
+      if (s === 'published')   return { label: 'Published',    cls: 'published',   cardCls: 'status-published' };
+      if (s === 'completed')   return { label: 'Completed',    cls: 'completed',   cardCls: 'status-completed' };
+      if (s === 'in-progress') return { label: 'In Progress',  cls: 'in-progress', cardCls: 'status-in-progress' };
       return null;
     }
 
@@ -299,6 +303,8 @@
       // Status filter
       if (activeStatus === 'published') {
         list = list.filter(t => (t.status || '').toLowerCase() === 'published');
+      } else if (activeStatus === 'completed') {
+        list = list.filter(t => (t.status || '').toLowerCase() === 'completed');
       } else if (activeStatus === 'in-progress') {
         list = list.filter(t => (t.status || '').toLowerCase().replace(/\s/g, '-') === 'in-progress');
       }
@@ -321,15 +327,17 @@
 
     // Filter buttons
     [
-      { id: 'filterAll',        status: 'all',         cls: 'active-all' },
-      { id: 'filterPublished',  status: 'published',   cls: 'active-pub' },
-      { id: 'filterInProgress', status: 'in-progress', cls: 'active-ip'  },
+      { id: 'filterAll',        status: 'all',         cls: 'active-all'  },
+      { id: 'filterPublished',  status: 'published',   cls: 'active-pub'  },
+      { id: 'filterCompleted',  status: 'completed',   cls: 'active-comp' },
+      { id: 'filterInProgress', status: 'in-progress', cls: 'active-ip'   },
     ].forEach(({ id, status, cls }) => {
       document.getElementById(id).addEventListener('click', () => {
         activeStatus = status;
         // Reset all button states
         document.getElementById('filterAll').className        = 'status-tag';
         document.getElementById('filterPublished').className  = 'status-tag';
+        document.getElementById('filterCompleted').className  = 'status-tag';
         document.getElementById('filterInProgress').className = 'status-tag';
         // Activate clicked button
         document.getElementById(id).classList.add(cls);
@@ -342,8 +350,9 @@
         const statusOrder = s => {
           const v = (s || '').toLowerCase().replace(/\s/g, '-');
           if (v === 'published')   return 0;
-          if (v === 'in-progress') return 1;
-          return 2;
+          if (v === 'completed')   return 1;
+          if (v === 'in-progress') return 2;
+          return 3;
         };
         const sg = statusOrder(a.status) - statusOrder(b.status);
         if (sg !== 0) return sg;
