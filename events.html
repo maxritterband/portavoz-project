@@ -251,12 +251,12 @@
             ${event.label ? `<p class="event-label">${event.label}</p>` : ''}
             <h2 class="event-title">${event.title}</h2>
             ${event.subtitle ? `<p class="event-subtitle">${event.subtitle}</p>` : ''}
+            ${past ? '' : buildActionsHTML(event)}
             ${event.description ? `<p class="event-description">${event.description}</p>` : ''}
             ${poster}
             ${buildScheduleHTML(event.schedule)}
           </div>
           <div>
-            ${past ? '' : buildActionsHTML(event)}
             ${buildSponsorsHTML(event.sponsors)}
           </div>
         </div>`;
