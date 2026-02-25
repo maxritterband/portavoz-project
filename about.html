@@ -358,27 +358,36 @@
       const grid = document.getElementById('translatorsGrid');
       const all = await loadTranslations();
 
-      // Deduplicate by translator name
+      // Collect unique student translators from the studentTranslator column
       const seen = new Set();
-      const translators = all.filter(t => {
-        if (!t.translator || seen.has(t.translator)) return false;
-        seen.add(t.translator);
-        return true;
+      const students = [];
+      all.forEach(t => {
+        const name = (t.studentTranslator || '').trim();
+        if (name && !seen.has(name)) {
+          seen.add(name);
+          students.push({ name, classYear: (t.studentClass || '').trim() });
+        }
       });
 
-      if (translators.length === 0) {
-        grid.innerHTML = '<p class="team-loading">No translators yet.</p>';
+      if (students.length === 0) {
+        grid.innerHTML = '<p class="team-loading">No student translators yet.</p>';
         return;
       }
 
-      grid.innerHTML = translators.map(t => {
-        const initial = t.translator.trim().charAt(0).toUpperCase();
-        const year = t.translatorClass ? t.translatorClass.trim() : '';
-        const classLabel = year ? `Class of ${year}` : '';
+      // Sort alphabetically by last name
+      students.sort((a, b) => {
+        const lastA = a.name.split(' ').pop();
+        const lastB = b.name.split(' ').pop();
+        return lastA.localeCompare(lastB);
+      });
+
+      grid.innerHTML = students.map(s => {
+        const initial = s.name.charAt(0).toUpperCase();
+        const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
         return `
           <div class="team-card">
             <div class="team-avatar">${initial}</div>
-            <div class="team-name">${t.translator}</div>
+            <div class="team-name">${s.name}</div>
             <div class="team-role">Translator</div>
             ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
           </div>
