@@ -246,9 +246,16 @@
       transform: translateY(0);
     }
 
+    .card.reveal {
+      transition: opacity 0.65s ease, transform 0.65s ease, box-shadow 0.25s ease;
+    }
+
+    .card.reveal.visible {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
     .card.reveal.visible:hover {
       transform: translateY(-6px);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .reveal-delay-1 { transition-delay: 0.1s; }
