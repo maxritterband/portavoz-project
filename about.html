@@ -290,7 +290,7 @@
       max-height: 85vh;
       overflow-y: auto;
       transform-origin: center center;
-      will-change: transform;
+      backface-visibility: visible;
       scrollbar-width: thin;
       scrollbar-color: rgba(255,255,255,0.2) transparent;
     }
@@ -566,45 +566,33 @@
       document.getElementById('lbDesc').textContent   = s.desc || '';
       document.getElementById('lbDesc').style.display    = s.desc    ? '' : 'none';
 
-      // Show overlay (background starts transparent, fades in)
+      // Show overlay
       lb.classList.add('open');
+
+      // Reset any previous transition
       lbCard.style.transition = 'none';
-      lbCard.style.transform  = 'none';
       lbCard.style.opacity    = '1';
 
-      // Measure where the source card is and where the lightbox card will land
+      // Measure source card position vs where lbCard naturally sits (centered)
       const srcRect  = sourceEl.getBoundingClientRect();
       const destRect = lbCard.getBoundingClientRect();
 
-      // Calculate the transform needed to place lbCard exactly over source card
       const scaleX = srcRect.width  / destRect.width;
       const scaleY = srcRect.height / destRect.height;
       const tx     = srcRect.left + srcRect.width  / 2 - (destRect.left + destRect.width  / 2);
       const ty     = srcRect.top  + srcRect.height / 2 - (destRect.top  + destRect.height / 2);
 
-      // Start: lbCard sits exactly where source card was, rotated 0deg (showing white front)
-      lbCard.style.transform  = `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(0deg)`;
-      lbCard.style.background = 'var(--white)';
-      lbCard.style.opacity    = '0.85';
+      // Start position: over the source card, rotated 180deg (showing back, which is navy)
+      lbCard.style.transform = `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(180deg)`;
+      lbCard.offsetHeight; // force layout
 
-      // Force layout
-      lbCard.offsetHeight;
-
-      // Animate: slide to center, scale up, flip to navy back
-      lbCard.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1), background 0s linear 0.28s, opacity 0.15s ease';
-      lbCard.style.transform  = `translate(0,0) scale(1) rotateY(180deg)`;
-      lbCard.style.opacity    = '1';
-
-      // Swap background color at the halfway point (when card is edge-on at 90deg)
-      setTimeout(() => {
-        lbCard.style.background = 'var(--navy)';
-        lbCard.style.transform  = `translate(0,0) scale(1) rotateY(360deg)`;
-      }, 275);
+      // Animate to center at 0deg (back now facing us, having done a 180)
+      lbCard.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      lbCard.style.transform  = 'translate(0,0) scale(1) rotateY(0deg)';
 
       // Fade in backdrop
       requestAnimationFrame(() => lb.classList.add('faded'));
     }
-
     function closeLightbox() {
       const lb = document.getElementById('studentLightbox');
       if (!lb) return;
