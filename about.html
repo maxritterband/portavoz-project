@@ -192,62 +192,50 @@
       gap: 20px;
     }
 
-    /* ── Team cards ── */
     .team-card {
       background: var(--white);
-      border-radius: 10px;
+      border-radius: 8px;
+      padding: 28px 24px;
       box-shadow: var(--card-shadow);
       text-align: center;
-      padding: 24px 18px;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
-    }
-
-    .team-card.has-detail {
-      cursor: pointer;
-    }
-
-    .team-card.has-detail:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--card-shadow-hover);
     }
 
     .team-avatar {
-      width: 54px;
-      height: 54px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       background: var(--navy);
       color: var(--white);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 12px;
+      margin: 0 auto 14px;
     }
 
     .team-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--navy);
-      margin-bottom: 3px;
-      line-height: 1.2;
+      margin-bottom: 4px;
     }
 
     .team-role {
       font-family: 'Inter', sans-serif;
-      font-size: 10.5px;
+      font-size: 12px;
       color: var(--green);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
 
     .team-class {
       font-family: 'Libre Baskerville', serif;
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-light);
       font-style: italic;
     }
@@ -260,125 +248,9 @@
       padding: 20px 0;
     }
 
-        /* Lightbox */
-    .student-lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(8,52,91,0);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.4s ease;
-      perspective: 1400px;
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
     }
-    .student-lightbox.open {
-      display: flex;
-    }
-    .student-lightbox.open.faded {
-      background: rgba(8,52,91,0.88);
-    }
-
-    .student-lightbox-card {
-      background: var(--navy);
-      border-radius: 14px;
-      padding: 44px 40px;
-      max-width: 500px;
-      width: 92%;
-      text-align: center;
-      box-shadow: 0 28px 80px rgba(0,0,0,0.5);
-      max-height: 88vh;
-      overflow-y: auto;
-      transform-origin: center center;
-      backface-visibility: visible;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.2) transparent;
-    }
-    .student-lightbox-card::-webkit-scrollbar { width: 4px; }
-    .student-lightbox-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-
-    .student-lightbox-card .lb-photo {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.25);
-      margin: 0 auto 16px;
-      display: block;
-    }
-
-    .student-lightbox-card .lb-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      color: var(--white);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 38px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-
-    .student-lightbox-card .lb-role {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      color: rgba(255,255,255,0.45);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 6px;
-    }
-
-    .student-lightbox-card .lb-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 5px;
-      line-height: 1.2;
-    }
-
-    .student-lightbox-card .lb-class {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 14px;
-      color: rgba(255,255,255,0.5);
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-
-    .student-lightbox-card .lb-divider {
-      width: 40px;
-      height: 1px;
-      background: rgba(255,255,255,0.2);
-      margin: 0 auto 20px;
-    }
-
-    .student-lightbox-card .lb-desc {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 15px;
-      color: rgba(255,255,255,0.82);
-      line-height: 1.85;
-      text-align: left;
-    }
-
-    .lb-close {
-      position: absolute;
-      top: 18px;
-      right: 22px;
-      background: none;
-      border: none;
-      color: var(--white);
-      font-size: 26px;
-      cursor: pointer;
-      line-height: 1;
-      opacity: 0.55;
-      transition: opacity 0.2s;
-    }
-    .lb-close:hover { opacity: 1; }
-
   </style>
 </head>
 <body>
@@ -474,152 +346,52 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
-  <!-- Student profile lightbox -->
-  <div class="student-lightbox" id="studentLightbox">
-    <button class="lb-close" id="lbCloseBtn" aria-label="Close">×</button>
-    <div class="student-lightbox-card">
-      <div id="lbPhoto"></div>
-      <div class="lb-role">Translator</div>
-      <div class="lb-name"  id="lbName"></div>
-      <div class="lb-class" id="lbClass"></div>
-      <div class="lb-divider" id="lbDivider"></div>
-      <div class="lb-desc"  id="lbDesc"></div>
-    </div>
-  </div>
-
-  <script src="js/portavoz-data.js?v=2"></script>
+  <script src="js/portavoz-data.js"></script>
   <script>
 
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
-      try {
-        const all = typeof loadAllRows === 'function' ? await loadAllRows() : await loadTranslations();
+      const all = await loadTranslations();
 
-        const seen = new Set();
-        const students = [];
-        all.forEach(t => {
-          const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
-          const classes = (t.studentClass      || '').split(',').map(s => s.trim());
-          const photos  = (t.studentPhoto      || '').split(',').map(s => s.trim());
-          const descs   = (t.studentDesc       || '').split('|').map(s => s.trim());
-          names.forEach((name, i) => {
-            if (name && !seen.has(name)) {
-              seen.add(name);
-              students.push({
-                name,
-                classYear: classes[i] || '',
-                photo:     photos[i]  || '',
-                desc:      descs[i]   || descs[0] || '',
-              });
-            }
-          });
+      // Collect unique student translators — support comma-separated names per row
+      const seen = new Set();
+      const students = [];
+      all.forEach(t => {
+        const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
+        const classes = (t.studentClass      || '').split(',').map(s => s.trim());
+        names.forEach((name, i) => {
+          if (name && !seen.has(name)) {
+            seen.add(name);
+            students.push({ name, classYear: classes[i] || '' });
+          }
         });
+      });
 
-        if (students.length === 0) {
-          grid.innerHTML = '<p class="team-loading">No student translators found. Make sure the sheet has a <em>studentTranslator</em> column with names.</p>';
-          return;
-        }
+      if (students.length === 0) {
+        grid.innerHTML = '<p class="team-loading">No student translators yet.</p>';
+        return;
+      }
 
+      // Sort alphabetically by last name
       students.sort((a, b) => {
         const lastA = a.name.split(' ').pop();
         const lastB = b.name.split(' ').pop();
         return lastA.localeCompare(lastB);
       });
 
-      grid.innerHTML = students.map((s, idx) => {
-        const initial    = s.name.charAt(0).toUpperCase();
+      grid.innerHTML = students.map(s => {
+        const initial = s.name.charAt(0).toUpperCase();
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-        const hasDetail  = !!(s.photo || s.desc);
         return `
-          <div class="team-card${hasDetail ? ' has-detail' : ''}"
-               ${hasDetail ? `data-idx="${idx}" tabindex="0" role="button" aria-label="View profile for ${s.name}"` : ''}>
+          <div class="team-card">
             <div class="team-avatar">${initial}</div>
             <div class="team-name">${s.name}</div>
             <div class="team-role">Translator</div>
             ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
-          </div>`;
+          </div>
+        `;
       }).join('');
-
-      window._portavozStudents = students;
-
-      grid.querySelectorAll('.team-card.has-detail').forEach(card => {
-        card.addEventListener('click', () => openStudentLightbox(parseInt(card.dataset.idx), card));
-        card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') openStudentLightbox(parseInt(card.dataset.idx), card);
-        });
-      });
-      } catch(err) {
-        grid.innerHTML = '<p class="team-loading">Error: ' + err.message + '</p>';
-      }
     }
-
-    function openStudentLightbox(idx, sourceEl) {
-      const s          = window._portavozStudents[idx];
-      const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-      const lb         = document.getElementById('studentLightbox');
-      const lbCard     = lb.querySelector('.student-lightbox-card');
-
-      // Populate content — use innerHTML for desc to preserve line breaks
-      document.getElementById('lbPhoto').innerHTML = s.photo
-        ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
-        : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
-      document.getElementById('lbName').textContent   = s.name;
-      document.getElementById('lbClass').textContent  = classLabel;
-      document.getElementById('lbClass').style.display   = classLabel ? '' : 'none';
-      document.getElementById('lbDivider').style.display = s.desc    ? '' : 'none';
-      // Preserve any line breaks from the sheet
-      document.getElementById('lbDesc').innerHTML =
-        s.desc ? s.desc.replace(/
-/g, '<br>') : '';
-      document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
-
-      // Reset card to its natural centered position with no transform
-      lbCard.style.transition = 'none';
-      lbCard.style.transform  = 'none';
-
-      // Show overlay so we can measure lbCard's position
-      lb.classList.add('open');
-      lbCard.offsetHeight; // force layout
-
-      // Measure where the source card is vs the centered lbCard
-      const srcRect  = sourceEl.getBoundingClientRect();
-      const destRect = lbCard.getBoundingClientRect();
-
-      const scaleX = srcRect.width  / destRect.width;
-      const scaleY = srcRect.height / destRect.height;
-      const tx     = srcRect.left + srcRect.width  / 2 - (destRect.left + destRect.width  / 2);
-      const ty     = srcRect.top  + srcRect.height / 2 - (destRect.top  + destRect.height / 2);
-
-      // Use Web Animations API for precise 180deg control — no browser ambiguity
-      lbCard.animate([
-        {
-          transform: `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(-180deg)`,
-          easing:    'cubic-bezier(0.4, 0, 0.2, 1)'
-        },
-        {
-          transform: 'translate(0, 0) scale(1) rotateY(0deg)'
-        }
-      ], {
-        duration: 600,
-        fill: 'forwards'
-      });
-
-      // Fade in backdrop
-      requestAnimationFrame(() => lb.classList.add('faded'));
-    }
-    function closeLightbox() {
-      const lb = document.getElementById('studentLightbox');
-      if (!lb) return;
-      lb.classList.remove('faded');
-      setTimeout(() => lb.classList.remove('open'), 200);
-    }
-
-    // Attach lightbox close handlers immediately (lightbox HTML is above this script)
-    document.getElementById('lbCloseBtn').addEventListener('click', closeLightbox);
-    document.getElementById('studentLightbox').addEventListener('click', e => {
-      if (e.target === document.getElementById('studentLightbox')) closeLightbox();
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
     loadTranslators();
   </script>
