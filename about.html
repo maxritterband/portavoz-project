@@ -15,7 +15,6 @@
       padding: 148px 0 80px;
       text-align: center;
     }
-
     .about-hero .label {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
@@ -25,7 +24,6 @@
       color: rgba(255,255,255,0.4);
       margin-bottom: 16px;
     }
-
     .about-hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 5vw, 58px);
@@ -35,12 +33,10 @@
       max-width: 640px;
       margin: 0 auto 20px;
     }
-
     .about-hero h1 em {
       font-style: italic;
       color: var(--green);
     }
-
     .about-hero p {
       font-family: 'Libre Baskerville', serif;
       font-size: 17px;
@@ -55,7 +51,6 @@
       padding: 80px 0 100px;
       background: var(--cream);
     }
-
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -63,7 +58,6 @@
       align-items: start;
       margin-bottom: 80px;
     }
-
     .about-text h2 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 32px;
@@ -72,7 +66,6 @@
       margin-bottom: 20px;
       line-height: 1.25;
     }
-
     .about-text p {
       font-family: 'Libre Baskerville', serif;
       font-size: 16px;
@@ -80,7 +73,6 @@
       line-height: 1.85;
       margin-bottom: 16px;
     }
-
     .about-text p:last-child { margin-bottom: 0; }
 
     .about-aside {
@@ -90,30 +82,6 @@
       box-shadow: var(--card-shadow);
       border-top: 4px solid var(--orange);
     }
-
-    .director-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 20px;
-    }
-
-    .director-photo-wrap {
-      width: 100%;
-      height: 220px;
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    .director-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 20%;
-    }
-
     .director-label {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
@@ -123,7 +91,6 @@
       color: var(--green);
       margin-bottom: 10px;
     }
-
     .about-aside h3 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
@@ -131,7 +98,6 @@
       color: var(--navy);
       margin-bottom: 6px;
     }
-
     .director-title {
       font-family: 'Inter', sans-serif;
       font-size: 13px;
@@ -139,13 +105,11 @@
       line-height: 1.6;
       margin-bottom: 20px;
     }
-
     .director-divider {
       height: 1px;
       background: var(--border);
       margin-bottom: 20px;
     }
-
     .about-aside p {
       font-family: 'Libre Baskerville', serif;
       font-size: 15px;
@@ -153,9 +117,7 @@
       line-height: 1.8;
       margin-bottom: 14px;
     }
-
     .about-aside p:last-of-type { margin-bottom: 20px; }
-
     .director-credentials {
       display: flex;
       flex-direction: column;
@@ -163,7 +125,6 @@
       padding-top: 16px;
       border-top: 1px solid var(--border);
     }
-
     .director-credentials span {
       font-family: 'Inter', sans-serif;
       font-size: 12px;
@@ -178,21 +139,17 @@
       color: var(--navy);
       margin-bottom: 8px;
     }
-
     .team-section > p {
       font-family: 'Libre Baskerville', serif;
       font-size: 16px;
       color: var(--text-mid);
       margin-bottom: 40px;
     }
-
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
     }
-
-    /* ── Team cards ── */
     .team-card {
       background: var(--white);
       border-radius: 10px;
@@ -201,16 +158,11 @@
       padding: 24px 18px;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
-
-    .team-card.has-detail {
-      cursor: pointer;
-    }
-
+    .team-card.has-detail { cursor: pointer; }
     .team-card.has-detail:hover {
       transform: translateY(-6px);
       box-shadow: var(--card-shadow-hover);
     }
-
     .team-avatar {
       width: 54px;
       height: 54px;
@@ -225,7 +177,6 @@
       justify-content: center;
       margin: 0 auto 12px;
     }
-
     .team-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 16px;
@@ -234,7 +185,6 @@
       margin-bottom: 3px;
       line-height: 1.2;
     }
-
     .team-role {
       font-family: 'Inter', sans-serif;
       font-size: 10.5px;
@@ -244,14 +194,12 @@
       letter-spacing: 0.08em;
       margin-bottom: 5px;
     }
-
     .team-class {
       font-family: 'Libre Baskerville', serif;
       font-size: 12px;
       color: var(--text-light);
       font-style: italic;
     }
-
     .team-loading {
       font-family: 'Libre Baskerville', serif;
       font-style: italic;
@@ -260,18 +208,7 @@
       padding: 20px 0;
     }
 
-  <!-- Student lightbox -->
-  <div class="student-lightbox" id="studentLightbox">
-    <button class="lb-close" id="lbCloseBtn" aria-label="Close">&#215;</button>
-    <div class="student-lightbox-card">
-      <div id="lbPhoto"></div>
-      <div class="lb-name" id="lbName"></div>
-      <div class="lb-meta" id="lbMeta"></div>
-      <div class="lb-desc" id="lbDesc"></div>
-    </div>
-  </div>
-
-  <style>
+    /* LIGHTBOX */
     .student-lightbox {
       display: none;
       position: fixed;
@@ -283,6 +220,7 @@
     }
     .student-lightbox.open { display: flex; }
     .student-lightbox-card {
+      position: relative;
       background: var(--navy);
       border-radius: 14px;
       padding: 40px 36px;
@@ -302,28 +240,33 @@
     }
     .student-lightbox-card::-webkit-scrollbar { width: 4px; }
     .student-lightbox-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-    .student-lightbox-card #lbPhoto img {
+    #lbPhoto img {
       width: 96px; height: 96px; border-radius: 50%;
       object-fit: cover; border: 3px solid rgba(255,255,255,0.25);
       margin: 0 auto 16px; display: block;
     }
-    .student-lightbox-card .lb-avatar {
+    .lb-avatar {
       width: 96px; height: 96px; border-radius: 50%;
       background: rgba(255,255,255,0.12); color: var(--white);
       font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 16px;
     }
-    .student-lightbox-card .lb-name {
+    #lbName {
       font-family: 'Cormorant Garamond', serif; font-size: 28px;
       font-weight: 700; color: var(--white); margin-bottom: 4px;
     }
-    .student-lightbox-card .lb-meta {
+    #lbMeta {
       font-family: 'Inter', sans-serif; font-size: 12px;
       color: rgba(255,255,255,0.5); margin-bottom: 20px;
       letter-spacing: 0.05em;
     }
-    .student-lightbox-card .lb-desc {
+    #lbDivider {
+      width: 40px; height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 auto 20px;
+    }
+    #lbDesc {
       font-family: 'Libre Baskerville', serif; font-size: 14px;
       color: rgba(255,255,255,0.82); line-height: 1.8; text-align: left;
     }
@@ -333,16 +276,102 @@
       font-size: 28px; cursor: pointer; opacity: 0.6; line-height: 1;
     }
     .lb-close:hover { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
   </style>
+</head>
+<body>
+
+  <nav class="navbar" id="mainNav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="images/portavoz-project-logo.svg" alt="Portavoz logo" class="nav-logo-img" />
+        <span>The Portavoz Project</span>
+      </a>
+      <div class="nav-links" id="navDropdown">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="translations.html">Translations</a>
+        <a href="events.html">Events</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="about-hero">
+    <div class="container">
+      <div class="label">About Us</div>
+      <h1>Translating Stories.<br><em>Bridging Cultures.</em></h1>
+      <p>A volunteer initiative bringing Spanish-language theatre and texts to English-speaking audiences through collaborative translation.</p>
+    </div>
+  </section>
+
+  <section class="about-content">
+    <div class="container">
+
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>The Portavoz Project</h2>
+          <p>Born out of an increasing interest in and demand for high-quality translation, The Portavoz Project is an extension of Prof. Erica Cobb's work in the classroom as instructor of translation at the University of Virginia. Her highly collaborative, workshop-oriented courses initiate students into a magical world of translation, where they spend an entire semester learning to bridge the gap between Spanish-speaking and English-speaking cultures, experimenting with myriad ways of breathing new life into untapped texts by reshaping them in English. But as becomes clear by the end of every semester, 16 weeks is never enough! Those students who most resonate with these projects are then invited to participate in further translation work through The Portavoz Project.</p>
+          <p>We are a volunteer translation initiative dedicated to bringing original Spanish-language theatre and texts to a wider English-speaking audience through collaborative translation, publication and production. Having successfully completed SPAN4040: Lost &amp; Found in Translation, those students keen to continue their journey as translators are invited to join in weekly round-table discussions and collaborative translation workshops where we refine theatre projects from previous semesters. Once complete, dramatic texts are passed on to <a href="https://www.outofthewings.org" target="_blank" style="color:var(--blue);text-decoration:none;">Out of the Wings</a>, a London-based theatre-in-translation initiative that holds monthly live table readings, featuring actors, directors, translators and academics. Further revisions are then undertaken in consultation with the original playwright, if possible, and the full script made available via our website and upon request.</p>
+          <p>Through this initiative individual students are also mentored through select translation projects they wish to bring to publication. These individuals range from Distinguished Majors to keen amateurs who simply wish to further projects and ideas begun in class, to postgraduates who wish to forge a career in translation.</p>
+        </div>
+
+        <div class="about-aside">
+          <div class="director-label">Project Director</div>
+          <h3>Prof. Erica Cobb</h3>
+          <div class="director-title">
+            Assistant Professor of Spanish<br>
+            University of Virginia
+          </div>
+          <div class="director-divider"></div>
+          <p>I have lived, worked and/or studied in Australia, England, Belgium, France, Italy, Spain, Mexico and the United States. I love being surrounded by history, walking in the footsteps of historical authors, and sharing that joy with my students, inspiring them to do the same through extensive reading across all genres and time periods as well as study abroad. While my background is in the Spanish Golden Age, I currently teach and specialize in translation, mainly of poetry and theatre of all time periods. I am interested both in the themes of identity and performance, the way in which we define ourselves and present ourselves to the world around us, as well as the idea of responsibility, both in terms of what we owe to each other and to the environment in which we live.</p>
+          <p>I teach all levels of Spanish language and literature, but most especially enjoy teaching poetry and translation. I lead the Portavoz Project, a group of students dedicated to translating contemporary or previously untranslated theatre, meeting regularly each semester. These are done with the aim of publication and performance. I also mentor DMP students who wish to work with translation.</p>
+          <p>Outside of my work for UVA, I freelance translate.</p>
+          <div class="director-credentials">
+            <span>Ph.D., Spanish, UNC Chapel Hill</span>
+            <span>M.A. &amp; B.A., Ohio University</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-section">
+        <h2>Student Translators</h2>
+        <p>The students behind the translations, each bringing their own voice, background, and interpretation to the work.</p>
+        <div class="team-grid" id="translatorsGrid">
+          <div class="team-loading">Loading translators…</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
+  <!-- Student profile lightbox -->
+  <div class="student-lightbox" id="studentLightbox">
+    <div class="student-lightbox-card">
+      <button class="lb-close" id="lbCloseBtn" aria-label="Close">&#215;</button>
+      <div id="lbPhoto"></div>
+      <div id="lbName"></div>
+      <div id="lbMeta"></div>
+      <div id="lbDivider"></div>
+      <div id="lbDesc"></div>
+    </div>
+  </div>
 
   <script src="js/portavoz-data.js"></script>
   <script>
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
       let all = [];
-
-      // Use loadAllRows if available (includes rows without id/title),
-      // otherwise fall back to loadTranslations
       try {
         all = typeof loadAllRows === 'function'
           ? await loadAllRows()
@@ -354,13 +383,12 @@
 
       const seen = new Set();
       const students = [];
-
       all.forEach(row => {
         const names   = (row.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
         const classes = (row.studentClass      || '').split(',').map(s => s.trim());
         const photos  = (row.studentPhoto      || '').split(',').map(s => s.trim());
+        // Pipe-separated descriptions for multiple students in one row
         const descs   = (row.studentDesc       || '').split('|').map(s => s.trim());
-
         names.forEach((name, i) => {
           if (!seen.has(name)) {
             seen.add(name);
@@ -368,7 +396,7 @@
               name,
               classYear: classes[i] || '',
               photo:     photos[i]  || '',
-              desc:      descs[i]   || descs[0] || '',
+              desc:      descs[i]   !== undefined ? descs[i] : (descs[0] || ''),
             });
           }
         });
@@ -389,8 +417,7 @@
         const initial    = s.name.charAt(0).toUpperCase();
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
         const clickable  = !!(s.photo || s.desc);
-        return `<div class="team-card${clickable ? ' has-detail' : ''}"
-                     ${clickable ? `data-idx="${idx}"` : ''}>
+        return `<div class="team-card${clickable ? ' has-detail' : ''}" ${clickable ? `data-idx="${idx}"` : ''}>
           <div class="team-avatar">${initial}</div>
           <div class="team-name">${s.name}</div>
           <div class="team-role">Translator</div>
@@ -401,21 +428,22 @@
       grid.querySelectorAll('.team-card.has-detail').forEach(card => {
         card.addEventListener('click', () => {
           const s = window._students[+card.dataset.idx];
-          const classLabel = s.classYear ? `Translator · Class of ${s.classYear}` : 'Translator';
+          const metaLabel = s.classYear ? `Translator · Class of ${s.classYear}` : 'Translator';
 
           document.getElementById('lbPhoto').innerHTML = s.photo
             ? `<img src="${s.photo}" alt="${s.name}">`
-            : `<div class="lb-avatar">${s.name.charAt(0)}</div>`;
-          document.getElementById('lbName').textContent = s.name;
-          document.getElementById('lbMeta').textContent = classLabel;
-          document.getElementById('lbDesc').textContent = s.desc;
+            : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
+          document.getElementById('lbName').textContent  = s.name;
+          document.getElementById('lbMeta').textContent  = metaLabel;
+          document.getElementById('lbDivider').style.display = s.desc ? '' : 'none';
+          document.getElementById('lbDesc').textContent  = s.desc || '';
           document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
 
-          // Re-trigger zoom animation
-          const card2 = document.querySelector('.student-lightbox-card');
-          card2.style.animation = 'none';
-          card2.offsetHeight;
-          card2.style.animation = '';
+          // Re-trigger zoom animation each time
+          const lbCard = document.querySelector('.student-lightbox-card');
+          lbCard.style.animation = 'none';
+          lbCard.offsetHeight;
+          lbCard.style.animation = '';
 
           document.getElementById('studentLightbox').classList.add('open');
         });
@@ -426,7 +454,7 @@
       document.getElementById('studentLightbox').classList.remove('open')
     );
     document.getElementById('studentLightbox').addEventListener('click', e => {
-      if (e.target.id === 'studentLightbox')
+      if (e.target === document.getElementById('studentLightbox'))
         document.getElementById('studentLightbox').classList.remove('open');
     });
     document.addEventListener('keydown', e => {
@@ -437,7 +465,7 @@
     loadTranslators();
   </script>
 
-    <script>
+  <script>
     (function() {
       var btn = document.getElementById('navHamburger');
       var dd  = document.getElementById('navDropdown');
@@ -459,5 +487,6 @@
       });
     })();
   </script>
+
 </body>
 </html>
