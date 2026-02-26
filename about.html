@@ -582,11 +582,11 @@
       const tx     = srcRect.left + srcRect.width  / 2 - (destRect.left + destRect.width  / 2);
       const ty     = srcRect.top  + srcRect.height / 2 - (destRect.top  + destRect.height / 2);
 
-      // Start position: over the source card, rotated 180deg (showing back, which is navy)
-      lbCard.style.transform = `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(180deg)`;
+      // Start position: over the source card, rotated -180deg (back facing away)
+      lbCard.style.transform = `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(-180deg)`;
       lbCard.offsetHeight; // force layout
 
-      // Animate to center at 0deg (back now facing us, having done a 180)
+      // Animate to center at 0deg — exactly 180deg flip, browser takes the short path
       lbCard.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
       lbCard.style.transform  = 'translate(0,0) scale(1) rotateY(0deg)';
 
