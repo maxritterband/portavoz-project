@@ -500,7 +500,8 @@
         const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
         const classes = (t.studentClass      || '').split(',').map(s => s.trim());
         const photos  = (t.studentPhoto      || '').split(',').map(s => s.trim());
-        const descs   = (t.studentDesc       || '').split(',').map(s => s.trim());
+        // Descriptions may contain commas — use pipe | as delimiter for multi-student rows
+        const descs   = (t.studentDesc       || '').split('|').map(s => s.trim());
         names.forEach((name, i) => {
           if (name && !seen.has(name)) {
             seen.add(name);
@@ -508,7 +509,7 @@
               name,
               classYear: classes[i] || '',
               photo:     photos[i]  || '',
-              desc:      descs[i]   || '',
+              desc:      descs[i]   || descs[0] || '',
             });
           }
         });
