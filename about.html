@@ -492,7 +492,7 @@
 
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
-      const all  = await loadTranslations();
+      const all  = await loadAllRows();
 
       const seen = new Set();
       const students = [];
