@@ -194,133 +194,22 @@
 
     /* ── Team cards ── */
     .team-card {
+      background: var(--white);
       border-radius: 10px;
       box-shadow: var(--card-shadow);
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    /* Static cards (no detail) */
-    .team-card:not(.has-detail) .team-card-front {
       padding: 24px 18px;
-      background: var(--white);
-      border-radius: 10px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
-    /* Clickable cards */
     .team-card.has-detail {
       cursor: pointer;
     }
 
     .team-card.has-detail:hover {
-      transform: translateY(-5px);
+      transform: translateY(-6px);
       box-shadow: var(--card-shadow-hover);
     }
-
-    /* The flip wrapper — both faces stack in normal flow,
-       back starts rotated 180° and invisible */
-    .team-card-inner {
-      position: relative;
-      width: 100%;
-    }
-
-    .team-card-front,
-    .team-card-back {
-      width: 100%;
-      padding: 24px 18px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      border-radius: 10px;
-      box-sizing: border-box;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .team-card-front {
-      background: var(--white);
-      transform: rotateY(0deg);
-      opacity: 1;
-    }
-
-    /* Back sits on top, starts hidden and rotated */
-    .team-card-back {
-      position: absolute;
-      inset: 0;
-      height: 100%;
-      background: var(--navy);
-      transform: rotateY(180deg);
-      opacity: 0;
-      gap: 5px;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    /* On hover: front exits, back enters */
-    .team-card.has-detail:hover .team-card-front {
-      transform: rotateY(-180deg);
-      opacity: 0;
-    }
-
-    .team-card.has-detail:hover .team-card-back {
-      transform: rotateY(0deg);
-      opacity: 1;
-    }
-
-    .team-card-back .back-photo {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.3);
-      margin-bottom: 3px;
-      flex-shrink: 0;
-    }
-
-    .team-card-back .back-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      color: var(--white);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 3px;
-      flex-shrink: 0;
-    }
-
-    .team-card-back .back-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.2;
-    }
-
-    .team-card-back .back-class {
-      font-family: 'Inter', sans-serif;
-      font-size: 9.5px;
-      color: rgba(255,255,255,0.55);
-      font-style: italic;
-    }
-
-    .team-card-back .back-desc {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 9px;
-      color: rgba(255,255,255,0.82);
-      line-height: 1.5;
-      text-align: center;
-      margin-top: 4px;
-    }
-
-
 
     .team-avatar {
       width: 54px;
@@ -335,7 +224,6 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 12px;
-      flex-shrink: 0;
     }
 
     .team-name {
@@ -377,7 +265,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(8,52,91,0.92);
+      background: rgba(8,52,91,0.88);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -386,97 +274,104 @@
 
     .student-lightbox-card {
       background: var(--navy);
-      border-radius: 16px;
-      padding: 40px 36px;
-      max-width: 380px;
-      width: 90%;
+      border-radius: 14px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 92%;
       text-align: center;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      box-shadow: 0 28px 80px rgba(0,0,0,0.5);
       animation: lbFlipIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     @keyframes lbFlipIn {
-      from { opacity: 0; transform: scale(0.85) rotateY(-30deg); }
+      from { opacity: 0; transform: scale(0.75) rotateY(-25deg); }
       to   { opacity: 1; transform: scale(1)    rotateY(0deg); }
     }
 
     .student-lightbox-card .lb-photo {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.3);
-      margin: 0 auto 16px;
+      border: 3px solid rgba(255,255,255,0.25);
+      margin: 0 auto 14px;
       display: block;
     }
 
     .student-lightbox-card .lb-avatar {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.12);
       color: var(--white);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
+      font-size: 34px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
+      margin: 0 auto 14px;
     }
 
     .student-lightbox-card .lb-role {
       font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      color: rgba(255,255,255,0.5);
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      margin-bottom: 5px;
     }
 
     .student-lightbox-card .lb-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       color: var(--white);
       margin-bottom: 4px;
+      line-height: 1.2;
     }
 
     .student-lightbox-card .lb-class {
       font-family: 'Libre Baskerville', serif;
-      font-size: 14px;
-      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
       font-style: italic;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+    }
+
+    .student-lightbox-card .lb-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 auto 18px;
     }
 
     .student-lightbox-card .lb-desc {
       font-family: 'Libre Baskerville', serif;
-      font-size: 14px;
+      font-size: 13.5px;
       color: rgba(255,255,255,0.82);
-      line-height: 1.75;
+      line-height: 1.8;
       text-align: left;
     }
 
     .lb-close {
       position: absolute;
-      top: 20px;
-      right: 24px;
+      top: 18px;
+      right: 22px;
       background: none;
       border: none;
       color: var(--white);
-      font-size: 28px;
+      font-size: 26px;
       cursor: pointer;
       line-height: 1;
-      opacity: 0.7;
+      opacity: 0.55;
       transition: opacity 0.2s;
     }
     .lb-close:hover { opacity: 1; }
 
-    @media (max-width: 900px) {
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    }
   </style>
 </head>
 <body>
@@ -617,54 +512,27 @@
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
         const hasDetail  = !!(s.photo || s.desc);
 
-        const avatarFront = `<div class="team-avatar">${initial}</div>`;
-        const photoBack = s.photo
-          ? `<img class="back-photo" src="${s.photo}" alt="${s.name}" onerror="this.style.display='none'">`
-          : `<div class="back-avatar">${initial}</div>`;
-
-        if (!hasDetail) {
-          return `
-            <div class="team-card">
-              <div class="team-card-inner">
-                <div class="team-card-front">
-                  ${avatarFront}
-                  <div class="team-name">${s.name}</div>
-                  <div class="team-role">Translator</div>
-                  ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
-                </div>
-              </div>
-            </div>`;
-        }
+        const avatar = `<div class="team-avatar">${initial}</div>`;
 
         return `
-          <div class="team-card has-detail" data-idx="${idx}" tabindex="0" role="button" aria-label="View profile for ${s.name}">
-            <div class="team-card-inner">
-              <div class="team-card-front">
-                ${avatarFront}
-                <div class="team-name">${s.name}</div>
-                <div class="team-role">Translator</div>
-                ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
-              </div>
-              <div class="team-card-back">
-                ${photoBack}
-                <div class="back-name">${s.name}</div>
-                ${classLabel ? `<div class="back-class">${classLabel}</div>` : ''}
-                ${s.desc ? `<div class="back-desc">${s.desc}</div>` : ''}
-              </div>
-            </div>
+          <div class="team-card${hasDetail ? ' has-detail' : ''}"
+               ${hasDetail ? `data-idx="${idx}" tabindex="0" role="button" aria-label="View profile for ${s.name}"` : ''}>
+            ${avatar}
+            <div class="team-name">${s.name}</div>
+            <div class="team-role">Translator</div>
+            ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
           </div>`;
       }).join('');
 
-      // Store students data for lightbox
+      // Store students for lightbox
       window._portavozStudents = students;
 
-      // Click handlers — single click flips and opens lightbox simultaneously
+      // Click → open lightbox
       grid.querySelectorAll('.team-card.has-detail').forEach(card => {
-        card.addEventListener('click', () => {
-          const idx = parseInt(card.dataset.idx);
-          const s = window._portavozStudents[idx];
+        const open = () => {
+          const s          = window._portavozStudents[parseInt(card.dataset.idx)];
           const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-          const lb = document.getElementById('studentLightbox');
+          const lb         = document.getElementById('studentLightbox');
 
           document.getElementById('lbPhoto').innerHTML = s.photo
             ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
@@ -673,16 +541,16 @@
           document.getElementById('lbName').textContent  = s.name;
           document.getElementById('lbClass').textContent = classLabel;
           document.getElementById('lbClass').style.display = classLabel ? '' : 'none';
-          document.getElementById('lbDesc').textContent  = s.desc;
+          document.getElementById('lbDivider').style.display = s.desc ? '' : 'none';
+          document.getElementById('lbDesc').textContent  = s.desc || '';
           document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
 
           lb.classList.add('open');
-        });
-        card.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') card.click();
-        });
+        };
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(); });
       });
-    }
+        }
 
     // Lightbox close logic — deferred until DOM is ready
     function closeLightbox() {
@@ -729,8 +597,9 @@
     <div class="student-lightbox-card">
       <div id="lbPhoto"></div>
       <div class="lb-role">Translator</div>
-      <div class="lb-name" id="lbName"></div>
+      <div class="lb-name"  id="lbName"></div>
       <div class="lb-class" id="lbClass"></div>
+      <div class="lb-divider" id="lbDivider"></div>
       <div class="lb-desc"  id="lbDesc"></div>
     </div>
   </div>
