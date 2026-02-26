@@ -470,14 +470,26 @@
     <p>© 2026 The Portavoz Project · University of Virginia</p>
   </footer>
 
+  <!-- Student profile lightbox -->
+  <div class="student-lightbox" id="studentLightbox">
+    <button class="lb-close" id="lbCloseBtn" aria-label="Close">×</button>
+    <div class="student-lightbox-card">
+      <div id="lbPhoto"></div>
+      <div class="lb-role">Translator</div>
+      <div class="lb-name"  id="lbName"></div>
+      <div class="lb-class" id="lbClass"></div>
+      <div class="lb-divider" id="lbDivider"></div>
+      <div class="lb-desc"  id="lbDesc"></div>
+    </div>
+  </div>
+
   <script src="js/portavoz-data.js"></script>
   <script>
 
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
-      const all = await loadTranslations();
+      const all  = await loadTranslations();
 
-      // Collect unique student translators — support comma-separated names per row
       const seen = new Set();
       const students = [];
       all.forEach(t => {
@@ -490,9 +502,9 @@
             seen.add(name);
             students.push({
               name,
-              classYear:  classes[i] || '',
-              photo:      photos[i]  || '',
-              desc:       descs[i]   || '',
+              classYear: classes[i] || '',
+              photo:     photos[i]  || '',
+              desc:      descs[i]   || '',
             });
           }
         });
@@ -503,7 +515,6 @@
         return;
       }
 
-      // Sort alphabetically by last name
       students.sort((a, b) => {
         const lastA = a.name.split(' ').pop();
         const lastB = b.name.split(' ').pop();
@@ -514,68 +525,67 @@
         const initial    = s.name.charAt(0).toUpperCase();
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
         const hasDetail  = !!(s.photo || s.desc);
-
-        const avatar = `<div class="team-avatar">${initial}</div>`;
-
         return `
           <div class="team-card${hasDetail ? ' has-detail' : ''}"
                ${hasDetail ? `data-idx="${idx}" tabindex="0" role="button" aria-label="View profile for ${s.name}"` : ''}>
-            ${avatar}
+            <div class="team-avatar">${initial}</div>
             <div class="team-name">${s.name}</div>
             <div class="team-role">Translator</div>
             ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
           </div>`;
       }).join('');
 
-      // Store students for lightbox
       window._portavozStudents = students;
 
-      // Click → open lightbox
       grid.querySelectorAll('.team-card.has-detail').forEach(card => {
-        const open = () => {
-          const s          = window._portavozStudents[parseInt(card.dataset.idx)];
-          const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-          const lb         = document.getElementById('studentLightbox');
-
-          document.getElementById('lbPhoto').innerHTML = s.photo
-            ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
-            : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
-
-          document.getElementById('lbName').textContent  = s.name;
-          document.getElementById('lbClass').textContent = classLabel;
-          document.getElementById('lbClass').style.display = classLabel ? '' : 'none';
-          document.getElementById('lbDivider').style.display = s.desc ? '' : 'none';
-          document.getElementById('lbDesc').textContent  = s.desc || '';
-          document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
-
-          lb.classList.add('open');
-          // Re-trigger animation on every open
-          const card = lb.querySelector('.student-lightbox-card');
-          card.style.animation = 'none';
-          card.offsetHeight; // reflow
-          card.style.animation = '';
-        };
-        card.addEventListener('click', open);
-        card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(); });
+        card.addEventListener('click', () => openStudentLightbox(parseInt(card.dataset.idx)));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') openStudentLightbox(parseInt(card.dataset.idx));
+        });
       });
-        }
+    }
 
-    // Lightbox close logic — deferred until DOM is ready
+    function openStudentLightbox(idx) {
+      const s          = window._portavozStudents[idx];
+      const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
+      const lb         = document.getElementById('studentLightbox');
+
+      document.getElementById('lbPhoto').innerHTML = s.photo
+        ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
+        : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
+
+      document.getElementById('lbName').textContent   = s.name;
+      document.getElementById('lbClass').textContent  = classLabel;
+      document.getElementById('lbClass').style.display   = classLabel ? '' : 'none';
+      document.getElementById('lbDivider').style.display = s.desc    ? '' : 'none';
+      document.getElementById('lbDesc').textContent   = s.desc || '';
+      document.getElementById('lbDesc').style.display    = s.desc    ? '' : 'none';
+
+      // Re-trigger flip animation
+      const card = lb.querySelector('.student-lightbox-card');
+      card.style.animation = 'none';
+      card.offsetHeight;
+      card.style.animation = '';
+
+      lb.classList.add('open');
+    }
+
     function closeLightbox() {
       const lb = document.getElementById('studentLightbox');
       if (lb) lb.classList.remove('open');
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const lbBtn = document.getElementById('lbCloseBtn');
-      const lb    = document.getElementById('studentLightbox');
-      if (lbBtn) lbBtn.addEventListener('click', closeLightbox);
-      if (lb)    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+    // Attach lightbox close handlers immediately (lightbox HTML is above this script)
+    document.getElementById('lbCloseBtn').addEventListener('click', closeLightbox);
+    document.getElementById('studentLightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('studentLightbox')) closeLightbox();
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
     loadTranslators();
   </script>
+
+    </script>
 
   <script>
     (function() {
@@ -599,18 +609,5 @@
       });
     })();
   </script>
-  <!-- Student profile lightbox -->
-  <div class="student-lightbox" id="studentLightbox">
-    <button class="lb-close" id="lbCloseBtn" aria-label="Close">×</button>
-    <div class="student-lightbox-card">
-      <div id="lbPhoto"></div>
-      <div class="lb-role">Translator</div>
-      <div class="lb-name"  id="lbName"></div>
-      <div class="lb-class" id="lbClass"></div>
-      <div class="lb-divider" id="lbDivider"></div>
-      <div class="lb-desc"  id="lbDesc"></div>
-    </div>
-  </div>
-
 </body>
 </html>
