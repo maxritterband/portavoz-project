@@ -487,38 +487,38 @@
     </div>
   </div>
 
-  <script src="js/portavoz-data.js"></script>
+  <script src="js/portavoz-data.js?v=2"></script>
   <script>
 
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
-      const all  = await loadAllRows();
+      try {
+        const all = typeof loadAllRows === 'function' ? await loadAllRows() : await loadTranslations();
 
-      const seen = new Set();
-      const students = [];
-      all.forEach(t => {
-        const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
-        const classes = (t.studentClass      || '').split(',').map(s => s.trim());
-        const photos  = (t.studentPhoto      || '').split(',').map(s => s.trim());
-        // Descriptions may contain commas — use pipe | as delimiter for multi-student rows
-        const descs   = (t.studentDesc       || '').split('|').map(s => s.trim());
-        names.forEach((name, i) => {
-          if (name && !seen.has(name)) {
-            seen.add(name);
-            students.push({
-              name,
-              classYear: classes[i] || '',
-              photo:     photos[i]  || '',
-              desc:      descs[i]   || descs[0] || '',
-            });
-          }
+        const seen = new Set();
+        const students = [];
+        all.forEach(t => {
+          const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
+          const classes = (t.studentClass      || '').split(',').map(s => s.trim());
+          const photos  = (t.studentPhoto      || '').split(',').map(s => s.trim());
+          const descs   = (t.studentDesc       || '').split('|').map(s => s.trim());
+          names.forEach((name, i) => {
+            if (name && !seen.has(name)) {
+              seen.add(name);
+              students.push({
+                name,
+                classYear: classes[i] || '',
+                photo:     photos[i]  || '',
+                desc:      descs[i]   || descs[0] || '',
+              });
+            }
+          });
         });
-      });
 
-      if (students.length === 0) {
-        grid.innerHTML = '<p class="team-loading">No student translators yet.</p>';
-        return;
-      }
+        if (students.length === 0) {
+          grid.innerHTML = '<p class="team-loading">No student translators found. Make sure the sheet has a <em>studentTranslator</em> column with names.</p>';
+          return;
+        }
 
       students.sort((a, b) => {
         const lastA = a.name.split(' ').pop();
@@ -548,6 +548,9 @@
           if (e.key === 'Enter' || e.key === ' ') openStudentLightbox(parseInt(card.dataset.idx), card);
         });
       });
+      } catch(err) {
+        grid.innerHTML = '<p class="team-loading">Error: ' + err.message + '</p>';
+      }
     }
 
     function openStudentLightbox(idx, sourceEl) {
