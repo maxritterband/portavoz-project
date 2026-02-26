@@ -205,10 +205,6 @@
       cursor: pointer;
     }
 
-    .team-card.flipped .team-card-inner {
-      transform: rotateY(180deg);
-    }
-
     .team-card-inner {
       position: relative;
       width: 100%;
@@ -366,19 +362,19 @@
     .student-lightbox.open { display: flex; }
 
     .student-lightbox-card {
-      background: var(--white);
+      background: var(--navy);
       border-radius: 16px;
       padding: 40px 36px;
-      max-width: 420px;
+      max-width: 380px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
-      animation: lbIn 0.25s ease;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      animation: lbFlipIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @keyframes lbIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to   { opacity: 1; transform: scale(1); }
+    @keyframes lbFlipIn {
+      from { opacity: 0; transform: scale(0.85) rotateY(-30deg); }
+      to   { opacity: 1; transform: scale(1)    rotateY(0deg); }
     }
 
     .student-lightbox-card .lb-photo {
@@ -386,7 +382,7 @@
       height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid var(--navy);
+      border: 3px solid rgba(255,255,255,0.3);
       margin: 0 auto 16px;
       display: block;
     }
@@ -395,7 +391,7 @@
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      background: var(--navy);
+      background: rgba(255,255,255,0.15);
       color: var(--white);
       font-family: 'Cormorant Garamond', serif;
       font-size: 36px;
@@ -409,7 +405,7 @@
     .student-lightbox-card .lb-role {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
-      color: var(--green);
+      color: rgba(255,255,255,0.5);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -418,24 +414,24 @@
 
     .student-lightbox-card .lb-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--white);
       margin-bottom: 4px;
     }
 
     .student-lightbox-card .lb-class {
       font-family: 'Libre Baskerville', serif;
       font-size: 14px;
-      color: var(--text-light);
+      color: rgba(255,255,255,0.55);
       font-style: italic;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .student-lightbox-card .lb-desc {
       font-family: 'Libre Baskerville', serif;
       font-size: 14px;
-      color: var(--text-mid);
+      color: rgba(255,255,255,0.82);
       line-height: 1.75;
       text-align: left;
     }
@@ -631,7 +627,6 @@
                 <div class="back-name">${s.name}</div>
                 ${classLabel ? `<div class="back-class">${classLabel}</div>` : ''}
                 ${s.desc ? `<div class="back-desc">${s.desc}</div>` : ''}
-                <div class="back-expand">click to expand</div>
               </div>
             </div>
           </div>`;
@@ -640,42 +635,29 @@
       // Store students data for lightbox
       window._portavozStudents = students;
 
-      // Click handlers — first click flips, second click opens lightbox
+      // Click handlers — single click flips and opens lightbox simultaneously
       grid.querySelectorAll('.team-card.has-detail').forEach(card => {
         card.addEventListener('click', () => {
-          if (!card.classList.contains('flipped')) {
-            // First click: flip the card
-            card.classList.add('flipped');
-          } else {
-            // Second click: open lightbox
-            const idx = parseInt(card.dataset.idx);
-            const s = window._portavozStudents[idx];
-            const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-            const lb = document.getElementById('studentLightbox');
+          const idx = parseInt(card.dataset.idx);
+          const s = window._portavozStudents[idx];
+          const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
+          const lb = document.getElementById('studentLightbox');
 
-            document.getElementById('lbPhoto').innerHTML = s.photo
-              ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
-              : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
+          document.getElementById('lbPhoto').innerHTML = s.photo
+            ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
+            : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
 
-            document.getElementById('lbName').textContent   = s.name;
-            document.getElementById('lbClass').textContent  = classLabel;
-            document.getElementById('lbClass').style.display = classLabel ? '' : 'none';
-            document.getElementById('lbDesc').textContent   = s.desc;
-            document.getElementById('lbDesc').style.display  = s.desc ? '' : 'none';
+          document.getElementById('lbName').textContent  = s.name;
+          document.getElementById('lbClass').textContent = classLabel;
+          document.getElementById('lbClass').style.display = classLabel ? '' : 'none';
+          document.getElementById('lbDesc').textContent  = s.desc;
+          document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
 
-            lb.classList.add('open');
-          }
+          lb.classList.add('open');
         });
         card.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') card.click();
         });
-      });
-
-      // Clicking outside any flipped card unflips it
-      document.addEventListener('click', e => {
-        if (!e.target.closest('.team-card')) {
-          grid.querySelectorAll('.team-card.flipped').forEach(c => c.classList.remove('flipped'));
-        }
       });
     }
 
