@@ -287,7 +287,7 @@
       width: 92%;
       text-align: center;
       box-shadow: 0 28px 80px rgba(0,0,0,0.5);
-      max-height: 85vh;
+      max-height: 88vh;
       overflow-y: auto;
       transform-origin: center center;
       backface-visibility: visible;
@@ -555,7 +555,7 @@
       const lb         = document.getElementById('studentLightbox');
       const lbCard     = lb.querySelector('.student-lightbox-card');
 
-      // Populate content
+      // Populate content — use innerHTML for desc to preserve line breaks
       document.getElementById('lbPhoto').innerHTML = s.photo
         ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}">`
         : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
@@ -563,17 +563,21 @@
       document.getElementById('lbClass').textContent  = classLabel;
       document.getElementById('lbClass').style.display   = classLabel ? '' : 'none';
       document.getElementById('lbDivider').style.display = s.desc    ? '' : 'none';
-      document.getElementById('lbDesc').textContent   = s.desc || '';
-      document.getElementById('lbDesc').style.display    = s.desc    ? '' : 'none';
+      // Preserve any line breaks from the sheet
+      document.getElementById('lbDesc').innerHTML =
+        s.desc ? s.desc.replace(/
+/g, '<br>') : '';
+      document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
 
-      // Show overlay
-      lb.classList.add('open');
-
-      // Reset any previous transition
+      // Reset card to its natural centered position with no transform
       lbCard.style.transition = 'none';
-      lbCard.style.opacity    = '1';
+      lbCard.style.transform  = 'none';
 
-      // Measure source card position vs where lbCard naturally sits (centered)
+      // Show overlay so we can measure lbCard's position
+      lb.classList.add('open');
+      lbCard.offsetHeight; // force layout
+
+      // Measure where the source card is vs the centered lbCard
       const srcRect  = sourceEl.getBoundingClientRect();
       const destRect = lbCard.getBoundingClientRect();
 
@@ -582,13 +586,19 @@
       const tx     = srcRect.left + srcRect.width  / 2 - (destRect.left + destRect.width  / 2);
       const ty     = srcRect.top  + srcRect.height / 2 - (destRect.top  + destRect.height / 2);
 
-      // Start position: over the source card, rotated -180deg (back facing away)
-      lbCard.style.transform = `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(-180deg)`;
-      lbCard.offsetHeight; // force layout
-
-      // Animate to center at 0deg — exactly 180deg flip, browser takes the short path
-      lbCard.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-      lbCard.style.transform  = 'translate(0,0) scale(1) rotateY(0deg)';
+      // Use Web Animations API for precise 180deg control — no browser ambiguity
+      lbCard.animate([
+        {
+          transform: `translate(${tx}px, ${ty}px) scale(${scaleX}, ${scaleY}) rotateY(-180deg)`,
+          easing:    'cubic-bezier(0.4, 0, 0.2, 1)'
+        },
+        {
+          transform: 'translate(0, 0) scale(1) rotateY(0deg)'
+        }
+      ], {
+        duration: 600,
+        fill: 'forwards'
+      });
 
       // Fade in backdrop
       requestAnimationFrame(() => lb.classList.add('faded'));
