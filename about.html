@@ -195,9 +195,94 @@
     .team-card {
       background: var(--white);
       border-radius: 8px;
-      padding: 28px 24px;
       box-shadow: var(--card-shadow);
       text-align: center;
+      perspective: 1000px;
+      height: 200px;
+    }
+
+    .team-card.has-detail {
+      cursor: pointer;
+    }
+
+    .team-card.has-detail:hover .team-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .team-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 8px;
+    }
+
+    .team-card-front,
+    .team-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 8px;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .team-card-front {
+      background: var(--white);
+    }
+
+    .team-card-back {
+      background: var(--navy);
+      transform: rotateY(180deg);
+      gap: 8px;
+    }
+
+    .team-card-back .back-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+      margin-bottom: 4px;
+    }
+
+    .team-card-back .back-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .team-card-back .back-class {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      font-style: italic;
+    }
+
+    .team-card-back .back-desc {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+      margin-top: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .team-card-back .back-expand {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
     }
 
     .team-avatar {
@@ -247,6 +332,108 @@
       font-size: 15px;
       padding: 20px 0;
     }
+
+    /* Lightbox */
+    .student-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8,52,91,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .student-lightbox.open { display: flex; }
+
+    .student-lightbox-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px 36px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+      animation: lbIn 0.25s ease;
+    }
+
+    @keyframes lbIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .student-lightbox-card .lb-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--navy);
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    .student-lightbox-card .lb-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .student-lightbox-card .lb-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .student-lightbox-card .lb-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: var(--green);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .student-lightbox-card .lb-class {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 14px;
+      color: var(--text-light);
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+
+    .student-lightbox-card .lb-desc {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      text-align: left;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .lb-close:hover { opacity: 1; }
 
     @media (max-width: 900px) {
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -359,10 +546,17 @@
       all.forEach(t => {
         const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
         const classes = (t.studentClass      || '').split(',').map(s => s.trim());
+        const photos  = (t.studentPhoto      || '').split(',').map(s => s.trim());
+        const descs   = (t.studentDesc       || '').split(',').map(s => s.trim());
         names.forEach((name, i) => {
           if (name && !seen.has(name)) {
             seen.add(name);
-            students.push({ name, classYear: classes[i] || '' });
+            students.push({
+              name,
+              classYear:  classes[i] || '',
+              photo:      photos[i]  || '',
+              desc:       descs[i]   || '',
+            });
           }
         });
       });
@@ -379,19 +573,87 @@
         return lastA.localeCompare(lastB);
       });
 
-      grid.innerHTML = students.map(s => {
-        const initial = s.name.charAt(0).toUpperCase();
+      grid.innerHTML = students.map((s, idx) => {
+        const initial    = s.name.charAt(0).toUpperCase();
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
+        const hasDetail  = !!(s.photo || s.desc);
+
+        const avatarFront = `<div class="team-avatar">${initial}</div>`;
+        const photoBack   = s.photo
+          ? `<img class="back-photo" src="${s.photo}" alt="${s.name}" onerror="this.style.display='none'">`
+          : `<div class="team-avatar" style="margin:0 0 4px;">${initial}</div>`;
+
+        if (!hasDetail) {
+          return `
+            <div class="team-card">
+              <div class="team-card-inner">
+                <div class="team-card-front">
+                  ${avatarFront}
+                  <div class="team-name">${s.name}</div>
+                  <div class="team-role">Translator</div>
+                  ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
+                </div>
+              </div>
+            </div>`;
+        }
+
         return `
-          <div class="team-card">
-            <div class="team-avatar">${initial}</div>
-            <div class="team-name">${s.name}</div>
-            <div class="team-role">Translator</div>
-            ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
-          </div>
-        `;
+          <div class="team-card has-detail" data-idx="${idx}" tabindex="0" role="button" aria-label="View profile for ${s.name}">
+            <div class="team-card-inner">
+              <div class="team-card-front">
+                ${avatarFront}
+                <div class="team-name">${s.name}</div>
+                <div class="team-role">Translator</div>
+                ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
+              </div>
+              <div class="team-card-back">
+                ${photoBack}
+                <div class="back-name">${s.name}</div>
+                ${classLabel ? `<div class="back-class">${classLabel}</div>` : ''}
+                ${s.desc ? `<div class="back-desc">${s.desc}</div>` : ''}
+                <div class="back-expand">click to expand</div>
+              </div>
+            </div>
+          </div>`;
       }).join('');
+
+      // Store students data for lightbox
+      window._portavozStudents = students;
+
+      // Click handlers — open lightbox
+      grid.querySelectorAll('.team-card.has-detail').forEach(card => {
+        const openLightbox = () => {
+          const idx = parseInt(card.dataset.idx);
+          const s = window._portavozStudents[idx];
+          const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
+          const lb = document.getElementById('studentLightbox');
+
+          document.getElementById('lbPhoto').innerHTML = s.photo
+            ? `<img class="lb-photo" src="${s.photo}" alt="${s.name}" onerror="this.outerHTML='<div class=\\'lb-avatar\\'>${s.name.charAt(0).toUpperCase()}</div>'">`
+            : `<div class="lb-avatar">${s.name.charAt(0).toUpperCase()}</div>`;
+
+          document.getElementById('lbName').textContent  = s.name;
+          document.getElementById('lbClass').textContent = classLabel;
+          document.getElementById('lbClass').style.display = classLabel ? '' : 'none';
+          document.getElementById('lbDesc').textContent  = s.desc;
+          document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
+
+          lb.classList.add('open');
+        };
+        card.addEventListener('click', openLightbox);
+        card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openLightbox(); });
+      });
     }
+
+    // Lightbox close logic
+    function closeLightbox() {
+      document.getElementById('studentLightbox').classList.remove('open');
+    }
+    document.getElementById('lbCloseBtn').addEventListener('click', closeLightbox);
+    document.getElementById('studentLightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('studentLightbox')) closeLightbox();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
     loadTranslators();
   </script>
@@ -418,5 +680,17 @@
       });
     })();
   </script>
+  <!-- Student profile lightbox -->
+  <div class="student-lightbox" id="studentLightbox">
+    <button class="lb-close" id="lbCloseBtn" aria-label="Close">×</button>
+    <div class="student-lightbox-card">
+      <div id="lbPhoto"></div>
+      <div class="lb-role">Translator</div>
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-class" id="lbClass"></div>
+      <div class="lb-desc"  id="lbDesc"></div>
+    </div>
+  </div>
+
 </body>
 </html>
