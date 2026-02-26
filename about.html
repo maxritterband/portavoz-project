@@ -15,6 +15,7 @@
       padding: 148px 0 80px;
       text-align: center;
     }
+
     .about-hero .label {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
@@ -24,6 +25,7 @@
       color: rgba(255,255,255,0.4);
       margin-bottom: 16px;
     }
+
     .about-hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 5vw, 58px);
@@ -33,10 +35,12 @@
       max-width: 640px;
       margin: 0 auto 20px;
     }
+
     .about-hero h1 em {
       font-style: italic;
       color: var(--green);
     }
+
     .about-hero p {
       font-family: 'Libre Baskerville', serif;
       font-size: 17px;
@@ -51,6 +55,7 @@
       padding: 80px 0 100px;
       background: var(--cream);
     }
+
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -58,6 +63,7 @@
       align-items: start;
       margin-bottom: 80px;
     }
+
     .about-text h2 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 32px;
@@ -66,6 +72,7 @@
       margin-bottom: 20px;
       line-height: 1.25;
     }
+
     .about-text p {
       font-family: 'Libre Baskerville', serif;
       font-size: 16px;
@@ -73,6 +80,7 @@
       line-height: 1.85;
       margin-bottom: 16px;
     }
+
     .about-text p:last-child { margin-bottom: 0; }
 
     .about-aside {
@@ -82,6 +90,30 @@
       box-shadow: var(--card-shadow);
       border-top: 4px solid var(--orange);
     }
+
+    .director-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    .director-photo-wrap {
+      width: 100%;
+      height: 220px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .director-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
     .director-label {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
@@ -91,6 +123,7 @@
       color: var(--green);
       margin-bottom: 10px;
     }
+
     .about-aside h3 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
@@ -98,6 +131,7 @@
       color: var(--navy);
       margin-bottom: 6px;
     }
+
     .director-title {
       font-family: 'Inter', sans-serif;
       font-size: 13px;
@@ -105,11 +139,13 @@
       line-height: 1.6;
       margin-bottom: 20px;
     }
+
     .director-divider {
       height: 1px;
       background: var(--border);
       margin-bottom: 20px;
     }
+
     .about-aside p {
       font-family: 'Libre Baskerville', serif;
       font-size: 15px;
@@ -117,7 +153,9 @@
       line-height: 1.8;
       margin-bottom: 14px;
     }
+
     .about-aside p:last-of-type { margin-bottom: 20px; }
+
     .director-credentials {
       display: flex;
       flex-direction: column;
@@ -125,6 +163,7 @@
       padding-top: 16px;
       border-top: 1px solid var(--border);
     }
+
     .director-credentials span {
       font-family: 'Inter', sans-serif;
       font-size: 12px;
@@ -139,73 +178,32 @@
       color: var(--navy);
       margin-bottom: 8px;
     }
+
     .team-section > p {
       font-family: 'Libre Baskerville', serif;
       font-size: 16px;
       color: var(--text-mid);
       margin-bottom: 40px;
     }
+
     .team-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
     }
+
     .team-card {
       background: var(--white);
-      border-radius: 10px;
+      border-radius: 8px;
+      padding: 28px 24px;
       box-shadow: var(--card-shadow);
       text-align: center;
-      padding: 24px 18px;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
     .team-card.has-detail { cursor: pointer; }
     .team-card.has-detail:hover {
       transform: translateY(-6px);
       box-shadow: var(--card-shadow-hover);
-    }
-    .team-avatar {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--navy);
-      color: var(--white);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 12px;
-    }
-    .team-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 3px;
-      line-height: 1.2;
-    }
-    .team-role {
-      font-family: 'Inter', sans-serif;
-      font-size: 10.5px;
-      color: var(--green);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 5px;
-    }
-    .team-class {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 12px;
-      color: var(--text-light);
-      font-style: italic;
-    }
-    .team-loading {
-      font-family: 'Libre Baskerville', serif;
-      font-style: italic;
-      color: var(--text-light);
-      font-size: 15px;
-      padding: 20px 0;
     }
 
     /* LIGHTBOX */
@@ -277,62 +275,130 @@
     }
     .lb-close:hover { opacity: 1; }
 
-    @media (max-width: 768px) {
+    .team-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+
+    .team-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .team-class {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 13px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .team-loading {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 15px;
+      padding: 20px 0;
+    }
+
+    @media (max-width: 900px) {
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
     }
   </style>
 </head>
 <body>
 
-  <nav class="navbar" id="mainNav">
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-logo">
-        <img src="images/portavoz-project-logo.svg" alt="Portavoz logo" class="nav-logo-img" />
-        <span>The Portavoz Project</span>
-      </a>
-      <div class="nav-links" id="navDropdown">
-        <a href="index.html">Home</a>
-        <a href="about.html" class="active">About</a>
-        <a href="translations.html">Translations</a>
-        <a href="events.html">Events</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+  <!-- NAV -->
+  <nav class="nav navy" id="mainNav">
+    <a href="/" class="nav-brand">
+      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
+      <span class="nav-name">The Portavoz Project</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about" class="active">About</a></li>
+      <li><a href="/translations">Translations</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+    <div class="nav-dropdown" id="navDropdown">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/translations">Translations</a>
+    <a href="/events">Events</a>
+    <a href="/contact">Contact</a>
+  </div>
+  <div class="nav-separator" id="navSeparator"></div>
 
-  <section class="about-hero">
+  <!-- HERO -->
+  <header class="about-hero">
     <div class="container">
-      <div class="label">About Us</div>
-      <h1>Translating Stories.<br><em>Bridging Cultures.</em></h1>
-      <p>A volunteer initiative bringing Spanish-language theatre and texts to English-speaking audiences through collaborative translation.</p>
+      <p class="label">Our Story</p>
+      <h1>About <em>Portavoz</em></h1>
+      <p>Translating Stories. Bridging Cultures.</p>
     </div>
-  </section>
+  </header>
 
+  <!-- CONTENT -->
   <section class="about-content">
     <div class="container">
 
       <div class="about-grid">
         <div class="about-text">
-          <h2>The Portavoz Project</h2>
-          <p>Born out of an increasing interest in and demand for high-quality translation, The Portavoz Project is an extension of Prof. Erica Cobb's work in the classroom as instructor of translation at the University of Virginia. Her highly collaborative, workshop-oriented courses initiate students into a magical world of translation, where they spend an entire semester learning to bridge the gap between Spanish-speaking and English-speaking cultures, experimenting with myriad ways of breathing new life into untapped texts by reshaping them in English. But as becomes clear by the end of every semester, 16 weeks is never enough! Those students who most resonate with these projects are then invited to participate in further translation work through The Portavoz Project.</p>
-          <p>We are a volunteer translation initiative dedicated to bringing original Spanish-language theatre and texts to a wider English-speaking audience through collaborative translation, publication and production. Having successfully completed SPAN4040: Lost &amp; Found in Translation, those students keen to continue their journey as translators are invited to join in weekly round-table discussions and collaborative translation workshops where we refine theatre projects from previous semesters. Once complete, dramatic texts are passed on to <a href="https://www.outofthewings.org" target="_blank" style="color:var(--blue);text-decoration:none;">Out of the Wings</a>, a London-based theatre-in-translation initiative that holds monthly live table readings, featuring actors, directors, translators and academics. Further revisions are then undertaken in consultation with the original playwright, if possible, and the full script made available via our website and upon request.</p>
-          <p>Through this initiative individual students are also mentored through select translation projects they wish to bring to publication. These individuals range from Distinguished Majors to keen amateurs who simply wish to further projects and ideas begun in class, to postgraduates who wish to forge a career in translation.</p>
+          <h2>What is The Portavoz Project?</h2>
+          <p>
+            Born out of an increasing interest in and demand for high-quality translation, The Portavoz Project is an extension of Prof. Erica Cobb's work in the classroom as instructor of translation at the University of Virginia. Her highly collaborative, workshop-oriented courses initiate students into a magical world of translation, where they spend an entire semester learning to bridge the gap between Spanish-speaking and English-speaking cultures, experimenting with myriad ways of breathing new life into untapped texts by reshaping them in English. But as becomes clear by the end of every semester, 16 weeks is never enough! Those students who most resonate with these projects are then invited to participate in further translation work through The Portavoz Project.
+          </p>
+          <p>
+            We are a volunteer translation initiative dedicated to bringing original Spanish-language theatre and texts to a wider English-speaking audience through collaborative translation, publication and production. Having successfully completed SPAN4040: Lost &amp; Found in Translation, those students keen to continue their journey as translators are invited to join in weekly round-table discussions and collaborative translation workshops where we refine theatre projects from previous semesters. Once complete, dramatic texts are passed on to <a href="https://www.outofthewings.org" target="_blank" style="color:var(--blue);text-decoration:none;">Out of the Wings</a>, a London-based theatre-in-translation initiative that holds monthly live table readings, featuring actors, directors, translators and academics. Further revisions are then undertaken in consultation with the original playwright, if possible, and the full script made available via our website and upon request.
+          </p>
+          <p>
+            Through this initiative individual students are also mentored through select translation projects they wish to bring to publication. These individuals range from Distinguished Majors to keen amateurs who simply wish to further projects and ideas begun in class, to postgraduates who wish to forge a career in translation.
+          </p>
         </div>
-
         <div class="about-aside">
-          <div class="director-label">Project Director</div>
-          <h3>Prof. Erica Cobb</h3>
-          <div class="director-title">
-            Assistant Professor of Spanish<br>
-            University of Virginia
+
+          <div class="director-photo-wrap">
+            <img src="images/erica-cobb.png" alt="Erica Cobb" class="director-photo" />
           </div>
+          <h3>Erica Cobb</h3>
+          <div class="director-title"><span style="color:var(--green);font-weight:700;">Founder</span>, The Portavoz Project<br>Department of Spanish, Italian &amp; Portuguese, UVA</div>
           <div class="director-divider"></div>
-          <p>I have lived, worked and/or studied in Australia, England, Belgium, France, Italy, Spain, Mexico and the United States. I love being surrounded by history, walking in the footsteps of historical authors, and sharing that joy with my students, inspiring them to do the same through extensive reading across all genres and time periods as well as study abroad. While my background is in the Spanish Golden Age, I currently teach and specialize in translation, mainly of poetry and theatre of all time periods. I am interested both in the themes of identity and performance, the way in which we define ourselves and present ourselves to the world around us, as well as the idea of responsibility, both in terms of what we owe to each other and to the environment in which we live.</p>
-          <p>I teach all levels of Spanish language and literature, but most especially enjoy teaching poetry and translation. I lead the Portavoz Project, a group of students dedicated to translating contemporary or previously untranslated theatre, meeting regularly each semester. These are done with the aim of publication and performance. I also mentor DMP students who wish to work with translation.</p>
-          <p>Outside of my work for UVA, I freelance translate.</p>
+          <p>
+            I have lived, worked and/or studied in Australia, England, Belgium, France, Italy, Spain, Mexico and the United States. I love being surrounded by history, walking in the footsteps of historical authors, and sharing that joy with my students, inspiring them to do the same through extensive reading across all genres and time periods as well as study abroad. While my background is in the Spanish Golden Age, I currently teach and specialize in translation, mainly of poetry and theatre of all time periods. I am interested both in the themes of identity and performance, the way in which we define ourselves and present ourselves to the world around us, as well as the idea of responsibility, both in terms of what we owe to each other and to the environment in which we live.
+          </p>
+          <p>
+            I teach all levels of Spanish language and literature, but most especially enjoy teaching poetry and translation. I lead the Portavoz Project, a group of students dedicated to translating contemporary or previously untranslated theatre, meeting regularly each semester. These are done with the aim of publication and performance. I also mentor DMP students who wish to work with translation.
+          </p>
+          <p>
+            Outside of my work for UVA, I freelance translate.
+          </p>
           <div class="director-credentials">
             <span>Ph.D., Spanish, UNC Chapel Hill</span>
             <span>M.A. &amp; B.A., Ohio University</span>
@@ -351,10 +417,6 @@
     </div>
   </section>
 
-  <footer>
-    <p>© 2026 The Portavoz Project · University of Virginia</p>
-  </footer>
-
   <!-- Student profile lightbox -->
   <div class="student-lightbox" id="studentLightbox">
     <div class="student-lightbox-card">
@@ -367,8 +429,13 @@
     </div>
   </div>
 
+  <footer>
+    <p>© 2026 The Portavoz Project · University of Virginia</p>
+  </footer>
+
   <script src="js/portavoz-data.js"></script>
   <script>
+
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
       let all = [];
@@ -387,7 +454,7 @@
         const names   = (row.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
         const classes = (row.studentClass      || '').split(',').map(s => s.trim());
         const photos  = (row.studentPhoto      || '').split(',').map(s => s.trim());
-        // Pipe-separated descriptions for multiple students in one row
+        // Use pipe | to separate descriptions for multiple students in one row
         const descs   = (row.studentDesc       || '').split('|').map(s => s.trim());
         names.forEach((name, i) => {
           if (!seen.has(name)) {
@@ -487,6 +554,5 @@
       });
     })();
   </script>
-
 </body>
 </html>
