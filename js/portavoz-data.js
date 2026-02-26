@@ -166,6 +166,31 @@ async function loadTranslations() {
 }
 
 /**
+ * Load all rows from the sheet without filtering by id/title.
+ * Used for pages like About that need student translator rows
+ * even if they don't have a translation id/title.
+ */
+async function loadAllRows() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+    const headers = parseCSVRow(lines[0]);
+    return lines.slice(1).map(line => {
+      const values = parseCSVRow(line);
+      const obj = {};
+      headers.forEach((h, i) => { obj[h.trim()] = (values[i] || '').trim(); });
+      return obj;
+    }).filter(row => Object.values(row).some(v => v)); // skip completely empty rows
+  } catch (err) {
+    console.error('[Portavoz] loadAllRows failed:', err);
+    return [];
+  }
+}
+
+/**
  * Load a single translation by ID, fetching doc text if needed.
  * If the sheet has an 'excerpt' column with a Google Doc URL or text,
  * that is used as the displayed text instead of the full 'text' column.

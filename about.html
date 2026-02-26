@@ -192,50 +192,62 @@
       gap: 20px;
     }
 
+    /* ── Team cards ── */
     .team-card {
       background: var(--white);
-      border-radius: 8px;
-      padding: 28px 24px;
+      border-radius: 10px;
       box-shadow: var(--card-shadow);
       text-align: center;
+      padding: 24px 18px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .team-card.has-detail {
+      cursor: pointer;
+    }
+
+    .team-card.has-detail:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--card-shadow-hover);
     }
 
     .team-avatar {
-      width: 64px;
-      height: 64px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       background: var(--navy);
       color: var(--white);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 14px;
+      margin: 0 auto 12px;
     }
 
     .team-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--navy);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      line-height: 1.2;
     }
 
     .team-role {
       font-family: 'Inter', sans-serif;
-      font-size: 12px;
+      font-size: 10.5px;
       color: var(--green);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
 
     .team-class {
       font-family: 'Libre Baskerville', serif;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-light);
       font-style: italic;
     }
@@ -248,155 +260,184 @@
       padding: 20px 0;
     }
 
-    @media (max-width: 900px) {
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- NAV -->
-  <nav class="nav navy" id="mainNav">
-    <a href="/" class="nav-brand">
-      <div class="nav-logo"><img src="images/portavoz-nav-logo.svg" alt="The Portavoz Project" /></div>
-      <span class="nav-name">The Portavoz Project</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about" class="active">About</a></li>
-      <li><a href="/translations">Translations</a></li>
-      <li><a href="/events">Events</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
-    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-    <div class="nav-dropdown" id="navDropdown">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/translations">Translations</a>
-    <a href="/events">Events</a>
-    <a href="/contact">Contact</a>
+  <!-- Student lightbox -->
+  <div class="student-lightbox" id="studentLightbox">
+    <button class="lb-close" id="lbCloseBtn" aria-label="Close">&#215;</button>
+    <div class="student-lightbox-card">
+      <div id="lbPhoto"></div>
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-meta" id="lbMeta"></div>
+      <div class="lb-desc" id="lbDesc"></div>
+    </div>
   </div>
-  <div class="nav-separator" id="navSeparator"></div>
 
-  <!-- HERO -->
-  <header class="about-hero">
-    <div class="container">
-      <p class="label">Our Story</p>
-      <h1>About <em>Portavoz</em></h1>
-      <p>Translating Stories. Bridging Cultures.</p>
-    </div>
-  </header>
-
-  <!-- CONTENT -->
-  <section class="about-content">
-    <div class="container">
-
-      <div class="about-grid">
-        <div class="about-text">
-          <h2>What is The Portavoz Project?</h2>
-          <p>
-            Born out of an increasing interest in and demand for high-quality translation, The Portavoz Project is an extension of Prof. Erica Cobb's work in the classroom as instructor of translation at the University of Virginia. Her highly collaborative, workshop-oriented courses initiate students into a magical world of translation, where they spend an entire semester learning to bridge the gap between Spanish-speaking and English-speaking cultures, experimenting with myriad ways of breathing new life into untapped texts by reshaping them in English. But as becomes clear by the end of every semester, 16 weeks is never enough! Those students who most resonate with these projects are then invited to participate in further translation work through The Portavoz Project.
-          </p>
-          <p>
-            We are a volunteer translation initiative dedicated to bringing original Spanish-language theatre and texts to a wider English-speaking audience through collaborative translation, publication and production. Having successfully completed SPAN4040: Lost &amp; Found in Translation, those students keen to continue their journey as translators are invited to join in weekly round-table discussions and collaborative translation workshops where we refine theatre projects from previous semesters. Once complete, dramatic texts are passed on to <a href="https://www.outofthewings.org" target="_blank" style="color:var(--blue);text-decoration:none;">Out of the Wings</a>, a London-based theatre-in-translation initiative that holds monthly live table readings, featuring actors, directors, translators and academics. Further revisions are then undertaken in consultation with the original playwright, if possible, and the full script made available via our website and upon request.
-          </p>
-          <p>
-            Through this initiative individual students are also mentored through select translation projects they wish to bring to publication. These individuals range from Distinguished Majors to keen amateurs who simply wish to further projects and ideas begun in class, to postgraduates who wish to forge a career in translation.
-          </p>
-        </div>
-        <div class="about-aside">
-
-          <div class="director-photo-wrap">
-            <img src="images/erica-cobb.png" alt="Erica Cobb" class="director-photo" />
-          </div>
-          <h3>Erica Cobb</h3>
-          <div class="director-title"><span style="color:var(--green);font-weight:700;">Founder</span>, The Portavoz Project<br>Department of Spanish, Italian &amp; Portuguese, UVA</div>
-          <div class="director-divider"></div>
-          <p>
-            I have lived, worked and/or studied in Australia, England, Belgium, France, Italy, Spain, Mexico and the United States. I love being surrounded by history, walking in the footsteps of historical authors, and sharing that joy with my students, inspiring them to do the same through extensive reading across all genres and time periods as well as study abroad. While my background is in the Spanish Golden Age, I currently teach and specialize in translation, mainly of poetry and theatre of all time periods. I am interested both in the themes of identity and performance, the way in which we define ourselves and present ourselves to the world around us, as well as the idea of responsibility, both in terms of what we owe to each other and to the environment in which we live.
-          </p>
-          <p>
-            I teach all levels of Spanish language and literature, but most especially enjoy teaching poetry and translation. I lead the Portavoz Project, a group of students dedicated to translating contemporary or previously untranslated theatre, meeting regularly each semester. These are done with the aim of publication and performance. I also mentor DMP students who wish to work with translation.
-          </p>
-          <p>
-            Outside of my work for UVA, I freelance translate.
-          </p>
-          <div class="director-credentials">
-            <span>Ph.D., Spanish, UNC Chapel Hill</span>
-            <span>M.A. &amp; B.A., Ohio University</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="team-section">
-        <h2>Student Translators</h2>
-        <p>The students behind the translations, each bringing their own voice, background, and interpretation to the work.</p>
-        <div class="team-grid" id="translatorsGrid">
-          <div class="team-loading">Loading translators…</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 The Portavoz Project · University of Virginia</p>
-  </footer>
+  <style>
+    .student-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8,52,91,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .student-lightbox.open { display: flex; }
+    .student-lightbox-card {
+      background: var(--navy);
+      border-radius: 14px;
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 92%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      max-height: 88vh;
+      overflow-y: auto;
+      animation: lbZoomIn 0.3s cubic-bezier(0.4,0,0.2,1);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    @keyframes lbZoomIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .student-lightbox-card::-webkit-scrollbar { width: 4px; }
+    .student-lightbox-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+    .student-lightbox-card #lbPhoto img {
+      width: 96px; height: 96px; border-radius: 50%;
+      object-fit: cover; border: 3px solid rgba(255,255,255,0.25);
+      margin: 0 auto 16px; display: block;
+    }
+    .student-lightbox-card .lb-avatar {
+      width: 96px; height: 96px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); color: var(--white);
+      font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .student-lightbox-card .lb-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 28px;
+      font-weight: 700; color: var(--white); margin-bottom: 4px;
+    }
+    .student-lightbox-card .lb-meta {
+      font-family: 'Inter', sans-serif; font-size: 12px;
+      color: rgba(255,255,255,0.5); margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+    .student-lightbox-card .lb-desc {
+      font-family: 'Libre Baskerville', serif; font-size: 14px;
+      color: rgba(255,255,255,0.82); line-height: 1.8; text-align: left;
+    }
+    .lb-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; color: var(--white);
+      font-size: 28px; cursor: pointer; opacity: 0.6; line-height: 1;
+    }
+    .lb-close:hover { opacity: 1; }
+  </style>
 
   <script src="js/portavoz-data.js"></script>
   <script>
-
     async function loadTranslators() {
       const grid = document.getElementById('translatorsGrid');
-      const all = await loadTranslations();
+      let all = [];
 
-      // Collect unique student translators — support comma-separated names per row
+      // Use loadAllRows if available (includes rows without id/title),
+      // otherwise fall back to loadTranslations
+      try {
+        all = typeof loadAllRows === 'function'
+          ? await loadAllRows()
+          : await loadTranslations();
+      } catch(e) {
+        grid.innerHTML = '<p class="team-loading">Could not load translators.</p>';
+        return;
+      }
+
       const seen = new Set();
       const students = [];
-      all.forEach(t => {
-        const names   = (t.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
-        const classes = (t.studentClass      || '').split(',').map(s => s.trim());
+
+      all.forEach(row => {
+        const names   = (row.studentTranslator || '').split(',').map(s => s.trim()).filter(Boolean);
+        const classes = (row.studentClass      || '').split(',').map(s => s.trim());
+        const photos  = (row.studentPhoto      || '').split(',').map(s => s.trim());
+        const descs   = (row.studentDesc       || '').split('|').map(s => s.trim());
+
         names.forEach((name, i) => {
-          if (name && !seen.has(name)) {
+          if (!seen.has(name)) {
             seen.add(name);
-            students.push({ name, classYear: classes[i] || '' });
+            students.push({
+              name,
+              classYear: classes[i] || '',
+              photo:     photos[i]  || '',
+              desc:      descs[i]   || descs[0] || '',
+            });
           }
         });
       });
 
-      if (students.length === 0) {
+      if (!students.length) {
         grid.innerHTML = '<p class="team-loading">No student translators yet.</p>';
         return;
       }
 
-      // Sort alphabetically by last name
-      students.sort((a, b) => {
-        const lastA = a.name.split(' ').pop();
-        const lastB = b.name.split(' ').pop();
-        return lastA.localeCompare(lastB);
-      });
+      students.sort((a, b) =>
+        a.name.split(' ').pop().localeCompare(b.name.split(' ').pop())
+      );
 
-      grid.innerHTML = students.map(s => {
-        const initial = s.name.charAt(0).toUpperCase();
+      window._students = students;
+
+      grid.innerHTML = students.map((s, idx) => {
+        const initial    = s.name.charAt(0).toUpperCase();
         const classLabel = s.classYear ? `Class of ${s.classYear}` : '';
-        return `
-          <div class="team-card">
-            <div class="team-avatar">${initial}</div>
-            <div class="team-name">${s.name}</div>
-            <div class="team-role">Translator</div>
-            ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
-          </div>
-        `;
+        const clickable  = !!(s.photo || s.desc);
+        return `<div class="team-card${clickable ? ' has-detail' : ''}"
+                     ${clickable ? `data-idx="${idx}"` : ''}>
+          <div class="team-avatar">${initial}</div>
+          <div class="team-name">${s.name}</div>
+          <div class="team-role">Translator</div>
+          ${classLabel ? `<div class="team-class">${classLabel}</div>` : ''}
+        </div>`;
       }).join('');
+
+      grid.querySelectorAll('.team-card.has-detail').forEach(card => {
+        card.addEventListener('click', () => {
+          const s = window._students[+card.dataset.idx];
+          const classLabel = s.classYear ? `Translator · Class of ${s.classYear}` : 'Translator';
+
+          document.getElementById('lbPhoto').innerHTML = s.photo
+            ? `<img src="${s.photo}" alt="${s.name}">`
+            : `<div class="lb-avatar">${s.name.charAt(0)}</div>`;
+          document.getElementById('lbName').textContent = s.name;
+          document.getElementById('lbMeta').textContent = classLabel;
+          document.getElementById('lbDesc').textContent = s.desc;
+          document.getElementById('lbDesc').style.display = s.desc ? '' : 'none';
+
+          // Re-trigger zoom animation
+          const card2 = document.querySelector('.student-lightbox-card');
+          card2.style.animation = 'none';
+          card2.offsetHeight;
+          card2.style.animation = '';
+
+          document.getElementById('studentLightbox').classList.add('open');
+        });
+      });
     }
+
+    document.getElementById('lbCloseBtn').addEventListener('click', () =>
+      document.getElementById('studentLightbox').classList.remove('open')
+    );
+    document.getElementById('studentLightbox').addEventListener('click', e => {
+      if (e.target.id === 'studentLightbox')
+        document.getElementById('studentLightbox').classList.remove('open');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape')
+        document.getElementById('studentLightbox').classList.remove('open');
+    });
 
     loadTranslators();
   </script>
 
-  <script>
+    <script>
     (function() {
       var btn = document.getElementById('navHamburger');
       var dd  = document.getElementById('navDropdown');
