@@ -197,6 +197,162 @@
       color: var(--text-light); font-size: 16px; padding: 60px 0;
       text-align: center;
     }
+
+    /* FEATURED ARTISTS */
+    .artists-section {
+      margin-top: 60px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .artists-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 32px;
+    }
+    .artists-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .artist-card {
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .artist-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .artist-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .artist-banner {
+      padding: 16px 18px;
+      background: var(--white);
+    }
+    .artist-banner .artist-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .artist-banner .artist-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .artist-banner .artist-cta {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 12px;
+      font-style: italic;
+      color: var(--text-light);
+    }
+
+    /* ARTIST LIGHTBOX */
+    .artist-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8,52,91,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .artist-lightbox.open { display: flex; }
+    .artist-lightbox-card {
+      position: relative;
+      background: var(--navy);
+      border-radius: 14px;
+      padding: 0;
+      max-width: 520px;
+      width: 92%;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: artistZoomIn 0.3s cubic-bezier(0.4,0,0.2,1);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    @keyframes artistZoomIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .artist-lightbox-card::-webkit-scrollbar { width: 4px; }
+    .artist-lightbox-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+    .artist-lightbox-card .alb-photo {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border-radius: 14px 14px 0 0;
+    }
+    .artist-lightbox-body {
+      padding: 28px 32px 36px;
+    }
+    .artist-lightbox-card .alb-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .artist-lightbox-card .alb-role {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+    .artist-lightbox-card .alb-divider {
+      width: 40px; height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 auto 20px;
+    }
+    .artist-lightbox-card .alb-desc {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 14px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.85;
+      text-align: left;
+    }
+    .artist-lb-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: var(--white);
+      font-size: 26px;
+      cursor: pointer;
+      opacity: 0.8;
+      line-height: 1;
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .artist-lb-close:hover { opacity: 1; background: rgba(0,0,0,0.6); }
+
+    @media (max-width: 720px) {
+      .artists-grid { grid-template-columns: 1fr; }
+      .artist-card img { height: 220px; }
+    }
   </style>
 </head>
 <body>
@@ -240,8 +396,61 @@
     </div>
   </main>
 
+  <!-- Artist lightbox -->
+  <div class="artist-lightbox" id="artistLightbox">
+    <div class="artist-lightbox-card" id="artistLightboxCard">
+      <button class="artist-lb-close" id="artistLbClose" aria-label="Close">&#215;</button>
+      <img class="alb-photo" id="albPhoto" src="" alt="" />
+      <div class="artist-lightbox-body">
+        <div class="alb-name" id="albName"></div>
+        <div class="alb-role" id="albRole"></div>
+        <div class="alb-divider"></div>
+        <div class="alb-desc" id="albDesc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Artists section (injected after event content loads) -->
+  <div id="featuredArtists" style="display:none">
+    <div class="container">
+      <div class="artists-section">
+        <h2>Featured Artists</h2>
+        <div class="artists-grid">
+
+          <div class="artist-card" data-artist="griselda">
+            <img src="images/griselda-milagros-mongia.jpg" alt="Griselda Milagros Mongia" />
+            <div class="artist-banner">
+              <div class="artist-name">Griselda Milagros Mongia</div>
+              <div class="artist-role">Actress</div>
+              <div class="artist-cta">Click to read more about Griselda</div>
+            </div>
+          </div>
+
+          <div class="artist-card" data-artist="ruben">
+            <img src="images/ruben-mosquera.jpg" alt="Rubén Mosquera" />
+            <div class="artist-banner">
+              <div class="artist-name">Rubén Mosquera</div>
+              <div class="artist-role">Playwright &amp; Director</div>
+              <div class="artist-cta">Click to read more about Rubén</div>
+            </div>
+          </div>
+
+          <div class="artist-card" data-artist="sol">
+            <img src="images/sol-leone-martens.jpg" alt="Sol Leone Martens" />
+            <div class="artist-banner">
+              <div class="artist-name">Sol Leone Martens</div>
+              <div class="artist-role">Actress</div>
+              <div class="artist-cta">Click to read more about Sol</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    <p>© 2026 The Portavoz Project · University of Virginia</p>
+    <p>© 2026 The Portavoz Project · Website designed by Max Ritterband</p>
   </footer>
 
   <script src="js/portavoz-data.js"></script>
@@ -392,6 +601,63 @@
         </div>`;
 
       initLightbox();
+      initArtists();
+    }
+
+    const ARTISTS = {
+      griselda: {
+        name: 'Griselda Milagros Mongia',
+        role: 'Actress',
+        photo: 'images/griselda-milagros-mongia.jpg',
+        desc: `Griselda Milagros Mongia is 25 years old and holds a Bachelor's degree in Dramatic Arts from the University of El Salvador. She has been involved in theater since the age of 13 and has worked under the direction of Rubén Mosquera in plays such as "Amor y memoria," "Antonomía," and "Doña Petra parió en medio de la calle." She participated in the international festival "Brisk," toured northern Argentina and La Paz (Bolivia) with "The Spark," and has been active for years in the independent theater scene as both an actress and assistant director.`
+      },
+      ruben: {
+        name: 'Rubén Mosquera',
+        role: 'Playwright & Director',
+        photo: 'images/ruben-mosquera.jpg',
+        desc: `Rubén Mosquera is a playwright and director, working in the independent theater circuit of Argentina. In addition to authoring stage plays he contributes to set, light and sound design as well as executive production.\n\nEssentially self-taught, he deeply aligns with the ideas of Pedro Asquini and Juan Carlos Gené in their commitment to the relationship between theater, society, and the historical moment in which it develops. He considers theater a tool for social and political transformation.\n\nHis stage productions are austere, working with minimal budgets, yet without reducing high-level scenography or lighting possibilities—achieving this more through audience imagination.\n\nSince 2009, he has written and staged more than twenty plays in Buenos Aires, in what can be described as the "author's theater," creating independent works that uniquely express his citizen-of-the-21st-century-voice.\n\nAs the creator of his own theatrical universe, he applies—in each particular case—principles of architecture, visual arts, dance, music, literature, song, and other forms of expression to bring his vision to life. These disciplines serve as vehicles for what he wishes to express, while always maintaining connections to references grounded in the reality of the contemporary society in which he lives and develops his work.\n\nHe has staged works in several theaters throughout Buenos Aires and greater Argentina. Additionally, he has presented productions of his works and delivered lectures on his views about theater—particularly independent theater in Buenos Aires—at the following U.S. universities: University of Virginia (UVA), James Madison University (JMU) in Harrisonburg, University of Maryland (UMBC), Morgan State University (MSU), and Towson University in Baltimore.\n\nAmong his main works are: "Las putas de San Julián," "La bella en su jaula," "Amor y memoria," "La sutil debilidad del rey," "Moldeada a imagen y semejanza," "La sombra tras la sonrisa," "Antonomía," and "Doña Petra parió en medio de la calle," among others.`
+      },
+      sol: {
+        name: 'Sol Leone Martens',
+        role: 'Actress',
+        photo: 'images/sol-leone-martens.jpg',
+        desc: `Sol Leone Martens is a 23-year-old actress with a Bachelor's degree in Performing Arts from the Argentine University of Enterprise. With more than five years of experience in theater, she has participated in several productions alongside Rubén Mosquera, including "La guerra de las cuatro batallas," "La bella en su jaula," and "Cartas a ninguna parte." She also took part in a university-level professional production of "La Dama Boba." In addition, she is trained in dance and singing.`
+      }
+    };
+
+    function initArtists() {
+      // Show the section
+      document.getElementById('featuredArtists').style.display = '';
+
+      const lb     = document.getElementById('artistLightbox');
+      const lbCard = document.getElementById('artistLightboxCard');
+
+      document.querySelectorAll('.artist-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const a = ARTISTS[card.dataset.artist];
+          if (!a) return;
+
+          document.getElementById('albPhoto').src = a.photo;
+          document.getElementById('albPhoto').alt = a.name;
+          document.getElementById('albName').textContent = a.name;
+          document.getElementById('albRole').textContent = a.role;
+
+          // Render paragraphs for multi-paragraph bios
+          document.getElementById('albDesc').innerHTML =
+            a.desc.split('\n\n').map(p => `<p style="margin-bottom:14px">${p.trim()}</p>`).join('');
+
+          // Re-trigger animation
+          lbCard.style.animation = 'none';
+          lbCard.offsetHeight;
+          lbCard.style.animation = '';
+
+          lb.classList.add('open');
+        });
+      });
+
+      document.getElementById('artistLbClose').addEventListener('click', () => lb.classList.remove('open'));
+      lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.classList.remove('open'); });
     }
 
     function initLightbox() {
