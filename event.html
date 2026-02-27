@@ -97,7 +97,7 @@
 
     /* sponsors */
     .event-sponsors {
-      margin-top: 32px; padding-top: 20px;
+      margin-top: 32px; padding-top: 20px; padding-bottom: 48px;
       border-top: 1px solid var(--border);
     }
     .event-sponsors-label {
@@ -260,6 +260,21 @@
       font-size: 13px;
       font-style: italic;
       color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+    .artist-banner .artist-cta .cta-arrow {
+      font-style: normal;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .artist-card:hover .artist-banner .artist-cta {
+      color: var(--navy);
+    }
+    .artist-card:hover .artist-banner .artist-cta .cta-arrow {
+      transform: translateX(4px);
     }
 
     /* ARTIST LIGHTBOX */
@@ -295,12 +310,14 @@
     .artist-lightbox-card::-webkit-scrollbar { width: 4px; }
     .artist-lightbox-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
     .artist-lightbox-card .alb-photo {
-      width: 100%;
-      height: 280px;
+      width: 130px;
+      height: 130px;
       object-fit: cover;
-      object-position: center top;
+      object-position: center 15%;
       display: block;
-      border-radius: 14px 14px 0 0;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.2);
+      margin: 36px auto 0;
     }
     .artist-lightbox-body {
       padding: 28px 32px 36px;
@@ -601,7 +618,7 @@
               <div class="artist-banner">
                 <div class="artist-name">Rubén Mosquera</div>
                 <div class="artist-role">Playwright &amp; Director</div>
-                <div class="artist-cta">Click to read more about Rubén Mosquera</div>
+                <div class="artist-cta">Click to read more about Rubén Mosquera <span class="cta-arrow">→</span></div>
               </div>
             </div>
             <div class="artist-card" data-artist="griselda">
@@ -609,7 +626,7 @@
               <div class="artist-banner">
                 <div class="artist-name">Griselda Milagros Mongia</div>
                 <div class="artist-role">Actress</div>
-                <div class="artist-cta">Click to read more about Griselda Milagros Mongia</div>
+                <div class="artist-cta">Click to read more about Griselda Milagros Mongia <span class="cta-arrow">→</span></div>
               </div>
             </div>
             <div class="artist-card" data-artist="sol">
@@ -617,7 +634,7 @@
               <div class="artist-banner">
                 <div class="artist-name">Sol Leone Martens</div>
                 <div class="artist-role">Actress</div>
-                <div class="artist-cta">Click to read more about Sol Leone Martens</div>
+                <div class="artist-cta">Click to read more about Sol Leone Martens <span class="cta-arrow">→</span></div>
               </div>
             </div>
           </div>
