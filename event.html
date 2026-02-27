@@ -98,7 +98,6 @@
     /* sponsors */
     .event-sponsors {
       margin-top: 32px; padding-top: 20px;
-      border-top: 1px solid var(--border);
     }
     .event-sponsors-label {
       font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700;
@@ -200,9 +199,10 @@
 
     /* FEATURED ARTISTS */
     .artists-section {
-      margin-top: 60px;
-      padding-top: 48px;
-      border-top: 1px solid var(--border);
+      margin-top: 48px;
+      margin-bottom: 0;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
     }
     .artists-section h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -230,9 +230,9 @@
     }
     .artist-card img {
       width: 100%;
-      height: 260px;
+      height: 340px;
       object-fit: cover;
-      object-position: center top;
+      object-position: center 15%;
       display: block;
     }
     .artist-banner {
@@ -410,45 +410,6 @@
     </div>
   </div>
 
-  <!-- Featured Artists section (injected after event content loads) -->
-  <div id="featuredArtists" style="display:none">
-    <div class="container">
-      <div class="artists-section">
-        <h2>Featured Artists</h2>
-        <div class="artists-grid">
-
-          <div class="artist-card" data-artist="griselda">
-            <img src="images/griselda-milagros-mongia.jpg" alt="Griselda Milagros Mongia" />
-            <div class="artist-banner">
-              <div class="artist-name">Griselda Milagros Mongia</div>
-              <div class="artist-role">Actress</div>
-              <div class="artist-cta">Click to read more about Griselda</div>
-            </div>
-          </div>
-
-          <div class="artist-card" data-artist="ruben">
-            <img src="images/ruben-mosquera.jpg" alt="Rubén Mosquera" />
-            <div class="artist-banner">
-              <div class="artist-name">Rubén Mosquera</div>
-              <div class="artist-role">Playwright &amp; Director</div>
-              <div class="artist-cta">Click to read more about Rubén</div>
-            </div>
-          </div>
-
-          <div class="artist-card" data-artist="sol">
-            <img src="images/sol-leone-martens.jpg" alt="Sol Leone Martens" />
-            <div class="artist-banner">
-              <div class="artist-name">Sol Leone Martens</div>
-              <div class="artist-role">Actress</div>
-              <div class="artist-cta">Click to read more about Sol</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
   <footer>
     <p>© 2026 The Portavoz Project · Website designed by Max Ritterband</p>
   </footer>
@@ -567,6 +528,7 @@
 
             ${buildSchedule(event.schedule)}
             ${buildSponsors(event.sponsors)}
+            <div id="featuredArtistsInner"></div>
           </div>
 
           <aside class="event-sidebar">
@@ -626,8 +588,39 @@
     };
 
     function initArtists() {
-      // Show the section
-      document.getElementById('featuredArtists').style.display = '';
+      // Inject artists HTML before sponsors (inside event-main)
+      const inner = document.getElementById('featuredArtistsInner');
+      if (!inner) return;
+      inner.innerHTML = `
+        <div class="artists-section">
+          <h2>Featured Artists</h2>
+          <div class="artists-grid">
+            <div class="artist-card" data-artist="ruben">
+              <img src="images/ruben-mosquera.jpg" alt="Rubén Mosquera" />
+              <div class="artist-banner">
+                <div class="artist-name">Rubén Mosquera</div>
+                <div class="artist-role">Playwright &amp; Director</div>
+                <div class="artist-cta">Click to read more about Rubén Mosquera</div>
+              </div>
+            </div>
+            <div class="artist-card" data-artist="griselda">
+              <img src="images/griselda-milagros-mongia.jpg" alt="Griselda Milagros Mongia" />
+              <div class="artist-banner">
+                <div class="artist-name">Griselda Milagros Mongia</div>
+                <div class="artist-role">Actress</div>
+                <div class="artist-cta">Click to read more about Griselda Milagros Mongia</div>
+              </div>
+            </div>
+            <div class="artist-card" data-artist="sol">
+              <img src="images/sol-leone-martens.jpg" alt="Sol Leone Martens" />
+              <div class="artist-banner">
+                <div class="artist-name">Sol Leone Martens</div>
+                <div class="artist-role">Actress</div>
+                <div class="artist-cta">Click to read more about Sol Leone Martens</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
 
       const lb     = document.getElementById('artistLightbox');
       const lbCard = document.getElementById('artistLightboxCard');
