@@ -645,7 +645,8 @@
           </div>
         </div>
 
-        <div class="section-divider" style="margin-top:20px"><span>Translators</span></div>
+        <div class="section-divider" style="margin-top:20px"><span>All Translators</span></div>
+        <div class="info-box" style="margin-bottom:14px">These names appear on the translation card itself (e.g. "Translated by Jane Smith"). Add everyone who worked on this translation.</div>
 
         <div id="translatorRows">
           <div class="translator-row">
@@ -655,6 +656,18 @@
           </div>
         </div>
         <button class="btn-add-row" onclick="addTranslatorRow()">+ Add another translator</button>
+
+        <div class="section-divider" style="margin-top:24px"><span>Student Translators (About Page)</span></div>
+        <div class="info-box" style="margin-bottom:14px">These names appear as clickable cards on the About page. Only include current UVA students. Add their photo URL and bio in the <strong>Student Profiles</strong> tab if you want their card to be clickable.</div>
+
+        <div id="studentTranslatorRows">
+          <div class="translator-row">
+            <input type="text" placeholder="Student name" class="str-name" />
+            <input type="text" placeholder="Class year (e.g. 2025)" class="str-class" />
+            <button class="btn-remove-row" onclick="removeStudentTranslatorRow(this)" title="Remove">×</button>
+          </div>
+        </div>
+        <button class="btn-add-row" onclick="addStudentTranslatorRow()">+ Add another student translator</button>
 
         <div class="section-divider" style="margin-top:20px"><span>Publication</span></div>
 
@@ -1036,7 +1049,22 @@ function doGet() {
     container.appendChild(div);
   }
   function removeTranslatorRow(btn) {
-    const rows = document.querySelectorAll('.translator-row');
+    const rows = document.querySelectorAll('#translatorRows .translator-row');
+    if (rows.length > 1) btn.closest('.translator-row').remove();
+  }
+
+  function addStudentTranslatorRow() {
+    const container = document.getElementById('studentTranslatorRows');
+    const div = document.createElement('div');
+    div.className = 'translator-row';
+    div.innerHTML = `
+      <input type="text" placeholder="Student name" class="str-name" />
+      <input type="text" placeholder="Class year" class="str-class" />
+      <button class="btn-remove-row" onclick="removeStudentTranslatorRow(this)" title="Remove">×</button>`;
+    container.appendChild(div);
+  }
+  function removeStudentTranslatorRow(btn) {
+    const rows = document.querySelectorAll('#studentTranslatorRows .translator-row');
     if (rows.length > 1) btn.closest('.translator-row').remove();
   }
 
@@ -1070,9 +1098,19 @@ function doGet() {
   // ── BUILD TRANSLATOR STRINGS ──
   function buildTranslatorStrings() {
     const names = [], classes = [];
-    document.querySelectorAll('.translator-row').forEach(row => {
-      const name  = row.querySelector('.tr-name').value.trim();
-      const cls   = row.querySelector('.tr-class').value.trim();
+    document.querySelectorAll('#translatorRows .translator-row').forEach(row => {
+      const name = row.querySelector('.tr-name').value.trim();
+      const cls  = row.querySelector('.tr-class').value.trim();
+      if (name) { names.push(name); classes.push(cls); }
+    });
+    return { names: names.join(','), classes: classes.join(',') };
+  }
+
+  function buildStudentTranslatorStrings() {
+    const names = [], classes = [];
+    document.querySelectorAll('#studentTranslatorRows .translator-row').forEach(row => {
+      const name = row.querySelector('.str-name').value.trim();
+      const cls  = row.querySelector('.str-class').value.trim();
       if (name) { names.push(name); classes.push(cls); }
     });
     return { names: names.join(','), classes: classes.join(',') };
@@ -1086,7 +1124,8 @@ function doGet() {
       showToast('toast-translation', 'error', 'Please fill in the Title and Author fields.');
       return;
     }
-    const { names, classes } = buildTranslatorStrings();
+    const { names: translatorNames, classes: translatorClasses } = buildTranslatorStrings();
+    const { names: studentNames, classes: studentClasses } = buildStudentTranslatorStrings();
     const row = {
       id:               sanitizeId(title),
       title:            title,
@@ -1095,8 +1134,10 @@ function doGet() {
       status:           document.getElementById('t-status').value,
       type:             document.getElementById('t-type').value.trim(),
       semester:         document.getElementById('t-semester').value.trim(),
-      studentTranslator: names,
-      studentClass:     classes,
+      translator:       translatorNames,
+      translatorClass:  translatorClasses,
+      studentTranslator: studentNames,
+      studentClass:     studentClasses,
       publisher:        document.getElementById('t-publisher').value.trim(),
       datePublished:    document.getElementById('t-datePublished').value.trim(),
       buyLink:          document.getElementById('t-buyLink').value.trim(),
@@ -1200,6 +1241,12 @@ function doGet() {
           <input type="text" placeholder="Translator name" class="tr-name" />
           <input type="text" placeholder="Class year (e.g. 2025)" class="tr-class" />
           <button class="btn-remove-row" onclick="removeTranslatorRow(this)" title="Remove">×</button>
+        </div>`;
+      document.getElementById('studentTranslatorRows').innerHTML = `
+        <div class="translator-row">
+          <input type="text" placeholder="Student name" class="str-name" />
+          <input type="text" placeholder="Class year (e.g. 2025)" class="str-class" />
+          <button class="btn-remove-row" onclick="removeStudentTranslatorRow(this)" title="Remove">×</button>
         </div>`;
     }
     if (type === 'event') {
