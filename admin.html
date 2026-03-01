@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · The Portavoz Project</title>
+  <link rel="icon" type="image/svg+xml" href="images/portavoz-project-logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #08345b;
+      --navy-light: #0d4a82;
+      --green:  #2e7d4f;
+      --cream:  #f4f1ea;
+      --white:  #ffffff;
+      --border: #ddd8ce;
+      --text:   #1a1a1a;
+      --text-mid: #444;
+      --text-light: #888;
+      --red:    #c0392b;
+      --amber:  #d4760a;
+      --blue:   #1a5fa8;
+      --purple: #7b5ea7;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── LOGIN ── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+    }
+    .login-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .login-logo {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 20px;
+    }
+    .login-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .login-sub {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 32px;
+    }
+    .login-card input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+    .login-card input[type="password"]:focus { border-color: var(--navy); }
+    .login-card input[type="password"].error { border-color: var(--red); }
+    .login-error {
+      font-size: 13px;
+      color: var(--red);
+      margin-bottom: 12px;
+      min-height: 18px;
+    }
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--navy-light); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ── APP SHELL ── */
+    #appShell { display: none; min-height: 100vh; flex-direction: column; }
+
+    .top-bar {
+      background: var(--navy);
+      padding: 0 32px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .top-bar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .top-bar-brand img { width: 28px; height: 28px; }
+    .top-bar-badge {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .top-bar-right { display: flex; align-items: center; gap: 16px; }
+    .top-bar-link {
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .top-bar-link:hover { color: var(--white); }
+    .btn-logout {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── TABS ── */
+    .tab-bar {
+      background: var(--white);
+      border-bottom: 2px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      gap: 0;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      padding: 16px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+    .tab-btn .tab-icon { font-size: 15px; }
+    .tab-btn:hover { color: var(--navy); }
+    .tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); }
+
+    /* ── CONTENT ── */
+    .content { flex: 1; padding: 32px; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .panel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .panel-subtitle {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+    .form-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .form-group label .required {
+      color: var(--red);
+      margin-left: 2px;
+    }
+    .form-group label .hint {
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text-light);
+      font-size: 11px;
+      margin-left: 4px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(8,52,91,0.08);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    .form-group textarea.tall { min-height: 160px; }
+    .form-group select { cursor: pointer; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .status-published { background: #e6f4ec; color: var(--green); }
+    .status-in-progress { background: #e8f0fb; color: var(--blue); }
+    .status-completed { background: #f0ebf8; color: var(--purple); }
+
+    /* ── PHOTO HELPER ── */
+    .photo-helper {
+      background: #f8f6f0;
+      border: 1.5px dashed var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 4px;
+    }
+    .photo-helper-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .photo-steps {
+      list-style: none;
+      counter-reset: steps;
+    }
+    .photo-steps li {
+      counter-increment: steps;
+      font-size: 12px;
+      color: var(--text-mid);
+      padding: 3px 0 3px 22px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .photo-steps li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 0;
+      top: 3px;
+      width: 16px;
+      height: 16px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── FORM ACTIONS ── */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      padding: 11px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-submit:hover { background: var(--navy-light); }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-reset {
+      background: none;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-reset:hover { border-color: var(--text-mid); color: var(--text); }
+
+    .toast {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.success { background: #e6f4ec; color: var(--green); display: flex; }
+    .toast.error   { background: #fdecea; color: var(--red);   display: flex; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0 20px;
+    }
+    .section-divider span {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── SETUP CARD ── */
+    .setup-card {
+      background: #fff8e6;
+      border: 2px solid #f0c040;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .setup-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #8a5a00;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .setup-card p {
+      font-size: 13px;
+      color: #6a4400;
+      line-height: 1.6;
+    }
+    .setup-card code {
+      background: rgba(0,0,0,0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+    }
+    .setup-card a { color: #8a5a00; }
+
+    /* ── INFO BOX ── */
+    .info-box {
+      background: #eef4fb;
+      border-left: 4px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #1a3a5c;
+      line-height: 1.6;
+    }
+    .info-box strong { font-weight: 700; }
+
+    /* ── SCHEDULE BUILDER ── */
+    .schedule-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .schedule-item {
+      display: grid;
+      grid-template-columns: 200px 1fr 36px;
+      gap: 8px;
+      align-items: center;
+    }
+    .schedule-item input {
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .schedule-item input:focus { border-color: var(--navy); }
+    .btn-remove-row {
+      width: 32px; height: 32px;
+      background: #fdecea;
+      border: none;
+      border-radius: 6px;
+      color: var(--red);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-remove-row:hover { background: #f5c6c2; }
+    .btn-add-row {
+      background: none;
+      border: 1.5px dashed var(--border);
+      border-radius: 7px;
+      padding: 8px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      width: 100%;
+    }
+    .btn-add-row:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── TRANSLATORS MULTI-INPUT ── */
+    .translator-row {
+      display: grid;
+      grid-template-columns: 1fr 140px 36px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .translator-row input {
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .translator-row input:focus { border-color: var(--navy); }
+
+    @media (max-width: 768px) {
+      .content { padding: 20px 16px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-card { padding: 20px 18px; }
+      .tab-btn { padding: 14px 12px; font-size: 12px; }
+      .schedule-item { grid-template-columns: 1fr 36px; grid-template-rows: auto auto; }
+      .schedule-item input:first-child { grid-column: 1; }
+      .schedule-item input:last-of-type { grid-column: 1; }
+      .translator-row { grid-template-columns: 1fr 36px; }
+      .translator-row input:last-of-type { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="images/portavoz-project-logo.svg" alt="Portavoz" class="login-logo" />
+    <div class="login-title">Portavoz Admin</div>
+    <div class="login-sub">Enter the admin password to continue</div>
+    <input type="password" id="pwInput" placeholder="Password" autocomplete="current-password" />
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-primary" id="loginBtn">Sign In</button>
+  </div>
+</div>
+
+<!-- ══════════ APP SHELL ══════════ -->
+<div id="appShell" style="display:none; flex-direction:column; min-height:100vh;">
+
+  <div class="top-bar">
+    <div class="top-bar-brand">
+      <img src="images/portavoz-project-logo.svg" alt="" />
+      The Portavoz Project
+      <span class="top-bar-badge">Admin</span>
+    </div>
+    <div class="top-bar-right">
+      <a href="/" class="top-bar-link" target="_blank">← View site</a>
+      <button class="btn-logout" id="logoutBtn">Log out</button>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="translations">
+      <span class="tab-icon">📖</span> Translations
+    </button>
+    <button class="tab-btn" data-tab="events">
+      <span class="tab-icon">🎭</span> Events
+    </button>
+    <button class="tab-btn" data-tab="students">
+      <span class="tab-icon">👥</span> Student Profiles
+    </button>
+    <button class="tab-btn" data-tab="setup">
+      <span class="tab-icon">⚙️</span> Setup
+    </button>
+  </div>
+
+  <div class="content">
+
+    <!-- ── TRANSLATIONS TAB ── -->
+    <div class="tab-panel active" id="tab-translations">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Add a Translation</div>
+          <div class="panel-subtitle">Fill in the details below and click Save — it will appear on the site immediately.</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Tip:</strong> Fields marked <span style="color:var(--red)">*</span> are required. All other fields are optional — you can add them later by editing the Google Sheet directly.
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">📖 Translation Details</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>English Title <span class="required">*</span></label>
+            <input type="text" id="t-title" placeholder="e.g. Love and Memory" />
+          </div>
+          <div class="form-group">
+            <label>Original Spanish Title <span class="hint">(if different)</span></label>
+            <input type="text" id="t-originalTitle" placeholder="e.g. Amor y memoria" />
+          </div>
+          <div class="form-group">
+            <label>Author <span class="required">*</span></label>
+            <input type="text" id="t-author" placeholder="e.g. Rubén Mosquera" />
+          </div>
+          <div class="form-group">
+            <label>Status <span class="required">*</span></label>
+            <select id="t-status">
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="published">Published</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Type / Genre <span class="hint">(Theatre, Poetry, etc.)</span></label>
+            <input type="text" id="t-type" placeholder="e.g. Theatre" />
+          </div>
+          <div class="form-group">
+            <label>Semester</label>
+            <input type="text" id="t-semester" placeholder="e.g. Spring 2025" />
+          </div>
+        </div>
+
+        <div class="section-divider" style="margin-top:20px"><span>Translators</span></div>
+
+        <div id="translatorRows">
+          <div class="translator-row">
+            <input type="text" placeholder="Translator name" class="tr-name" />
+            <input type="text" placeholder="Class year (e.g. 2025)" class="tr-class" />
+            <button class="btn-remove-row" onclick="removeTranslatorRow(this)" title="Remove">×</button>
+          </div>
+        </div>
+        <button class="btn-add-row" onclick="addTranslatorRow()">+ Add another translator</button>
+
+        <div class="section-divider" style="margin-top:20px"><span>Publication</span></div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Publisher</label>
+            <input type="text" id="t-publisher" placeholder="e.g. Out of the Wings" />
+          </div>
+          <div class="form-group">
+            <label>Date Published</label>
+            <input type="text" id="t-datePublished" placeholder="e.g. 2024" />
+          </div>
+          <div class="form-group full">
+            <label>Buy Link <span class="hint">(URL where readers can purchase)</span></label>
+            <input type="url" id="t-buyLink" placeholder="https://..." />
+          </div>
+          <div class="form-group full">
+            <label>Excerpt / Description <span class="hint">(short preview shown on the translations page, or a Google Doc URL)</span></label>
+            <textarea id="t-excerpt" placeholder="Paste a short excerpt or description, or a Google Doc link..." class="tall"></textarea>
+          </div>
+          <div class="form-group full">
+            <label>Author Bio</label>
+            <textarea id="t-authorBio" placeholder="A short biography of the original author..."></textarea>
+          </div>
+          <div class="form-group full">
+            <label>Translator Note</label>
+            <textarea id="t-translatorNote" placeholder="Optional note from the translator(s)..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-submit" id="saveTranslation" onclick="saveTranslation()">
+            <span>💾</span> Save Translation
+          </button>
+          <button class="btn-reset" onclick="resetForm('translation')">Clear form</button>
+          <div class="toast" id="toast-translation"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EVENTS TAB ── -->
+    <div class="tab-panel" id="tab-events">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Add an Event</div>
+          <div class="panel-subtitle">New events appear on the Events page as soon as they're saved.</div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">🎭 Event Details</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Event Title <span class="required">*</span></label>
+            <input type="text" id="e-title" placeholder="e.g. Entre Voces y Escenas: A Residency" />
+          </div>
+          <div class="form-group full">
+            <label>Subtitle <span class="hint">(optional tagline)</span></label>
+            <input type="text" id="e-subtitle" placeholder="e.g. A week-long residency with..." />
+          </div>
+          <div class="form-group">
+            <label>Label / Type <span class="hint">(shown as a badge)</span></label>
+            <input type="text" id="e-label" placeholder="e.g. Residency, Performance, Lecture" />
+          </div>
+          <div class="form-group">
+            <label>Start Date <span class="required">*</span> <span class="hint">(YYYY-MM-DD)</span></label>
+            <input type="date" id="e-startDate" />
+          </div>
+          <div class="form-group">
+            <label>End Date <span class="hint">(leave blank for single-day)</span></label>
+            <input type="date" id="e-endDate" />
+          </div>
+          <div class="form-group">
+            <label>Ticket / Registration Link</label>
+            <input type="url" id="e-ticketLink" placeholder="https://..." />
+          </div>
+          <div class="form-group full">
+            <label>Description <span class="required">*</span></label>
+            <textarea id="e-description" class="tall" placeholder="Full description of the event. Press Enter twice to start a new paragraph."></textarea>
+          </div>
+        </div>
+
+        <div class="section-divider"><span>Schedule of Events</span></div>
+        <div class="info-box" style="margin-bottom:14px">Add each session or sub-event on its own row. The date/time field and description will appear in the schedule table on the event page.</div>
+
+        <div id="scheduleItems">
+          <div class="schedule-item">
+            <input type="text" placeholder="e.g. Wed Apr 8 · 4 PM" class="sch-date" />
+            <input type="text" placeholder="e.g. Cultural Conversation — Casa Bolívar" class="sch-detail" />
+            <button class="btn-remove-row" onclick="removeScheduleRow(this)" title="Remove">×</button>
+          </div>
+        </div>
+        <button class="btn-add-row" onclick="addScheduleRow()" style="margin-bottom:20px">+ Add schedule item</button>
+
+        <div class="section-divider"><span>Poster &amp; Sponsors</span></div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Poster Image URL <span class="hint">(Google Drive link — see instructions below)</span></label>
+            <input type="url" id="e-posterURL" placeholder="https://drive.google.com/..." />
+            <div class="photo-helper" style="margin-top:8px">
+              <div class="photo-helper-title">📸 How to get an image link from Google Drive</div>
+              <ol class="photo-steps">
+                <li>Upload your poster image to Google Drive</li>
+                <li>Right-click the file → <strong>Share</strong> → set to <strong>"Anyone with the link"</strong></li>
+                <li>Click <strong>Copy link</strong> — it will look like: <code>https://drive.google.com/file/d/FILE_ID/view</code></li>
+                <li>Paste that link here — the site will convert it automatically</li>
+              </ol>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>Sponsors <span class="hint">(separate each with a pipe | character)</span></label>
+            <input type="text" id="e-sponsors" placeholder="e.g. GEO Fellowship | The Jefferson Trust | Casa Bolívar" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-submit" id="saveEvent" onclick="saveEvent()">
+            <span>💾</span> Save Event
+          </button>
+          <button class="btn-reset" onclick="resetForm('event')">Clear form</button>
+          <div class="toast" id="toast-event"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STUDENTS TAB ── -->
+    <div class="tab-panel" id="tab-students">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Add a Student Profile</div>
+          <div class="panel-subtitle">Student profiles appear as clickable cards on the About page.</div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Note:</strong> Students are linked to translations via the <strong>studentTranslator</strong> column in the sheet. If a student has already been added as a translator on a translation row, you only need to fill this in if you want to add a photo or bio to their card.
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">👤 Student Details</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name <span class="required">*</span></label>
+            <input type="text" id="s-name" placeholder="e.g. Jane Smith" />
+          </div>
+          <div class="form-group">
+            <label>Class Year <span class="hint">(graduation year)</span></label>
+            <input type="text" id="s-classYear" placeholder="e.g. 2025" />
+          </div>
+          <div class="form-group full">
+            <label>Photo URL <span class="hint">(Google Drive link — see instructions below)</span></label>
+            <input type="url" id="s-photo" placeholder="https://drive.google.com/..." />
+            <div class="photo-helper" style="margin-top:8px">
+              <div class="photo-helper-title">📸 How to get a photo link from Google Drive</div>
+              <ol class="photo-steps">
+                <li>Upload the student's photo to Google Drive</li>
+                <li>Right-click → <strong>Share</strong> → <strong>"Anyone with the link"</strong></li>
+                <li>Copy the link and paste it here</li>
+                <li>The site automatically displays it as a circular profile photo</li>
+              </ol>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>Student Bio <span class="hint">(shown when their card is clicked)</span></label>
+            <textarea id="s-desc" class="tall" placeholder="Write a short bio for this student. For rows with multiple students, separate bios with a pipe | character."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-submit" id="saveStudent" onclick="saveStudent()">
+            <span>💾</span> Save Student Profile
+          </button>
+          <button class="btn-reset" onclick="resetForm('student')">Clear form</button>
+          <div class="toast" id="toast-student"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SETUP TAB ── -->
+    <div class="tab-panel" id="tab-setup">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title">Setup &amp; Configuration</div>
+          <div class="panel-subtitle">Connect this admin panel to your Google Sheet.</div>
+        </div>
+      </div>
+
+      <div class="setup-card">
+        <div class="setup-card-title">⚠️ One-time setup required</div>
+        <p>To save content from this admin panel to your Google Sheet, you need to create a <strong>Google Apps Script</strong> — a free mini-server hosted by Google. This only needs to be done once. Follow the steps below.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">Step 1 · Create the Google Apps Script</div>
+        <ol style="padding-left:20px; line-height:2; font-size:14px; color:var(--text-mid);">
+          <li>Go to <a href="https://script.google.com" target="_blank" style="color:var(--navy)">script.google.com</a> and click <strong>New Project</strong></li>
+          <li>Delete any existing code in the editor</li>
+          <li>Copy and paste the script code shown below into the editor</li>
+          <li>Replace <code>YOUR_SPREADSHEET_ID</code> with your actual Google Sheet ID (the long string in the sheet's URL)</li>
+          <li>Click <strong>Save</strong> (give the project any name, e.g. "Portavoz Admin")</li>
+          <li>Click <strong>Deploy → New deployment</strong></li>
+          <li>Choose type: <strong>Web App</strong></li>
+          <li>Set <strong>"Execute as"</strong> to <em>Me</em> and <strong>"Who has access"</strong> to <em>Anyone</em></li>
+          <li>Click <strong>Deploy</strong> — you'll be asked to authorize. Click through.</li>
+          <li>Copy the <strong>Web App URL</strong> that appears — it will look like <code>https://script.google.com/macros/s/ABC.../exec</code></li>
+        </ol>
+
+        <div style="margin-top:20px; background:#1e1e2e; border-radius:8px; padding:20px; overflow-x:auto;">
+          <pre style="color:#cdd6f4; font-family:monospace; font-size:12px; line-height:1.7; white-space:pre-wrap; margin:0;" id="appsScriptCode">const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';
+const TRANSLATIONS_SHEET = 'Sheet1'; // your main sheet tab name
+const EVENTS_SHEET = 'events';        // your events sheet tab name
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const { type, row } = data;
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+    if (type === 'translation') {
+      const sheet = ss.getSheetByName(TRANSLATIONS_SHEET);
+      const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+      const newRow = headers.map(h => row[h] !== undefined ? row[h] : '');
+      sheet.appendRow(newRow);
+    } else if (type === 'event') {
+      const sheet = ss.getSheetByName(EVENTS_SHEET);
+      const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+      const newRow = headers.map(h => row[h] !== undefined ? row[h] : '');
+      sheet.appendRow(newRow);
+    } else if (type === 'student') {
+      const sheet = ss.getSheetByName(TRANSLATIONS_SHEET);
+      sheet.appendRow([
+        '', // id
+        '', // title (empty - student-only row)
+        '', // author
+        '', // semester
+        row.studentTranslator || '',
+        row.studentClass || '',
+        '', // status
+        '', // type
+        '', // originalTitle
+        '', // excerpt
+        '', // buyLink
+        '', // publisher
+        '', // datePublished
+        '', // authorBio
+        '', // translatorNote
+        row.studentPhoto || '',
+        row.studentDesc || ''
+      ]);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: 'Portavoz Admin API is running' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+        </div>
+        <button onclick="copyScript()" style="margin-top:10px; background:none; border:1.5px solid var(--border); border-radius:7px; padding:8px 16px; font-size:13px; cursor:pointer; color:var(--text-mid);">📋 Copy script to clipboard</button>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">Step 2 · Connect this admin panel</div>
+        <p style="font-size:14px; color:var(--text-mid); margin-bottom:16px; line-height:1.6;">Paste your Web App URL below. This is saved in your browser and used every time you submit a form.</p>
+        <div class="form-group" style="max-width:600px;">
+          <label>Google Apps Script Web App URL</label>
+          <input type="url" id="gasUrl" placeholder="https://script.google.com/macros/s/.../exec" />
+        </div>
+        <div style="margin-top:16px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <button class="btn-submit" onclick="saveGasUrl()">💾 Save URL</button>
+          <button class="btn-submit" style="background:var(--green);" onclick="testConnection()">🔗 Test Connection</button>
+          <div class="toast" id="toast-setup"></div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">Step 3 · Change the admin password</div>
+        <p style="font-size:14px; color:var(--text-mid); margin-bottom:16px; line-height:1.6;">The default password is <code style="background:#f0ebe0;padding:2px 6px;border-radius:4px;">portavoz2026</code>. Change it to something secure.</p>
+        <div class="form-grid" style="max-width:600px;">
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="newPassword" placeholder="Enter new password" />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+          </div>
+        </div>
+        <div style="margin-top:16px; display:flex; gap:12px; align-items:center;">
+          <button class="btn-submit" onclick="changePassword()">🔒 Update Password</button>
+          <div class="toast" id="toast-password"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /appShell -->
+
+<script>
+  // ── CONFIG ──
+  const DEFAULT_PASSWORD = 'portavoz2026';
+  const STORAGE_KEY      = 'portavoz_admin_auth';
+  const GAS_URL_KEY      = 'portavoz_gas_url';
+  const PASSWORD_KEY     = 'portavoz_admin_pw';
+
+  // ── INIT ──
+  window.addEventListener('DOMContentLoaded', () => {
+    if (isAuthenticated()) showApp();
+    document.getElementById('pwInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    document.getElementById('logoutBtn').addEventListener('click', doLogout);
+
+    // Restore GAS URL if saved
+    const saved = localStorage.getItem(GAS_URL_KEY);
+    if (saved) document.getElementById('gasUrl').value = saved;
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+  });
+
+  // ── AUTH ──
+  function getPassword() {
+    return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+  }
+  function isAuthenticated() {
+    return sessionStorage.getItem(STORAGE_KEY) === 'true';
+  }
+  function doLogin() {
+    const val = document.getElementById('pwInput').value;
+    if (val === getPassword()) {
+      sessionStorage.setItem(STORAGE_KEY, 'true');
+      showApp();
+    } else {
+      const input = document.getElementById('pwInput');
+      const err   = document.getElementById('loginError');
+      input.classList.add('error');
+      err.textContent = 'Incorrect password. Please try again.';
+      input.value = '';
+      setTimeout(() => input.classList.remove('error'), 1500);
+    }
+  }
+  function doLogout() {
+    sessionStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+  function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    const app = document.getElementById('appShell');
+    app.style.display = 'flex';
+  }
+
+  // ── TRANSLATOR ROWS ──
+  function addTranslatorRow() {
+    const container = document.getElementById('translatorRows');
+    const div = document.createElement('div');
+    div.className = 'translator-row';
+    div.innerHTML = `
+      <input type="text" placeholder="Translator name" class="tr-name" />
+      <input type="text" placeholder="Class year" class="tr-class" />
+      <button class="btn-remove-row" onclick="removeTranslatorRow(this)" title="Remove">×</button>`;
+    container.appendChild(div);
+  }
+  function removeTranslatorRow(btn) {
+    const rows = document.querySelectorAll('.translator-row');
+    if (rows.length > 1) btn.closest('.translator-row').remove();
+  }
+
+  // ── SCHEDULE ROWS ──
+  function addScheduleRow() {
+    const container = document.getElementById('scheduleItems');
+    const div = document.createElement('div');
+    div.className = 'schedule-item';
+    div.innerHTML = `
+      <input type="text" placeholder="e.g. Wed Apr 8 · 4 PM" class="sch-date" />
+      <input type="text" placeholder="e.g. Cultural Conversation — Casa Bolívar" class="sch-detail" />
+      <button class="btn-remove-row" onclick="removeScheduleRow(this)" title="Remove">×</button>`;
+    container.appendChild(div);
+  }
+  function removeScheduleRow(btn) {
+    const rows = document.querySelectorAll('.schedule-item');
+    if (rows.length > 1) btn.closest('.schedule-item').remove();
+  }
+
+  // ── BUILD SCHEDULE STRING ──
+  function buildScheduleString() {
+    const items = [];
+    document.querySelectorAll('.schedule-item').forEach(row => {
+      const date   = row.querySelector('.sch-date').value.trim();
+      const detail = row.querySelector('.sch-detail').value.trim();
+      if (date || detail) items.push(`${date}|${detail}`);
+    });
+    return items.join('||');
+  }
+
+  // ── BUILD TRANSLATOR STRINGS ──
+  function buildTranslatorStrings() {
+    const names = [], classes = [];
+    document.querySelectorAll('.translator-row').forEach(row => {
+      const name  = row.querySelector('.tr-name').value.trim();
+      const cls   = row.querySelector('.tr-class').value.trim();
+      if (name) { names.push(name); classes.push(cls); }
+    });
+    return { names: names.join(','), classes: classes.join(',') };
+  }
+
+  // ── SAVE TRANSLATION ──
+  async function saveTranslation() {
+    const title = document.getElementById('t-title').value.trim();
+    const author = document.getElementById('t-author').value.trim();
+    if (!title || !author) {
+      showToast('toast-translation', 'error', 'Please fill in the Title and Author fields.');
+      return;
+    }
+    const { names, classes } = buildTranslatorStrings();
+    const row = {
+      id:               sanitizeId(title),
+      title:            title,
+      originalTitle:    document.getElementById('t-originalTitle').value.trim(),
+      author:           author,
+      status:           document.getElementById('t-status').value,
+      type:             document.getElementById('t-type').value.trim(),
+      semester:         document.getElementById('t-semester').value.trim(),
+      studentTranslator: names,
+      studentClass:     classes,
+      publisher:        document.getElementById('t-publisher').value.trim(),
+      datePublished:    document.getElementById('t-datePublished').value.trim(),
+      buyLink:          document.getElementById('t-buyLink').value.trim(),
+      excerpt:          document.getElementById('t-excerpt').value.trim(),
+      authorBio:        document.getElementById('t-authorBio').value.trim(),
+      translatorNote:   document.getElementById('t-translatorNote').value.trim(),
+    };
+    await submitToSheet('translation', row, 'toast-translation', 'saveTranslation');
+  }
+
+  // ── SAVE EVENT ──
+  async function saveEvent() {
+    const title = document.getElementById('e-title').value.trim();
+    const startDate = document.getElementById('e-startDate').value.trim();
+    const description = document.getElementById('e-description').value.trim();
+    if (!title || !startDate || !description) {
+      showToast('toast-event', 'error', 'Please fill in the Title, Start Date, and Description.');
+      return;
+    }
+    const row = {
+      id:          sanitizeId(title),
+      title:       title,
+      subtitle:    document.getElementById('e-subtitle').value.trim(),
+      label:       document.getElementById('e-label').value.trim(),
+      startDate:   startDate,
+      endDate:     document.getElementById('e-endDate').value.trim(),
+      description: document.getElementById('e-description').value.trim(),
+      schedule:    buildScheduleString(),
+      posterURL:   document.getElementById('e-posterURL').value.trim(),
+      ticketLink:  document.getElementById('e-ticketLink').value.trim(),
+      sponsors:    document.getElementById('e-sponsors').value.trim(),
+    };
+    await submitToSheet('event', row, 'toast-event', 'saveEvent');
+  }
+
+  // ── SAVE STUDENT ──
+  async function saveStudent() {
+    const name = document.getElementById('s-name').value.trim();
+    if (!name) {
+      showToast('toast-student', 'error', 'Please enter the student\'s name.');
+      return;
+    }
+    const row = {
+      studentTranslator: name,
+      studentClass:      document.getElementById('s-classYear').value.trim(),
+      studentPhoto:      document.getElementById('s-photo').value.trim(),
+      studentDesc:       document.getElementById('s-desc').value.trim(),
+    };
+    await submitToSheet('student', row, 'toast-student', 'saveStudent');
+  }
+
+  // ── SUBMIT TO SHEET ──
+  async function submitToSheet(type, row, toastId, btnId) {
+    const gasUrl = localStorage.getItem(GAS_URL_KEY);
+    if (!gasUrl) {
+      showToast(toastId, 'error', 'No Apps Script URL configured. Go to the Setup tab.');
+      return;
+    }
+    const btn = document.getElementById(btnId);
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span>⏳</span> Saving…'; }
+
+    try {
+      const res = await fetch(gasUrl, {
+        method: 'POST',
+        body: JSON.stringify({ type, row }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(toastId, 'success', '✓ Saved successfully! The site will update shortly.');
+        if (type === 'translation') resetForm('translation');
+        if (type === 'event') resetForm('event');
+        if (type === 'student') resetForm('student');
+      } else {
+        showToast(toastId, 'error', 'Error: ' + (json.error || 'Unknown error'));
+      }
+    } catch(e) {
+      showToast(toastId, 'error', 'Could not reach the Apps Script. Check your URL in Setup.');
+    } finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = '<span>💾</span> Save ' + type.charAt(0).toUpperCase() + type.slice(1); }
+    }
+  }
+
+  // ── TOAST ──
+  function showToast(id, type, msg) {
+    const el = document.getElementById(id);
+    el.className = 'toast ' + type;
+    el.textContent = msg;
+    setTimeout(() => { el.className = 'toast'; el.textContent = ''; }, 5000);
+  }
+
+  // ── RESET FORMS ──
+  function resetForm(type) {
+    if (type === 'translation') {
+      ['t-title','t-originalTitle','t-author','t-type','t-semester','t-publisher','t-datePublished','t-buyLink','t-excerpt','t-authorBio','t-translatorNote'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('t-status').value = 'in-progress';
+      document.getElementById('translatorRows').innerHTML = `
+        <div class="translator-row">
+          <input type="text" placeholder="Translator name" class="tr-name" />
+          <input type="text" placeholder="Class year (e.g. 2025)" class="tr-class" />
+          <button class="btn-remove-row" onclick="removeTranslatorRow(this)" title="Remove">×</button>
+        </div>`;
+    }
+    if (type === 'event') {
+      ['e-title','e-subtitle','e-label','e-startDate','e-endDate','e-ticketLink','e-description','e-posterURL','e-sponsors'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('scheduleItems').innerHTML = `
+        <div class="schedule-item">
+          <input type="text" placeholder="e.g. Wed Apr 8 · 4 PM" class="sch-date" />
+          <input type="text" placeholder="e.g. Cultural Conversation — Casa Bolívar" class="sch-detail" />
+          <button class="btn-remove-row" onclick="removeScheduleRow(this)" title="Remove">×</button>
+        </div>`;
+    }
+    if (type === 'student') {
+      ['s-name','s-classYear','s-photo','s-desc'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    }
+  }
+
+  // ── SETUP ──
+  function saveGasUrl() {
+    const url = document.getElementById('gasUrl').value.trim();
+    if (!url) { showToast('toast-setup', 'error', 'Please enter a URL.'); return; }
+    localStorage.setItem(GAS_URL_KEY, url);
+    showToast('toast-setup', 'success', '✓ URL saved!');
+  }
+
+  async function testConnection() {
+    const url = document.getElementById('gasUrl').value.trim();
+    if (!url) { showToast('toast-setup', 'error', 'Enter a URL first.'); return; }
+    showToast('toast-setup', 'success', 'Testing…');
+    try {
+      const res = await fetch(url);
+      const json = await res.json();
+      if (json.status) showToast('toast-setup', 'success', '✓ Connected! ' + json.status);
+      else showToast('toast-setup', 'success', '✓ Script responded.');
+    } catch(e) {
+      showToast('toast-setup', 'error', 'Could not connect. Check the URL.');
+    }
+  }
+
+  function changePassword() {
+    const np = document.getElementById('newPassword').value;
+    const cp = document.getElementById('confirmPassword').value;
+    if (!np) { showToast('toast-password', 'error', 'Please enter a new password.'); return; }
+    if (np !== cp) { showToast('toast-password', 'error', 'Passwords do not match.'); return; }
+    if (np.length < 8) { showToast('toast-password', 'error', 'Password must be at least 8 characters.'); return; }
+    localStorage.setItem(PASSWORD_KEY, np);
+    showToast('toast-password', 'success', '✓ Password updated!');
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+  }
+
+  function copyScript() {
+    const code = document.getElementById('appsScriptCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+      showToast('toast-setup', 'success', '✓ Script copied to clipboard!');
+    });
+  }
+
+  // ── HELPERS ──
+  function sanitizeId(title) {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+</script>
+
+</body>
+</html>
