@@ -98,19 +98,59 @@ async function fetchDocText(url) {
 
 /**
  * Parse a raw CSV string into an array of objects using the first row as keys.
+ * Handles newlines inside quoted fields correctly.
  */
 function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  if (lines.length < 2) return [];
+  // Tokenize the entire CSV respecting quoted fields (which may contain \n)
+  const records = [];
+  let current = '';
+  let inQuotes = false;
+  let fields = [];
 
-  const headers = parseCSVRow(lines[0]);
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"') {
+      if (inQuotes && text[i + 1] === '"') {
+        current += '"';
+        i++;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (ch === ',' && !inQuotes) {
+      fields.push(current);
+      current = '';
+    } else if ((ch === '\n' || (ch === '\r' && text[i + 1] === '\n')) && !inQuotes) {
+      if (ch === '\r') i++; // skip \r in \r\n
+      fields.push(current);
+      current = '';
+      records.push(fields);
+      fields = [];
+    } else if (ch === '\r' && !inQuotes) {
+      // bare \r
+      fields.push(current);
+      current = '';
+      records.push(fields);
+      fields = [];
+    } else {
+      current += ch;
+    }
+  }
+  // Push last field/record
+  if (current || fields.length) {
+    fields.push(current);
+    records.push(fields);
+  }
+
+  if (records.length < 2) return [];
+
+  const headers = records[0].map(h => h.trim());
   console.log('[Portavoz] CSV headers found:', headers);
 
-  const rows = lines.slice(1).map(line => {
-    const values = parseCSVRow(line);
+  const rows = records.slice(1).map(values => {
     const obj = {};
     headers.forEach((h, i) => {
-      obj[h.trim()] = (values[i] || '').trim();
+      // Preserve internal newlines (for translator/bio line breaks), just trim edges
+      obj[h] = (values[i] || '').replace(/^\s+|\s+$/g, '');
     });
     obj.featured = obj.featured === 'TRUE' || obj.featured === 'true' || obj.featured === '1' || obj.featured === 'yes';
     return obj;
@@ -175,15 +215,33 @@ async function loadAllRows() {
     const res = await fetch(SHEET_CSV_URL);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) return [];
-    const headers = parseCSVRow(lines[0]);
-    return lines.slice(1).map(line => {
-      const values = parseCSVRow(line);
+    // Robust parser: handles newlines inside quoted cells
+    const records = [];
+    let current = '', inQuotes = false, fields = [];
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === '"') {
+        if (inQuotes && text[i+1] === '"') { current += '"'; i++; }
+        else inQuotes = !inQuotes;
+      } else if (ch === ',' && !inQuotes) {
+        fields.push(current); current = '';
+      } else if ((ch === '\n' || (ch === '\r' && text[i+1] === '\n')) && !inQuotes) {
+        if (ch === '\r') i++;
+        fields.push(current); current = '';
+        records.push(fields); fields = [];
+      } else if (ch === '\r' && !inQuotes) {
+        fields.push(current); current = '';
+        records.push(fields); fields = [];
+      } else { current += ch; }
+    }
+    if (current || fields.length) { fields.push(current); records.push(fields); }
+    if (records.length < 2) return [];
+    const headers = records[0].map(h => h.trim());
+    return records.slice(1).map(values => {
       const obj = {};
-      headers.forEach((h, i) => { obj[h.trim()] = (values[i] || '').trim(); });
+      headers.forEach((h, i) => { obj[h] = (values[i] || '').replace(/^\s+|\s+$/g, ''); });
       return obj;
-    }).filter(row => Object.values(row).some(v => v)); // skip completely empty rows
+    }).filter(row => Object.values(row).some(v => v));
   } catch (err) {
     console.error('[Portavoz] loadAllRows failed:', err);
     return [];
