@@ -246,7 +246,7 @@
   </main>
 
   <footer>
-    <p>© 2026 The Portavoz Project · University of Virginia</p>
+    <p>© 2026 The Portavoz Project · Website designed by Max Ritterband</p>
   </footer>
 
   <script src="js/portavoz-data.js"></script>
@@ -276,8 +276,8 @@
       document.title = `${t.title} · The Portavoz Project`;
 
       // Parse multiple translators — pipe-separated e.g. "Jane Smith|John Doe"
-      const translatorNames  = (t.translator      || '').split(',').map(s => s.trim()).filter(Boolean);
-      const translatorClasses = (t.translatorClass || '').split(',').map(s => s.trim());
+      const translatorNames  = (t.translator      || '').split('|').map(s => s.trim()).filter(Boolean);
+      const translatorClasses = (t.translatorClass || '').split('|').map(s => s.trim());
 
       const translatorHeading = translatorNames.length > 1 ? 'Translated By' : 'Translated By';
       const translatorDisplay = translatorNames.map((name, i) => {
@@ -304,8 +304,18 @@
             <aside class="t-sidebar">
               <div class="sidebar-card author-card">
                 <div class="sidebar-card-label">👤 About ${t.author}</div>
-                <p>${t.authorBio}</p>
+                ${(t.authorBio || '').split(/\n\n|\r\n\r\n|\r\r/).map(p => p.trim()).filter(Boolean).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('') || '<p style="font-style:italic;color:var(--text-light);">No bio provided.</p>'}
               </div>
+              ${t.fullText ? `
+              <div class="sidebar-card" style="background:var(--navy);border:none;padding:20px;">
+                <div class="sidebar-card-label" style="color:rgba(255,255,255,0.55);margin-bottom:10px;">📄 Full Translation</div>
+                <a href="${t.fullText}" target="_blank" rel="noopener"
+                   style="display:block;text-align:center;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--white);background:rgba(255,255,255,0.15);padding:11px 16px;border-radius:100px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.3);transition:background 0.2s;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.25)'"
+                   onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+                  Read Full Translation →
+                </a>
+              </div>` : ''}
               <div class="sidebar-card">
                 <div class="sidebar-card-label">✏️ Translator's Note${translatorNames.length > 1 ? 's' : ''}</div>
                 ${t.translatorNote
