@@ -23,54 +23,37 @@ function isGoogleDocUrl(str) {
 async function fetchDocText(url) {
   try {
     const docIdMatch = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
-    // Always use the /pub endpoint — works for both shareable and already-published links
-    // export?format=txt requires auth even on publicly shared docs
-    const fetchUrl = docIdMatch
-      ? `https://docs.google.com/document/d/${docIdMatch[1]}/pub`
-      : url;
-
-    const res = await fetch(fetchUrl);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const html = await res.text();
-
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const contentEl = doc.querySelector('#contents') || doc.querySelector('.c') || doc.body;
-    const elements = contentEl.querySelectorAll('p');
-    const result = [];
-    let currentBlock = [];
-
-    elements.forEach(el => {
-      const text = el.innerText || el.textContent || '';
-      const trimmed = text.trim().replace(/\u00a0/g, '');
-      if (!trimmed) {
-        if (currentBlock.length > 0) {
-          result.push(`<p>${currentBlock.join('<br>')}</p>`);
-          currentBlock = [];
-        }
-      } else {
-        currentBlock.push(trimmed);
-      }
-    });
-    if (currentBlock.length > 0) {
-      result.push(`<p>${currentBlock.join('<br>')}</p>`);
+    if (!docIdMatch) {
+      console.error('[Portavoz] Could not extract doc ID from URL:', url);
+      return '<p>Invalid document link.</p>';
     }
-    if (result.length > 0) return result.join('\n');
+    const docId = docIdMatch[1];
 
-    // Fallback: plain text
-    const plainText = contentEl.textContent.trim();
-    return plainText.split(/\n{2,}/)
+    // Use the export?format=txt endpoint via a CORS proxy.
+    // Direct fetches to Google Docs are blocked by CORS — this proxy forwards the request.
+    const exportUrl = `https://docs.google.com/document/d/${docId}/export?format=txt`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(exportUrl)}`;
+
+    console.log('[Portavoz] Fetching doc via proxy:', exportUrl);
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`Proxy HTTP ${res.status}`);
+    const json = await res.json();
+    const text = (json.contents || '').trim();
+
+    if (!text) throw new Error('Empty response from proxy');
+
+    // Split on double newlines to get paragraphs
+    return text.split(/\n{2,}/)
       .map(p => p.replace(/\n/g, '<br>').trim())
       .filter(p => p.length > 0)
       .map(p => `<p>${p}</p>`)
       .join('\n');
 
   } catch (err) {
-    console.error('Failed to fetch Google Doc text:', err);
-    return '<p>Could not load text. Please check the document link.</p>';
+    console.error('[Portavoz] Failed to fetch Google Doc text:', err);
+    return '';
   }
-}
-/**
+}/**
  * Parse a raw CSV string into an array of objects using the first row as keys.
  * Handles newlines inside quoted fields correctly.
  */
