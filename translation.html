@@ -188,34 +188,6 @@
       font-size: 15px;
     }
 
-    /* TRANSLATOR'S NOTE */
-    .translator-note-section {
-      margin-top: 48px;
-      padding-top: 36px;
-      border-top: 1px solid var(--border);
-    }
-    .translator-note-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 20px;
-    }
-    .translator-note-body {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 16px;
-      color: var(--text-mid);
-      line-height: 1.9;
-    }
-    .translator-note-body p {
-      margin-bottom: 18px;
-    }
-    .translator-note-body p:last-child {
-      margin-bottom: 0;
-    }
-
     /* LOADING STATE */
     .loading {
       text-align: center;
@@ -345,6 +317,16 @@
                   Read Full Translation →
                 </a>
               </div>` : ''}
+              <div class="sidebar-card">
+                <div class="sidebar-card-label">✏️ Translator's Note${translatorNames.length > 1 ? 's' : ''}</div>
+                ${t.translatorNote
+                  ? `<a href="${t.translatorNote}" target="_blank" rel="noopener"
+                       style="font-family:'Inter',sans-serif;font-size:14px;color:var(--blue);text-decoration:none;font-weight:500;display:inline-block;margin-top:4px;">
+                       Read Translator's Note →
+                     </a>`
+                  : `<p style="font-family:'Libre Baskerville',serif;font-style:italic;color:var(--text-light);font-size:14px;">No note provided.</p>`
+                }
+              </div>
               ${(t.datePublished || t.publisher) ? `
               <div class="sidebar-card">
                 ${t.datePublished ? `<div class="sidebar-card-label">Date Published</div>
@@ -376,11 +358,6 @@
                    style="display:inline-block;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--white);background:var(--green);padding:13px 32px;border-radius:100px;text-decoration:none;box-shadow:0 4px 16px rgba(75,162,76,0.35);">
                   Buy This Translation →
                 </a>
-              </div>` : ''}
-              ${t.translatorNoteText ? `
-              <div class="translator-note-section">
-                <div class="translator-note-label">✏️ Translator's Note${translatorNames.length > 1 ? 's' : ''}</div>
-                <div class="translator-note-body">${t.translatorNoteText}</div>
               </div>` : ''}
             </article>
           </div>

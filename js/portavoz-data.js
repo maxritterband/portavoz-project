@@ -22,38 +22,81 @@ function isGoogleDocUrl(str) {
  */
 async function fetchDocText(url) {
   try {
-    const docIdMatch = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
-    if (!docIdMatch) {
-      console.error('[Portavoz] Could not extract doc ID from URL:', url);
-      return '<p>Invalid document link.</p>';
+    let fetchUrl = url;
+
+    // For regular (non-published) doc URLs, use the txt export
+    if (!url.includes('/pub')) {
+      const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+      if (match) {
+        fetchUrl = `https://docs.google.com/document/d/${match[1]}/export?format=txt`;
+        const res = await fetch(fetchUrl);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const text = await res.text();
+        return text.trim().split(/\n{2,}/)
+          .map(p => p.replace(/\n/g, '<br>').trim())
+          .filter(p => p.length > 0)
+          .map(p => `<p>${p}</p>`)
+          .join('\n');
+      }
     }
-    const docId = docIdMatch[1];
 
-    // Use the export?format=txt endpoint via a CORS proxy.
-    // Direct fetches to Google Docs are blocked by CORS — this proxy forwards the request.
-    const exportUrl = `https://docs.google.com/document/d/${docId}/export?format=txt`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(exportUrl)}`;
+    // Fetch the published HTML page
+    const res = await fetch(fetchUrl);
+    if (!res.ok) throw new Error('Failed to fetch doc');
+    const html = await res.text();
 
-    console.log('[Portavoz] Fetching doc via proxy:', exportUrl);
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error(`Proxy HTTP ${res.status}`);
-    const json = await res.json();
-    const text = (json.contents || '').trim();
+    // Parse into a DOM
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
 
-    if (!text) throw new Error('Empty response from proxy');
+    // Google Docs published pages put content inside #contents
+    const contentEl = doc.querySelector('#contents') || doc.querySelector('.c') || doc.body;
 
-    // Split on double newlines to get paragraphs
-    return text.split(/\n{2,}/)
+    // Build output preserving Google Docs paragraph structure.
+    // Each <p> in the doc = one stanza line or paragraph.
+    // Consecutive non-empty <p>s separated by an empty <p> = stanza break.
+    const elements = contentEl.querySelectorAll('p');
+    const result = [];
+    let currentBlock = [];
+
+    elements.forEach(el => {
+      // Google uses &nbsp; or empty spans for blank lines between stanzas
+      const text = el.innerText || el.textContent || '';
+      const trimmed = text.trim().replace(/\u00a0/g, ''); // remove &nbsp;
+
+      if (!trimmed) {
+        // Empty paragraph = stanza/paragraph break
+        if (currentBlock.length > 0) {
+          result.push(`<p>${currentBlock.join('<br>')}</p>`);
+          currentBlock = [];
+        }
+      } else {
+        currentBlock.push(trimmed);
+      }
+    });
+
+    // Push any remaining block
+    if (currentBlock.length > 0) {
+      result.push(`<p>${currentBlock.join('<br>')}</p>`);
+    }
+
+    if (result.length > 0) return result.join('\n');
+
+    // Fallback: plain text extraction
+    const plainText = contentEl.textContent.trim();
+    return plainText.split(/\n{2,}/)
       .map(p => p.replace(/\n/g, '<br>').trim())
       .filter(p => p.length > 0)
       .map(p => `<p>${p}</p>`)
       .join('\n');
 
   } catch (err) {
-    console.error('[Portavoz] Failed to fetch Google Doc text:', err);
-    return '';
+    console.error('Failed to fetch Google Doc text:', err);
+    return '<p>Could not load translation text. Please check the document link.</p>';
   }
-}/**
+}
+
+/**
  * Parse a raw CSV string into an array of objects using the first row as keys.
  * Handles newlines inside quoted fields correctly.
  */
@@ -231,22 +274,6 @@ async function loadTranslationById(id) {
   } else {
     t.text = textSource || '';
   }
-
-  // Fetch translator's note — check multiple possible column name casings
-  const noteRaw = t.translatorNote || t.TranslatorNote || t.translator_note || t.translatorNotes || '';
-  console.log('[Portavoz] translatorNote raw value:', JSON.stringify(noteRaw));
-
-  if (noteRaw && isGoogleDocUrl(noteRaw)) {
-    t.translatorNoteText = await fetchDocText(noteRaw);
-  } else if (noteRaw && noteRaw.trim()) {
-    t.translatorNoteText = noteRaw
-      .split(/\n\n+/)
-      .map(p => `<p>${p.replace(/\n/g, '<br>').trim()}</p>`)
-      .join('\n');
-  } else {
-    t.translatorNoteText = '';
-  }
-  console.log('[Portavoz] translatorNoteText:', t.translatorNoteText ? 'loaded (' + t.translatorNoteText.length + ' chars)' : 'empty');
 
   return t;
 }
