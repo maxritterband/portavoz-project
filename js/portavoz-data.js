@@ -275,17 +275,21 @@ async function loadTranslationById(id) {
     t.text = textSource || '';
   }
 
-  // Fetch translator's note from Google Doc if it's a URL
-  if (t.translatorNote && isGoogleDocUrl(t.translatorNote)) {
-    t.translatorNoteText = await fetchDocText(t.translatorNote);
-  } else if (t.translatorNote && t.translatorNote.trim()) {
-    t.translatorNoteText = t.translatorNote
+  // Fetch translator's note — check multiple possible column name casings
+  const noteRaw = t.translatorNote || t.TranslatorNote || t.translator_note || t.translatorNotes || '';
+  console.log('[Portavoz] translatorNote raw value:', JSON.stringify(noteRaw));
+
+  if (noteRaw && isGoogleDocUrl(noteRaw)) {
+    t.translatorNoteText = await fetchDocText(noteRaw);
+  } else if (noteRaw && noteRaw.trim()) {
+    t.translatorNoteText = noteRaw
       .split(/\n\n+/)
       .map(p => `<p>${p.replace(/\n/g, '<br>').trim()}</p>`)
       .join('\n');
   } else {
     t.translatorNoteText = '';
   }
+  console.log('[Portavoz] translatorNoteText:', t.translatorNoteText ? 'loaded (' + t.translatorNoteText.length + ' chars)' : 'empty');
 
   return t;
 }
