@@ -275,6 +275,18 @@ async function loadTranslationById(id) {
     t.text = textSource || '';
   }
 
+  // Fetch translator's note from Google Doc if it's a URL
+  if (t.translatorNote && isGoogleDocUrl(t.translatorNote)) {
+    t.translatorNoteText = await fetchDocText(t.translatorNote);
+  } else if (t.translatorNote && t.translatorNote.trim()) {
+    t.translatorNoteText = t.translatorNote
+      .split(/\n\n+/)
+      .map(p => `<p>${p.replace(/\n/g, '<br>').trim()}</p>`)
+      .join('\n');
+  } else {
+    t.translatorNoteText = '';
+  }
+
   return t;
 }
 
