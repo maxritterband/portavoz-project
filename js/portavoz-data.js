@@ -22,50 +22,34 @@ function isGoogleDocUrl(str) {
  */
 async function fetchDocText(url) {
   try {
-    let fetchUrl = url;
+    // Use the URL exactly as provided — published-to-web /pub links work cross-origin.
+    // Just ensure it ends with /pub (not /pub?...) for clean fetching.
+    let fetchUrl = url.trim();
 
-    // For regular (non-published) doc URLs, use the txt export
-    if (!url.includes('/pub')) {
-      const match = url.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+    // If it's a regular share link (/d/ID/view or /d/ID/edit), convert to /pub
+    if (!fetchUrl.includes('/pub')) {
+      const match = fetchUrl.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
       if (match) {
-        fetchUrl = `https://docs.google.com/document/d/${match[1]}/export?format=txt`;
-        const res = await fetch(fetchUrl);
-        if (!res.ok) throw new Error('Failed to fetch');
-        const text = await res.text();
-        return text.trim().split(/\n{2,}/)
-          .map(p => p.replace(/\n/g, '<br>').trim())
-          .filter(p => p.length > 0)
-          .map(p => `<p>${p}</p>`)
-          .join('\n');
+        fetchUrl = `https://docs.google.com/document/d/${match[1]}/pub`;
       }
     }
 
-    // Fetch the published HTML page
+    console.log('[Portavoz] Fetching doc from:', fetchUrl);
     const res = await fetch(fetchUrl);
-    if (!res.ok) throw new Error('Failed to fetch doc');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
 
-    // Parse into a DOM
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
-
-    // Google Docs published pages put content inside #contents
     const contentEl = doc.querySelector('#contents') || doc.querySelector('.c') || doc.body;
-
-    // Build output preserving Google Docs paragraph structure.
-    // Each <p> in the doc = one stanza line or paragraph.
-    // Consecutive non-empty <p>s separated by an empty <p> = stanza break.
     const elements = contentEl.querySelectorAll('p');
     const result = [];
     let currentBlock = [];
 
     elements.forEach(el => {
-      // Google uses &nbsp; or empty spans for blank lines between stanzas
       const text = el.innerText || el.textContent || '';
-      const trimmed = text.trim().replace(/\u00a0/g, ''); // remove &nbsp;
-
+      const trimmed = text.trim().replace(/\u00a0/g, '');
       if (!trimmed) {
-        // Empty paragraph = stanza/paragraph break
         if (currentBlock.length > 0) {
           result.push(`<p>${currentBlock.join('<br>')}</p>`);
           currentBlock = [];
@@ -74,15 +58,12 @@ async function fetchDocText(url) {
         currentBlock.push(trimmed);
       }
     });
-
-    // Push any remaining block
     if (currentBlock.length > 0) {
       result.push(`<p>${currentBlock.join('<br>')}</p>`);
     }
-
     if (result.length > 0) return result.join('\n');
 
-    // Fallback: plain text extraction
+    // Fallback: plain text
     const plainText = contentEl.textContent.trim();
     return plainText.split(/\n{2,}/)
       .map(p => p.replace(/\n/g, '<br>').trim())
@@ -91,12 +72,10 @@ async function fetchDocText(url) {
       .join('\n');
 
   } catch (err) {
-    console.error('Failed to fetch Google Doc text:', err);
-    return '<p>Could not load translation text. Please check the document link.</p>';
+    console.error('[Portavoz] Failed to fetch Google Doc text:', err);
+    return '';
   }
-}
-
-/**
+}/**
  * Parse a raw CSV string into an array of objects using the first row as keys.
  * Handles newlines inside quoted fields correctly.
  */
@@ -275,6 +254,18 @@ async function loadTranslationById(id) {
     t.text = textSource || '';
   }
 
+  // Fetch translator's note from Google Doc (published-to-web link)
+  const noteRaw = t.translatorNote || '';
+  if (noteRaw && isGoogleDocUrl(noteRaw)) {
+    t.translatorNoteText = await fetchDocText(noteRaw);
+  } else if (noteRaw && noteRaw.trim()) {
+    t.translatorNoteText = noteRaw
+      .split(/\n\n+/)
+      .map(p => `<p>${p.replace(/\n/g, '<br>').trim()}</p>`)
+      .join('\n');
+  } else {
+    t.translatorNoteText = '';
+  }
   return t;
 }
 
